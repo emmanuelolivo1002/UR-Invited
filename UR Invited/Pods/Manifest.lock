@@ -1,0 +1,24 @@
+PODS:
+  - Alamofire (4.6.0)
+  - AWSAuthCore (2.6.11):
+    - AWSCore (= 2.6.11)
+  - AWSCore (2.6.11)
+  - AWSMobileClient (2.6.11):
+    - AWSAuthCore (= 2.6.11)
+  - SwiftyJSON (4.0.0)
+
+DEPENDENCIES:
+  - Alamofire (~> 4.5)
+  - AWSMobileClient (~> 2.6.6)
+  - SwiftyJSON
+
+SPEC CHECKSUMS:
+  Alamofire: f41a599bd63041760b26d393ec1069d9d7b917f4
+  AWSAuthCore: 400f64223dc7509bf2c2b320c25f03c9281e2aac
+  AWSCore: a461695bf302a32a366768bf36056be3a2c87d8d
+  AWSMobileClient: 6ba0612943c6dee6b7a5bdf288296c6a8dfffb13
+  SwiftyJSON: 070dabdcb1beb81b247c65ffa3a79dbbfb3b48aa
+
+PODFILE CHECKSUM: 2929787ec54294c7413d18e9a0c908ebd3b4b7f9
+
+COCOAPODS: 1.4.0
