@@ -8,21 +8,27 @@
 
 /* Begin PBXBuildFile section */
 		14BFD7DC2024D5DD0028FADB /* AppDelegate.swift in Sources */ = {isa = PBXBuildFile; fileRef = 14BFD7DB2024D5DD0028FADB /* AppDelegate.swift */; };
-		14BFD7DE2024D5DD0028FADB /* ViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 14BFD7DD2024D5DD0028FADB /* ViewController.swift */; };
 		14BFD7E12024D5DD0028FADB /* Main.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = 14BFD7DF2024D5DD0028FADB /* Main.storyboard */; };
 		14BFD7E32024D5DD0028FADB /* Assets.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = 14BFD7E22024D5DD0028FADB /* Assets.xcassets */; };
 		14BFD7E62024D5DD0028FADB /* LaunchScreen.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = 14BFD7E42024D5DD0028FADB /* LaunchScreen.storyboard */; };
+		14BFD7F320250B7D0028FADB /* GroupViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 14BFD7F220250B7D0028FADB /* GroupViewController.swift */; };
+		14BFD7F520250F400028FADB /* EventViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 14BFD7F420250F400028FADB /* EventViewController.swift */; };
+		14BFD7F7202510540028FADB /* ChatViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 14BFD7F6202510540028FADB /* ChatViewController.swift */; };
+		14BFD7FA20251B230028FADB /* Roboto-Regular.ttf in Resources */ = {isa = PBXBuildFile; fileRef = 14BFD7F920251B220028FADB /* Roboto-Regular.ttf */; };
 		8077459D63AC98ABB2EC339F /* Pods_UR_Invited.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 8A0F5E158561D8C021489548 /* Pods_UR_Invited.framework */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXFileReference section */
 		14BFD7D82024D5DD0028FADB /* UR Invited.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = "UR Invited.app"; sourceTree = BUILT_PRODUCTS_DIR; };
 		14BFD7DB2024D5DD0028FADB /* AppDelegate.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AppDelegate.swift; sourceTree = "<group>"; };
-		14BFD7DD2024D5DD0028FADB /* ViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ViewController.swift; sourceTree = "<group>"; };
 		14BFD7E02024D5DD0028FADB /* Base */ = {isa = PBXFileReference; lastKnownFileType = file.storyboard; name = Base; path = Base.lproj/Main.storyboard; sourceTree = "<group>"; };
 		14BFD7E22024D5DD0028FADB /* Assets.xcassets */ = {isa = PBXFileReference; lastKnownFileType = folder.assetcatalog; path = Assets.xcassets; sourceTree = "<group>"; };
 		14BFD7E52024D5DD0028FADB /* Base */ = {isa = PBXFileReference; lastKnownFileType = file.storyboard; name = Base; path = Base.lproj/LaunchScreen.storyboard; sourceTree = "<group>"; };
 		14BFD7E72024D5DD0028FADB /* Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = Info.plist; sourceTree = "<group>"; };
+		14BFD7F220250B7D0028FADB /* GroupViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = GroupViewController.swift; sourceTree = "<group>"; };
+		14BFD7F420250F400028FADB /* EventViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = EventViewController.swift; sourceTree = "<group>"; };
+		14BFD7F6202510540028FADB /* ChatViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ChatViewController.swift; sourceTree = "<group>"; };
+		14BFD7F920251B220028FADB /* Roboto-Regular.ttf */ = {isa = PBXFileReference; lastKnownFileType = file; path = "Roboto-Regular.ttf"; sourceTree = "<group>"; };
 		38516628B03175CE2D1C1E7B /* Pods-UR Invited.release.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-UR Invited.release.xcconfig"; path = "Pods/Target Support Files/Pods-UR Invited/Pods-UR Invited.release.xcconfig"; sourceTree = "<group>"; };
 		7BA778D5E3DB154AC1EDABB5 /* Pods-UR Invited.debug.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-UR Invited.debug.xcconfig"; path = "Pods/Target Support Files/Pods-UR Invited/Pods-UR Invited.debug.xcconfig"; sourceTree = "<group>"; };
 		8A0F5E158561D8C021489548 /* Pods_UR_Invited.framework */ = {isa = PBXFileReference; explicitFileType = wrapper.framework; includeInIndex = 0; path = Pods_UR_Invited.framework; sourceTree = BUILT_PRODUCTS_DIR; };
@@ -80,6 +86,7 @@
 		14BFD7EF2024E2D80028FADB /* View */ = {
 			isa = PBXGroup;
 			children = (
+				14BFD7F820251AFC0028FADB /* Fonts */,
 				14BFD7E42024D5DD0028FADB /* LaunchScreen.storyboard */,
 				14BFD7DF2024D5DD0028FADB /* Main.storyboard */,
 			);
@@ -90,7 +97,9 @@
 			isa = PBXGroup;
 			children = (
 				14BFD7DB2024D5DD0028FADB /* AppDelegate.swift */,
-				14BFD7DD2024D5DD0028FADB /* ViewController.swift */,
+				14BFD7F220250B7D0028FADB /* GroupViewController.swift */,
+				14BFD7F420250F400028FADB /* EventViewController.swift */,
+				14BFD7F6202510540028FADB /* ChatViewController.swift */,
 			);
 			path = Controller;
 			sourceTree = "<group>";
@@ -101,6 +110,14 @@
 				14BFD7E72024D5DD0028FADB /* Info.plist */,
 			);
 			path = "Supporting Files";
+			sourceTree = "<group>";
+		};
+		14BFD7F820251AFC0028FADB /* Fonts */ = {
+			isa = PBXGroup;
+			children = (
+				14BFD7F920251B220028FADB /* Roboto-Regular.ttf */,
+			);
+			path = Fonts;
 			sourceTree = "<group>";
 		};
 		553B5597DA517392BCF37474 /* Frameworks */ = {
@@ -184,6 +201,7 @@
 			files = (
 				14BFD7E62024D5DD0028FADB /* LaunchScreen.storyboard in Resources */,
 				14BFD7E32024D5DD0028FADB /* Assets.xcassets in Resources */,
+				14BFD7FA20251B230028FADB /* Roboto-Regular.ttf in Resources */,
 				14BFD7E12024D5DD0028FADB /* Main.storyboard in Resources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
@@ -257,8 +275,10 @@
 			isa = PBXSourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
-				14BFD7DE2024D5DD0028FADB /* ViewController.swift in Sources */,
+				14BFD7F320250B7D0028FADB /* GroupViewController.swift in Sources */,
 				14BFD7DC2024D5DD0028FADB /* AppDelegate.swift in Sources */,
+				14BFD7F7202510540028FADB /* ChatViewController.swift in Sources */,
+				14BFD7F520250F400028FADB /* EventViewController.swift in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
