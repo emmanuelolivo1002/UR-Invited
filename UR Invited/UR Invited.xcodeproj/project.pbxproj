@@ -15,6 +15,7 @@
 		14BFD7F520250F400028FADB /* EventViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 14BFD7F420250F400028FADB /* EventViewController.swift */; };
 		14BFD7F7202510540028FADB /* ChatViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 14BFD7F6202510540028FADB /* ChatViewController.swift */; };
 		14BFD7FA20251B230028FADB /* Roboto-Regular.ttf in Resources */ = {isa = PBXBuildFile; fileRef = 14BFD7F920251B220028FADB /* Roboto-Regular.ttf */; };
+		14E599652027CE600075B5D1 /* Roboto-Bold.ttf in Resources */ = {isa = PBXBuildFile; fileRef = 14E599642027CE5F0075B5D1 /* Roboto-Bold.ttf */; };
 		8077459D63AC98ABB2EC339F /* Pods_UR_Invited.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 8A0F5E158561D8C021489548 /* Pods_UR_Invited.framework */; };
 /* End PBXBuildFile section */
 
@@ -29,6 +30,7 @@
 		14BFD7F420250F400028FADB /* EventViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = EventViewController.swift; sourceTree = "<group>"; };
 		14BFD7F6202510540028FADB /* ChatViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ChatViewController.swift; sourceTree = "<group>"; };
 		14BFD7F920251B220028FADB /* Roboto-Regular.ttf */ = {isa = PBXFileReference; lastKnownFileType = file; path = "Roboto-Regular.ttf"; sourceTree = "<group>"; };
+		14E599642027CE5F0075B5D1 /* Roboto-Bold.ttf */ = {isa = PBXFileReference; lastKnownFileType = file; path = "Roboto-Bold.ttf"; sourceTree = "<group>"; };
 		38516628B03175CE2D1C1E7B /* Pods-UR Invited.release.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-UR Invited.release.xcconfig"; path = "Pods/Target Support Files/Pods-UR Invited/Pods-UR Invited.release.xcconfig"; sourceTree = "<group>"; };
 		7BA778D5E3DB154AC1EDABB5 /* Pods-UR Invited.debug.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-UR Invited.debug.xcconfig"; path = "Pods/Target Support Files/Pods-UR Invited/Pods-UR Invited.debug.xcconfig"; sourceTree = "<group>"; };
 		8A0F5E158561D8C021489548 /* Pods_UR_Invited.framework */ = {isa = PBXFileReference; explicitFileType = wrapper.framework; includeInIndex = 0; path = Pods_UR_Invited.framework; sourceTree = BUILT_PRODUCTS_DIR; };
@@ -115,6 +117,7 @@
 		14BFD7F820251AFC0028FADB /* Fonts */ = {
 			isa = PBXGroup;
 			children = (
+				14E599642027CE5F0075B5D1 /* Roboto-Bold.ttf */,
 				14BFD7F920251B220028FADB /* Roboto-Regular.ttf */,
 			);
 			path = Fonts;
@@ -201,6 +204,7 @@
 			files = (
 				14BFD7E62024D5DD0028FADB /* LaunchScreen.storyboard in Resources */,
 				14BFD7E32024D5DD0028FADB /* Assets.xcassets in Resources */,
+				14E599652027CE600075B5D1 /* Roboto-Bold.ttf in Resources */,
 				14BFD7FA20251B230028FADB /* Roboto-Regular.ttf in Resources */,
 				14BFD7E12024D5DD0028FADB /* Main.storyboard in Resources */,
 			);
