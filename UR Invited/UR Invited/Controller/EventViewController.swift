@@ -7,29 +7,46 @@
 //
 
 import UIKit
+import Alamofire
+import SwiftyJSON
 
 class EventViewController: UIViewController {
-
+    
+    //var arrRes = [[String:AnyObject]]() //Array of dictionary
+    
     override func viewDidLoad() {
         super.viewDidLoad()
-
-        // Do any additional setup after loading the view.
-    }
-
-    override func didReceiveMemoryWarning() {
-        super.didReceiveMemoryWarning()
-        // Dispose of any resources that can be recreated.
+        
+        let user = "appdevAntonio"
+        let password = "aguila14"
+        let credentialData = "\(user):\(password)".data(using: String.Encoding.utf8)!
+        let base64Credentials = credentialData.base64EncodedString(options: [])
+        let headers = ["Authorization": "Basic \(base64Credentials)"]
+        
+        Alamofire.request("https://api.mysportsfeeds.com/v1.2/pull/nba/2017-2018-regular/full_game_schedule.json",
+                          method: .get,
+                          parameters: nil,
+                          encoding: URLEncoding.default,
+                          headers:headers)
+            .validate()
+            .responseJSON { response in
+                if response.result.value != nil{
+                    
+                    let swiftyJsonVar = JSON(response.result.value!)
+                    
+                    //                    if let resData = swiftyJsonVar[""].arrayObject {
+                    //                        self.arrRes = resData as! [[String:AnyObject]]
+                    //                    }
+                    //                    if self.arrRes.count > 0 {
+                    //                    }
+                    
+                    print(swiftyJsonVar["fullgameschedule"]["gameentry"][0]["awayTeam"]["Name"])
+                    //                    print(swiftyJsonVar["fullgameschedule"]["gameentry"][0]["homeTeam"])
+                }
+                
+        }
+        
     }
     
-
-    /*
-    // MARK: - Navigation
-
-    // In a storyboard-based application, you will often want to do a little preparation before navigation
-    override func prepare(for segue: UIStoryboardSegue, sender: Any?) {
-        // Get the new view controller using segue.destinationViewController.
-        // Pass the selected object to the new view controller.
-    }
-    */
-
+    
 }
