@@ -7,6 +7,7 @@
 	objects = {
 
 /* Begin PBXBuildFile section */
+		146FE2BF20291A1300686A62 /* OpenSans-Italic.ttf in Resources */ = {isa = PBXBuildFile; fileRef = 146FE2BE20291A1300686A62 /* OpenSans-Italic.ttf */; };
 		14BFD7DC2024D5DD0028FADB /* AppDelegate.swift in Sources */ = {isa = PBXBuildFile; fileRef = 14BFD7DB2024D5DD0028FADB /* AppDelegate.swift */; };
 		14BFD7E12024D5DD0028FADB /* Main.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = 14BFD7DF2024D5DD0028FADB /* Main.storyboard */; };
 		14BFD7E32024D5DD0028FADB /* Assets.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = 14BFD7E22024D5DD0028FADB /* Assets.xcassets */; };
@@ -20,6 +21,7 @@
 /* End PBXBuildFile section */
 
 /* Begin PBXFileReference section */
+		146FE2BE20291A1300686A62 /* OpenSans-Italic.ttf */ = {isa = PBXFileReference; lastKnownFileType = file; path = "OpenSans-Italic.ttf"; sourceTree = "<group>"; };
 		14BFD7D82024D5DD0028FADB /* UR Invited.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = "UR Invited.app"; sourceTree = BUILT_PRODUCTS_DIR; };
 		14BFD7DB2024D5DD0028FADB /* AppDelegate.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AppDelegate.swift; sourceTree = "<group>"; };
 		14BFD7E02024D5DD0028FADB /* Base */ = {isa = PBXFileReference; lastKnownFileType = file.storyboard; name = Base; path = Base.lproj/Main.storyboard; sourceTree = "<group>"; };
@@ -119,6 +121,7 @@
 			children = (
 				14E599642027CE5F0075B5D1 /* Roboto-Bold.ttf */,
 				14BFD7F920251B220028FADB /* Roboto-Regular.ttf */,
+				146FE2BE20291A1300686A62 /* OpenSans-Italic.ttf */,
 			);
 			path = Fonts;
 			sourceTree = "<group>";
@@ -205,6 +208,7 @@
 				14BFD7E62024D5DD0028FADB /* LaunchScreen.storyboard in Resources */,
 				14BFD7E32024D5DD0028FADB /* Assets.xcassets in Resources */,
 				14E599652027CE600075B5D1 /* Roboto-Bold.ttf in Resources */,
+				146FE2BF20291A1300686A62 /* OpenSans-Italic.ttf in Resources */,
 				14BFD7FA20251B230028FADB /* Roboto-Regular.ttf in Resources */,
 				14BFD7E12024D5DD0028FADB /* Main.storyboard in Resources */,
 			);

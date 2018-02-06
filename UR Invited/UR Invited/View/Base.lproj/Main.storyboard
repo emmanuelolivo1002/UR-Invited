@@ -1,5 +1,5 @@
 <?xml version="1.0" encoding="UTF-8"?>
-<document type="com.apple.InterfaceBuilder3.CocoaTouch.Storyboard.XIB" version="3.0" toolsVersion="13771" targetRuntime="iOS.CocoaTouch" propertyAccessControl="none" useAutolayout="YES" useTraitCollections="YES" useSafeAreas="YES" colorMatched="YES" initialViewController="nsD-AJ-eYa">
+<document type="com.apple.InterfaceBuilder3.CocoaTouch.Storyboard.XIB" version="3.0" toolsVersion="13771" targetRuntime="iOS.CocoaTouch" propertyAccessControl="none" useAutolayout="YES" useTraitCollections="YES" useSafeAreas="YES" colorMatched="YES" initialViewController="rea-Hd-ybo">
     <device id="retina4_7" orientation="portrait">
         <adaptation id="fullscreen"/>
     </device>
@@ -61,7 +61,7 @@
                                 </prototypes>
                             </tableView>
                             <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="Groups" textAlignment="natural" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="kQw-uK-usr">
-                                <rect key="frame" x="56" y="51.5" width="58" height="21.5"/>
+                                <rect key="frame" x="56" y="52" width="58" height="21"/>
                                 <fontDescription key="fontDescription" name="Roboto-Regular" family="Roboto" pointSize="18"/>
                                 <color key="textColor" white="1" alpha="1" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
                                 <nil key="highlightedColor"/>
@@ -212,13 +212,14 @@
                                     <constraint firstAttribute="height" constant="100" id="n9z-Br-l0T"/>
                                     <constraint firstAttribute="trailing" secondItem="Znv-am-o3Q" secondAttribute="trailing" constant="8" id="tZY-cz-GfH"/>
                                 </constraints>
+                                <edgeInsets key="layoutMargins" top="8" left="8" bottom="8" right="8"/>
                             </view>
                             <tableView clipsSubviews="YES" contentMode="scaleToFill" alwaysBounceVertical="YES" dataMode="prototypes" style="plain" separatorStyle="default" rowHeight="-1" estimatedRowHeight="-1" sectionHeaderHeight="28" sectionFooterHeight="28" translatesAutoresizingMaskIntoConstraints="NO" id="4QL-V3-4Qy">
-                                <rect key="frame" x="0.0" y="120" width="375" height="505"/>
+                                <rect key="frame" x="0.0" y="120" width="375" height="503"/>
                                 <color key="backgroundColor" white="1" alpha="1" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
                                 <color key="sectionIndexBackgroundColor" white="1" alpha="1" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
                                 <prototypes>
-                                    <tableViewCell clipsSubviews="YES" contentMode="scaleToFill" preservesSuperviewLayoutMargins="YES" selectionStyle="default" indentationWidth="10" id="sbo-xE-7St">
+                                    <tableViewCell clipsSubviews="YES" contentMode="scaleToFill" preservesSuperviewLayoutMargins="YES" selectionStyle="default" indentationWidth="10" reuseIdentifier="MessageCell" id="sbo-xE-7St">
                                         <rect key="frame" x="0.0" y="28" width="375" height="44"/>
                                         <autoresizingMask key="autoresizingMask"/>
                                         <tableViewCellContentView key="contentView" opaque="NO" clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="center" preservesSuperviewLayoutMargins="YES" insetsLayoutMarginsFromSafeArea="NO" tableViewCell="sbo-xE-7St" id="m7a-cD-v3x">
@@ -228,43 +229,62 @@
                                     </tableViewCell>
                                 </prototypes>
                             </tableView>
-                            <textField opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="left" contentVerticalAlignment="center" borderStyle="roundedRect" placeholder="Type a message" textAlignment="natural" minimumFontSize="17" translatesAutoresizingMaskIntoConstraints="NO" id="KGG-a6-MeC">
-                                <rect key="frame" x="6" y="631" width="363" height="30"/>
-                                <nil key="textColor"/>
-                                <fontDescription key="fontDescription" name="Roboto-Regular" family="Roboto" pointSize="14"/>
-                                <textInputTraits key="textInputTraits"/>
-                            </textField>
-                            <button opaque="NO" contentMode="scaleAspectFit" contentHorizontalAlignment="center" contentVerticalAlignment="center" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="hBN-jI-Y5y">
-                                <rect key="frame" x="339" y="631" width="30" height="30"/>
-                                <color key="backgroundColor" red="0.23529411759999999" green="0.66274509800000003" blue="0.71764705880000002" alpha="1" colorSpace="calibratedRGB"/>
+                            <view contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="s2p-fh-IZ4" userLabel="ComposeView">
+                                <rect key="frame" x="0.0" y="623" width="375" height="44"/>
+                                <subviews>
+                                    <textField opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="left" contentVerticalAlignment="center" borderStyle="roundedRect" placeholder="Type a message" textAlignment="natural" minimumFontSize="17" translatesAutoresizingMaskIntoConstraints="NO" id="KGG-a6-MeC">
+                                        <rect key="frame" x="6" y="7" width="363" height="30"/>
+                                        <nil key="textColor"/>
+                                        <fontDescription key="fontDescription" name="Roboto-Regular" family="Roboto" pointSize="14"/>
+                                        <textInputTraits key="textInputTraits"/>
+                                    </textField>
+                                    <button opaque="NO" contentMode="scaleAspectFit" contentHorizontalAlignment="center" contentVerticalAlignment="center" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="hBN-jI-Y5y">
+                                        <rect key="frame" x="339" y="7" width="30" height="30"/>
+                                        <color key="backgroundColor" red="0.23529411759999999" green="0.66274509800000003" blue="0.71764705880000002" alpha="1" colorSpace="calibratedRGB"/>
+                                        <constraints>
+                                            <constraint firstAttribute="height" constant="30" id="4Ky-Gw-aqN"/>
+                                            <constraint firstAttribute="width" constant="30" id="Jva-RN-IaI"/>
+                                        </constraints>
+                                        <state key="normal" image="mic_icon"/>
+                                    </button>
+                                </subviews>
+                                <color key="backgroundColor" red="0.1529411765" green="0.12549019610000001" blue="0.23137254900000001" alpha="1" colorSpace="calibratedRGB"/>
                                 <constraints>
-                                    <constraint firstAttribute="width" constant="30" id="erh-1K-9gV"/>
-                                    <constraint firstAttribute="height" constant="30" id="p8b-jQ-GZf"/>
+                                    <constraint firstItem="hBN-jI-Y5y" firstAttribute="centerY" secondItem="KGG-a6-MeC" secondAttribute="centerY" id="U74-dp-pjN"/>
+                                    <constraint firstAttribute="trailing" secondItem="KGG-a6-MeC" secondAttribute="trailing" constant="6" id="Za6-oB-jAg"/>
+                                    <constraint firstAttribute="trailing" secondItem="hBN-jI-Y5y" secondAttribute="trailing" constant="6" id="bZK-en-eRA"/>
+                                    <constraint firstAttribute="height" constant="44" id="enl-SZ-cOQ"/>
+                                    <constraint firstItem="KGG-a6-MeC" firstAttribute="top" secondItem="s2p-fh-IZ4" secondAttribute="top" constant="7" id="khf-Ak-LBB"/>
+                                    <constraint firstItem="KGG-a6-MeC" firstAttribute="leading" secondItem="s2p-fh-IZ4" secondAttribute="leading" constant="6" id="x69-pP-yHZ"/>
                                 </constraints>
-                                <state key="normal" image="mic_icon"/>
-                            </button>
+                            </view>
                         </subviews>
                         <color key="backgroundColor" red="0.1529411765" green="0.12549019610000001" blue="0.23137254900000001" alpha="1" colorSpace="calibratedRGB"/>
                         <constraints>
+                            <constraint firstItem="s2p-fh-IZ4" firstAttribute="bottom" secondItem="iSM-h9-Fq2" secondAttribute="bottom" id="2Xq-1S-FsY"/>
                             <constraint firstItem="Z4z-Uj-gPb" firstAttribute="leading" secondItem="iSM-h9-Fq2" secondAttribute="leading" id="2dp-PX-T7m"/>
                             <constraint firstItem="4QL-V3-4Qy" firstAttribute="leading" secondItem="iSM-h9-Fq2" secondAttribute="leading" id="82Z-tS-5qo"/>
-                            <constraint firstItem="iSM-h9-Fq2" firstAttribute="trailing" secondItem="KGG-a6-MeC" secondAttribute="trailing" constant="6" id="DEc-zr-pw6"/>
+                            <constraint firstItem="s2p-fh-IZ4" firstAttribute="trailing" secondItem="iSM-h9-Fq2" secondAttribute="trailing" id="Ehh-cG-P6F"/>
                             <constraint firstItem="Z4z-Uj-gPb" firstAttribute="trailing" secondItem="iSM-h9-Fq2" secondAttribute="trailing" id="Kat-rv-dfA"/>
-                            <constraint firstItem="hBN-jI-Y5y" firstAttribute="trailing" secondItem="KGG-a6-MeC" secondAttribute="trailing" id="Q1d-We-ZPU"/>
-                            <constraint firstItem="KGG-a6-MeC" firstAttribute="leading" secondItem="iSM-h9-Fq2" secondAttribute="leading" constant="6" id="Tj0-zG-Piy"/>
-                            <constraint firstItem="iSM-h9-Fq2" firstAttribute="bottom" secondItem="KGG-a6-MeC" secondAttribute="bottom" constant="6" id="VYa-Z3-Peb"/>
+                            <constraint firstItem="s2p-fh-IZ4" firstAttribute="leading" secondItem="iSM-h9-Fq2" secondAttribute="leading" id="R0z-5M-6wy"/>
                             <constraint firstItem="4QL-V3-4Qy" firstAttribute="top" secondItem="Z4z-Uj-gPb" secondAttribute="bottom" id="aag-Bf-9SO"/>
                             <constraint firstItem="iSM-h9-Fq2" firstAttribute="trailing" secondItem="4QL-V3-4Qy" secondAttribute="trailing" id="dsy-uU-nb9"/>
-                            <constraint firstItem="KGG-a6-MeC" firstAttribute="top" secondItem="4QL-V3-4Qy" secondAttribute="bottom" constant="6" id="ltt-8w-76C"/>
-                            <constraint firstItem="hBN-jI-Y5y" firstAttribute="centerY" secondItem="KGG-a6-MeC" secondAttribute="centerY" id="sAA-Wy-Fal"/>
+                            <constraint firstItem="s2p-fh-IZ4" firstAttribute="top" secondItem="4QL-V3-4Qy" secondAttribute="bottom" id="s04-46-TyI"/>
                             <constraint firstItem="Z4z-Uj-gPb" firstAttribute="top" secondItem="iSM-h9-Fq2" secondAttribute="top" id="yl0-fg-URF"/>
                         </constraints>
                         <viewLayoutGuide key="safeArea" id="iSM-h9-Fq2"/>
                     </view>
+                    <connections>
+                        <outlet property="chatTableView" destination="4QL-V3-4Qy" id="m4g-Dz-cqf"/>
+                        <outlet property="composeView" destination="s2p-fh-IZ4" id="eXF-bm-duu"/>
+                        <outlet property="composeViewBottomConstraint" destination="2Xq-1S-FsY" id="Ts0-Wr-CTp"/>
+                        <outlet property="composeViewHeightConstraint" destination="enl-SZ-cOQ" id="ygU-Q5-OPz"/>
+                        <outlet property="messageTextField" destination="KGG-a6-MeC" id="oTZ-2s-pVM"/>
+                    </connections>
                 </viewController>
                 <placeholder placeholderIdentifier="IBFirstResponder" id="0TR-L0-e5d" userLabel="First Responder" sceneMemberID="firstResponder"/>
             </objects>
-            <point key="canvasLocation" x="1434" y="134"/>
+            <point key="canvasLocation" x="1432.8" y="133.5832083958021"/>
         </scene>
         <!--View Controller-->
         <scene sceneID="cBz-K5-pyH">
