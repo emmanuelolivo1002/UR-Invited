@@ -8,6 +8,15 @@
 
 /* Begin PBXBuildFile section */
 		146FE2BF20291A1300686A62 /* OpenSans-Italic.ttf in Resources */ = {isa = PBXBuildFile; fileRef = 146FE2BE20291A1300686A62 /* OpenSans-Italic.ttf */; };
+		146FE2C1202A045B00686A62 /* TabBarViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 146FE2C0202A045B00686A62 /* TabBarViewController.swift */; };
+		146FE2C9202A2C6800686A62 /* NoticeTableViewCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = 146FE2C7202A2C6800686A62 /* NoticeTableViewCell.swift */; };
+		146FE2CA202A2C6800686A62 /* NoticeTableViewCell.xib in Resources */ = {isa = PBXBuildFile; fileRef = 146FE2C8202A2C6800686A62 /* NoticeTableViewCell.xib */; };
+		146FE2CD202A2CCC00686A62 /* SentMessageTableViewCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = 146FE2CB202A2CCC00686A62 /* SentMessageTableViewCell.swift */; };
+		146FE2CE202A2CCC00686A62 /* SentMessageTableViewCell.xib in Resources */ = {isa = PBXBuildFile; fileRef = 146FE2CC202A2CCC00686A62 /* SentMessageTableViewCell.xib */; };
+		146FE2D1202A2D0500686A62 /* ReceivedMessageTableViewCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = 146FE2CF202A2D0500686A62 /* ReceivedMessageTableViewCell.swift */; };
+		146FE2D2202A2D0500686A62 /* ReceivedMessageTableViewCell.xib in Resources */ = {isa = PBXBuildFile; fileRef = 146FE2D0202A2D0500686A62 /* ReceivedMessageTableViewCell.xib */; };
+		146FE2D4202A461900686A62 /* OpenSans-Regular.ttf in Resources */ = {isa = PBXBuildFile; fileRef = 146FE2D3202A461900686A62 /* OpenSans-Regular.ttf */; };
+		146FE2D6202A4AEE00686A62 /* Message.swift in Sources */ = {isa = PBXBuildFile; fileRef = 146FE2D5202A4AEE00686A62 /* Message.swift */; };
 		14BFD7DC2024D5DD0028FADB /* AppDelegate.swift in Sources */ = {isa = PBXBuildFile; fileRef = 14BFD7DB2024D5DD0028FADB /* AppDelegate.swift */; };
 		14BFD7E12024D5DD0028FADB /* Main.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = 14BFD7DF2024D5DD0028FADB /* Main.storyboard */; };
 		14BFD7E32024D5DD0028FADB /* Assets.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = 14BFD7E22024D5DD0028FADB /* Assets.xcassets */; };
@@ -22,6 +31,15 @@
 
 /* Begin PBXFileReference section */
 		146FE2BE20291A1300686A62 /* OpenSans-Italic.ttf */ = {isa = PBXFileReference; lastKnownFileType = file; path = "OpenSans-Italic.ttf"; sourceTree = "<group>"; };
+		146FE2C0202A045B00686A62 /* TabBarViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = TabBarViewController.swift; sourceTree = "<group>"; };
+		146FE2C7202A2C6800686A62 /* NoticeTableViewCell.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = NoticeTableViewCell.swift; sourceTree = "<group>"; };
+		146FE2C8202A2C6800686A62 /* NoticeTableViewCell.xib */ = {isa = PBXFileReference; lastKnownFileType = file.xib; path = NoticeTableViewCell.xib; sourceTree = "<group>"; };
+		146FE2CB202A2CCC00686A62 /* SentMessageTableViewCell.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SentMessageTableViewCell.swift; sourceTree = "<group>"; };
+		146FE2CC202A2CCC00686A62 /* SentMessageTableViewCell.xib */ = {isa = PBXFileReference; lastKnownFileType = file.xib; path = SentMessageTableViewCell.xib; sourceTree = "<group>"; };
+		146FE2CF202A2D0500686A62 /* ReceivedMessageTableViewCell.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ReceivedMessageTableViewCell.swift; sourceTree = "<group>"; };
+		146FE2D0202A2D0500686A62 /* ReceivedMessageTableViewCell.xib */ = {isa = PBXFileReference; lastKnownFileType = file.xib; path = ReceivedMessageTableViewCell.xib; sourceTree = "<group>"; };
+		146FE2D3202A461900686A62 /* OpenSans-Regular.ttf */ = {isa = PBXFileReference; lastKnownFileType = file; path = "OpenSans-Regular.ttf"; sourceTree = "<group>"; };
+		146FE2D5202A4AEE00686A62 /* Message.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Message.swift; sourceTree = "<group>"; };
 		14BFD7D82024D5DD0028FADB /* UR Invited.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = "UR Invited.app"; sourceTree = BUILT_PRODUCTS_DIR; };
 		14BFD7DB2024D5DD0028FADB /* AppDelegate.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AppDelegate.swift; sourceTree = "<group>"; };
 		14BFD7E02024D5DD0028FADB /* Base */ = {isa = PBXFileReference; lastKnownFileType = file.storyboard; name = Base; path = Base.lproj/Main.storyboard; sourceTree = "<group>"; };
@@ -50,6 +68,16 @@
 /* End PBXFrameworksBuildPhase section */
 
 /* Begin PBXGroup section */
+		146FE2C6202A1E4600686A62 /* Xibs */ = {
+			isa = PBXGroup;
+			children = (
+				146FE2C8202A2C6800686A62 /* NoticeTableViewCell.xib */,
+				146FE2CC202A2CCC00686A62 /* SentMessageTableViewCell.xib */,
+				146FE2D0202A2D0500686A62 /* ReceivedMessageTableViewCell.xib */,
+			);
+			path = Xibs;
+			sourceTree = "<group>";
+		};
 		14BFD7CF2024D5DD0028FADB = {
 			isa = PBXGroup;
 			children = (
@@ -83,6 +111,7 @@
 		14BFD7EE2024E2B50028FADB /* Model */ = {
 			isa = PBXGroup;
 			children = (
+				146FE2D5202A4AEE00686A62 /* Message.swift */,
 			);
 			path = Model;
 			sourceTree = "<group>";
@@ -90,9 +119,13 @@
 		14BFD7EF2024E2D80028FADB /* View */ = {
 			isa = PBXGroup;
 			children = (
-				14BFD7F820251AFC0028FADB /* Fonts */,
-				14BFD7E42024D5DD0028FADB /* LaunchScreen.storyboard */,
 				14BFD7DF2024D5DD0028FADB /* Main.storyboard */,
+				14BFD7E42024D5DD0028FADB /* LaunchScreen.storyboard */,
+				14BFD7F820251AFC0028FADB /* Fonts */,
+				146FE2C6202A1E4600686A62 /* Xibs */,
+				146FE2C7202A2C6800686A62 /* NoticeTableViewCell.swift */,
+				146FE2CB202A2CCC00686A62 /* SentMessageTableViewCell.swift */,
+				146FE2CF202A2D0500686A62 /* ReceivedMessageTableViewCell.swift */,
 			);
 			path = View;
 			sourceTree = "<group>";
@@ -104,6 +137,7 @@
 				14BFD7F220250B7D0028FADB /* GroupViewController.swift */,
 				14BFD7F420250F400028FADB /* EventViewController.swift */,
 				14BFD7F6202510540028FADB /* ChatViewController.swift */,
+				146FE2C0202A045B00686A62 /* TabBarViewController.swift */,
 			);
 			path = Controller;
 			sourceTree = "<group>";
@@ -121,6 +155,7 @@
 			children = (
 				14E599642027CE5F0075B5D1 /* Roboto-Bold.ttf */,
 				14BFD7F920251B220028FADB /* Roboto-Regular.ttf */,
+				146FE2D3202A461900686A62 /* OpenSans-Regular.ttf */,
 				146FE2BE20291A1300686A62 /* OpenSans-Italic.ttf */,
 			);
 			path = Fonts;
@@ -206,10 +241,14 @@
 			buildActionMask = 2147483647;
 			files = (
 				14BFD7E62024D5DD0028FADB /* LaunchScreen.storyboard in Resources */,
+				146FE2D4202A461900686A62 /* OpenSans-Regular.ttf in Resources */,
 				14BFD7E32024D5DD0028FADB /* Assets.xcassets in Resources */,
 				14E599652027CE600075B5D1 /* Roboto-Bold.ttf in Resources */,
+				146FE2CE202A2CCC00686A62 /* SentMessageTableViewCell.xib in Resources */,
+				146FE2D2202A2D0500686A62 /* ReceivedMessageTableViewCell.xib in Resources */,
 				146FE2BF20291A1300686A62 /* OpenSans-Italic.ttf in Resources */,
 				14BFD7FA20251B230028FADB /* Roboto-Regular.ttf in Resources */,
+				146FE2CA202A2C6800686A62 /* NoticeTableViewCell.xib in Resources */,
 				14BFD7E12024D5DD0028FADB /* Main.storyboard in Resources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
@@ -283,9 +322,14 @@
 			isa = PBXSourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				146FE2D1202A2D0500686A62 /* ReceivedMessageTableViewCell.swift in Sources */,
 				14BFD7F320250B7D0028FADB /* GroupViewController.swift in Sources */,
 				14BFD7DC2024D5DD0028FADB /* AppDelegate.swift in Sources */,
+				146FE2C9202A2C6800686A62 /* NoticeTableViewCell.swift in Sources */,
+				146FE2CD202A2CCC00686A62 /* SentMessageTableViewCell.swift in Sources */,
 				14BFD7F7202510540028FADB /* ChatViewController.swift in Sources */,
+				146FE2C1202A045B00686A62 /* TabBarViewController.swift in Sources */,
+				146FE2D6202A4AEE00686A62 /* Message.swift in Sources */,
 				14BFD7F520250F400028FADB /* EventViewController.swift in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
