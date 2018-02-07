@@ -135,7 +135,9 @@ class ChatViewController: UIViewController, UITableViewDelegate, UITableViewData
                         return cell
                     }
                 } else { // if new message was received
-                    if let cell = chatTableView.dequeueReusableCell(withIdentifier: "ReceivedMessageCell", for: indexPath) as? MessageTableViewCell {
+                    if let cell = chatTableView.dequeueReusableCell(withIdentifier: "ReceivedMessageCell", for: indexPath) as? SentMessageTableViewCell {
+                        
+                        // TODO: set ReceivedMessageTableViewCell
                         
                         cell.messageText?.text = messageArray[indexPath.row - 1].content
                         
@@ -160,7 +162,8 @@ class ChatViewController: UIViewController, UITableViewDelegate, UITableViewData
                     return cell
                 }
             } else { // if new message was received
-                if let cell = chatTableView.dequeueReusableCell(withIdentifier: "ReceivedMessageCell", for: indexPath) as? MessageTableViewCell {
+                if let cell = chatTableView.dequeueReusableCell(withIdentifier: "ReceivedMessageCell", for: indexPath) as? SentMessageTableViewCell {
+                    // TODO: Change to ReceivedMessageTableViewCell
                     
                     cell.messageText?.text = messageArray[indexPath.row].content
                     
