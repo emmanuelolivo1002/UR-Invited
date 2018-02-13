@@ -14,6 +14,9 @@ class GroupViewController: UIViewController, UITableViewDataSource, UITableViewD
 
     // MARK: Variables
     
+    var testArray = TestVariables.instance.loadGroupArray()
+
+    
     
     // MARK: Outlets
     @IBOutlet weak var groupTableView: UITableView!
@@ -22,24 +25,49 @@ class GroupViewController: UIViewController, UITableViewDataSource, UITableViewD
     override func viewDidLoad() {
         super.viewDidLoad()
         
+        
+        
+        
         // Set self as tableview delegate and data source
         groupTableView.delegate = self
         groupTableView.dataSource = self
         
-
+        // Register xib file for custom cell
+        groupTableView.register(UINib(nibName: "GroupTableViewCell", bundle: nil), forCellReuseIdentifier: "GroupCell")
+        
+        
         
     }
+    
     
     // Table view Delegate methods
     
     func tableView(_ tableView: UITableView, numberOfRowsInSection section: Int) -> Int {
-        return 4
+        return testArray.count
+        
+    }
+    
+    func numberOfSections(in tableView: UITableView) -> Int {
+        return 1
     }
     
     func tableView(_ tableView: UITableView, cellForRowAt indexPath: IndexPath) -> UITableViewCell {
-        let cell = groupTableView.dequeueReusableCell(withIdentifier: "GroupCell", for: indexPath)
+    
+        // if GroupTableViewCell is created
+        if let cell = groupTableView.dequeueReusableCell(withIdentifier: "GroupCell", for: indexPath) as? GroupTableViewCell {
+            
+            let group = testArray[indexPath.row]
+            
+            cell.configureCell(group: group)
+            
+            // Return custom cell
+            return cell
+       
+        } else {
         
-        return cell
+            // Return empty cell if GroupTableViewCell could not be created
+            return UITableViewCell()
+        }
     }
 
     
