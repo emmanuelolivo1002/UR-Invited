@@ -17,17 +17,17 @@ import AWSDynamoDB
 
 class Groups: AWSDynamoDBObjectModel, AWSDynamoDBModeling {
     
-    var _userId: String?
-    var _groupId: String?
-    var _category: String?
-    var _creationDate: NSNumber?
-    var _isBrandInvited: NSNumber?
-    var _members: Set<String>?
-    var _name: String?
+    @objc var _userId: String?
+    @objc var _groupId: String?
+    @objc var _category: String?
+    @objc var _creationDate: NSNumber?
+    @objc var _isBrandInvited: NSNumber?
+    @objc var _members: Set<String>?
+    @objc var _name: String?
     
     class func dynamoDBTableName() -> String {
 
-        return "urinvited-mobilehub-1174146901-Groups"
+        return "urinvited-mobilehub-83094118-Groups"
     }
     
     class func hashKeyAttribute() -> String {

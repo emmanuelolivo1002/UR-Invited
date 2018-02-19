@@ -1,5 +1,5 @@
 //
-//  Users.swift
+//  Messages.swift
 //  MySampleApp
 //
 //
@@ -15,15 +15,18 @@ import Foundation
 import UIKit
 import AWSDynamoDB
 
-class Users: AWSDynamoDBObjectModel, AWSDynamoDBModeling {
+class Messages: AWSDynamoDBObjectModel, AWSDynamoDBModeling {
     
-    var _userId: String?
-    var _profilePicture: String?
-    var _username: String?
+    @objc var _userId: String?
+    @objc var _groupId: String?
+    @objc var _content: String?
+    @objc var _creationDate: NSNumber?
+    @objc var _profilePicture: String?
+    @objc var _username: String?
     
     class func dynamoDBTableName() -> String {
 
-        return "urinvited-mobilehub-1174146901-Users"
+        return "urinvited-mobilehub-83094118-Messages"
     }
     
     class func hashKeyAttribute() -> String {
@@ -31,9 +34,17 @@ class Users: AWSDynamoDBObjectModel, AWSDynamoDBModeling {
         return "_userId"
     }
     
+    class func rangeKeyAttribute() -> String {
+
+        return "_groupId"
+    }
+    
     override class func jsonKeyPathsByPropertyKey() -> [AnyHashable: Any] {
         return [
                "_userId" : "userId",
+               "_groupId" : "groupId",
+               "_content" : "content",
+               "_creationDate" : "creationDate",
                "_profilePicture" : "profilePicture",
                "_username" : "username",
         ]
