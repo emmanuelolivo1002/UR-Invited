@@ -7,61 +7,90 @@
 //
 
 import UIKit
+import Firebase
 
 class ChatViewController: UIViewController, UITableViewDelegate, UITableViewDataSource, UITextFieldDelegate {
    
     
 
     // MARK: Outlets
+    
+    @IBOutlet weak var sendButton: UIButton!
+    @IBOutlet weak var composeMessageView: UIView!
     @IBOutlet weak var chatTableView: UITableView!
     @IBOutlet weak var messageTextField: UITextField!
-    @IBOutlet weak var composeViewHeightConstraint: NSLayoutConstraint!
+    @IBOutlet weak var groupNameLabel: UILabel!
+    @IBOutlet weak var membersLabel: UILabel!
     
+   
     
-    // TODO: Delete these two
-    @IBOutlet weak var composeView: UIView!
-    @IBOutlet weak var composeViewBottomConstraint: NSLayoutConstraint!
     
     // MARK: Variables
-    var keyboardHeight: CGFloat = 0
-    
-    
-    // Test Variables
-    var messageArray = [Message]()
-    
-    var newMessage = Message(content: "Hello", username: "Josh", isSender: true)
-    
-    
-    // TODO: Check if a brand was invited
-     var noticeFlag = false
-    
-    
 
+    // Setup an initial group optionally
+    var group: Group?
     
+    // Set local array for messages
+    var messageArray = [Message]()
+   
+    // Set notice flag
+    var noticeFlag = false
+    
+   
+    
+    // MARK: Actions
+    
+    // Send Button
+    @IBAction func sendButtonPressed(_ sender: Any) {
+        
+        // Send message to database if textfield is not empty
+        // Check if message is not empty
+        
+        if messageTextField.text != "" {
+            
+            // Disable textfield and send button
+            messageTextField.isEnabled = false
+            sendButton.isEnabled = false
+            
+            // Upload message
+            DataService.instance.uploadPost(withMessage: messageTextField.text!, forUID: (Auth.auth().currentUser?.uid)!, withGroupKey: group?.groupId, sendComplete: { (complete) in
+                
+                if complete {
+                    // Clear textfield
+                    self.messageTextField.text = ""
+                    // Enabled texfield and button
+                    self.messageTextField.isEnabled = true
+                    self.sendButton.isEnabled = true
+                    self.chatTableView.reloadData()
+                }
+            })
+        }
+    }
+    
+    // Back Button
+    @IBAction func backButtonPressed(_ sender: Any) {
+        self.dismiss(animated: true) {
+            print("Go Back")
+        }
+        
+    }
     
     // MARK: Functions
+    
+    // Function to initialize current group with group passed from GroupsViewController
+    func initData(forGroup group: Group) {
+        self.group = group
+        self.noticeFlag = group.isBrandInvited
+    }
     
     override func viewDidLoad() {
         super.viewDidLoad()
         
-        // Test message Array
-        messageArray.append(newMessage)
-        newMessage = Message(content: "Hi", username: "Josh", isSender: true)
-        messageArray.append(newMessage)
+        // Bind to keyboard
+        composeMessageView.bindToKeyboard()
         
         
-        // TODO: Change placeholder text
-//        var placeHolder = NSMutableAttributedString()
-//
-//        let attributes = [NSAttributedStringKey.font:UIFont(name: "OpenSans-Italic", size: 12.0)! ]
-//
-//        // Set the Font
-//        placeHolder = NSMutableAttributedString(string:"Type a message", attributes: attributes)
-//
-//        //     Add attribute
-//
-//
-//        messageTextField.attributedPlaceholder = placeHolder
+        // TODO: Change textfield placeholder text and maybe change to a TextView
         
         
 
@@ -71,11 +100,7 @@ class ChatViewController: UIViewController, UITableViewDelegate, UITableViewData
         
         
         // Register Xib files for custom cells
-        self.chatTableView.register(UINib(nibName: "NoticeTableViewCell", bundle: nil), forCellReuseIdentifier: "NoticeCell")
-        
-        self.chatTableView.register(UINib(nibName: "SentMessageTableViewCell", bundle: nil), forCellReuseIdentifier: "SentMessageCell")
-        
-        self.chatTableView.register(UINib(nibName: "ReceivedMessageTableViewCell", bundle: nil), forCellReuseIdentifier: "ReceivedMessageCell")
+        self.chatTableView.register(UINib(nibName: "MessageTableViewCell", bundle: nil), forCellReuseIdentifier: "MessageCell")
         
         
         // Set self as Text Field delegate
@@ -84,28 +109,67 @@ class ChatViewController: UIViewController, UITableViewDelegate, UITableViewData
         // Tap Gesture
         let tapGesture = UITapGestureRecognizer(target: self, action: #selector(tableViewTapped))
         chatTableView.addGestureRecognizer(tapGesture)
-        
-        
-
-        // Notifications for keyboard interaction
-        NotificationCenter.default.addObserver(self, selector: #selector(ChatViewController.keyboardWillShow), name: NSNotification.Name.UIKeyboardWillShow, object: nil)
-        NotificationCenter.default.addObserver(self, selector: #selector(ChatViewController.keyboardWillHide), name: NSNotification.Name.UIKeyboardWillHide, object: nil)
-
 
     }
     
-    // MARK: Delegate Methods
+    // Setup the view with data from group
+    override func viewWillAppear(_ animated: Bool) {
+        super.viewWillAppear(animated)
+        
+        self.chatTableView.estimatedRowHeight = 0
+        self.chatTableView.estimatedSectionHeaderHeight = 0
+        self.chatTableView.estimatedSectionFooterHeight = 0
+        
+        // Set title and members label
+        groupNameLabel.text = group?.groupTitle
+        guard let memberCount = group?.memberCount else {return}
+        membersLabel.text = "\(memberCount) members"
+        
+        
+        // Observe when there is a change in database
+        DataService.instance.REF_GROUPS.observeSingleEvent(of: .value) { (snapshot) in
+            // Get messages from the database for current group
+            DataService.instance.getAllMessages(forGroup: self.group!) { (returnedGroupMessages) in
+                self.messageArray = returnedGroupMessages
+                self.chatTableView.reloadData()
+                
+                // Scroll to bottom of table view
+                if self.messageArray.count > 0 {
+                    self.chatTableView.scrollToRow(at: IndexPath(row: self.messageArray.count - 1 , section: 0), at: .none, animated: true)
+                }
+            }
+        }
+        
+        
+    }
+    
+    // Configure view elements
+    func configureView() {
+        DataService.instance.getAllMessages(forGroup: group!) { (returnedMessageArray) in
+            self.messageArray = returnedMessageArray
+        }
+        
+        groupNameLabel.text = group?.groupTitle
+        
+        guard let memberCount = group?.memberCount else {return}
+        membersLabel.text = "\(memberCount) members"
+        
+    }
+    
+    // MARK: TableView Delegate Methods
     
     // Table view Methods
     func tableView(_ tableView: UITableView, numberOfRowsInSection section: Int) -> Int {
         
-        // If a brand was invited to a chat increase the number of rows
-        if noticeFlag {
-            return messageArray.count + 1
-        } else {
-            return messageArray.count
-        }
+        // TODO: Implement if brand is invited
         
+//        // If a brand was invited to a chat increase the number of rows
+//        if noticeFlag {
+//            return messageArray.count + 1
+//        } else {
+//            return messageArray.count
+//        }
+        return messageArray.count
     }
     
     func numberOfSections(in tableView: UITableView) -> Int {
@@ -114,69 +178,34 @@ class ChatViewController: UIViewController, UITableViewDelegate, UITableViewData
     
     func tableView(_ tableView: UITableView, cellForRowAt indexPath: IndexPath) -> UITableViewCell {
         
-        // if there is a brand invited
-        if noticeFlag {
-            if indexPath.row == 0 { // if first message
-                if let noticeCell = chatTableView.dequeueReusableCell(withIdentifier: "NoticeCell", for: indexPath) as? NoticeTableViewCell {
-                    
-                    return noticeCell
-                }
-            } else { // if new message
-                
-                // If new message was sent
-                if messageArray[indexPath.row - 1].isSender {
-                    
-                    if let cell = chatTableView.dequeueReusableCell(withIdentifier: "SentMessageCell", for: indexPath) as? SentMessageTableViewCell {
-                        
-                        
-                        cell.messageText?.text = messageArray[indexPath.row - 1].content
-                        
-                        
-                        return cell
-                    }
-                } else { // if new message was received
-                    if let cell = chatTableView.dequeueReusableCell(withIdentifier: "ReceivedMessageCell", for: indexPath) as? SentMessageTableViewCell {
-                        
-                        // TODO: set ReceivedMessageTableViewCell
-                        
-                        cell.messageText?.text = messageArray[indexPath.row - 1].content
-                        
-                        return cell
-                    }
-                    
-                }
-                
-            }
-           
-        } else { // if no brand was invited
-            
-            // If new message was sent
-            if messageArray[indexPath.row].isSender {
-                
-                if let cell = chatTableView.dequeueReusableCell(withIdentifier: "SentMessageCell", for: indexPath) as? SentMessageTableViewCell {
-                    
-                    
-                    cell.messageText?.text = messageArray[indexPath.row].content
-                    
-                    
-                    return cell
-                }
-            } else { // if new message was received
-                if let cell = chatTableView.dequeueReusableCell(withIdentifier: "ReceivedMessageCell", for: indexPath) as? SentMessageTableViewCell {
-                    // TODO: Change to ReceivedMessageTableViewCell
-                    
-                    cell.messageText?.text = messageArray[indexPath.row].content
-                    
-                    return cell
-                }
-                
-            }
+        // TODO: Implement if Brand is invited with notice flag
         
-            
-            
-        }
+//        // if there is a brand invited
+//        if noticeFlag {
+//            if indexPath.row == 0 { // if first message
+//                if let noticeCell = chatTableView.dequeueReusableCell(withIdentifier: "NoticeCell", for: indexPath) as? NoticeTableViewCell {
+//
+//                    return noticeCell
+//                }
+//            } else { // if new message
+//
+//                if let cell = chatTableView.dequeueReusableCell(withIdentifier: "MessageCell", for: indexPath) as? MessageTableViewCell {
+//
+//                    // call configure cell method
+//                    cell.configureCell(messageContent: messageArray[indexPath.row].content , isSender: true, username: messageArray[indexPath.row].senderId, profilePicture: "profile_icon")
+//
+//                    return cell
+//                }
+//            }
+//
+//        } else { // if no brand was invited
         
-        return UITableViewCell()
+        guard let cell = chatTableView.dequeueReusableCell(withIdentifier: "MessageCell") as? MessageTableViewCell else {return UITableViewCell()}
+      
+        // call configure cell method
+        cell.configureCell(messageContent: messageArray[indexPath.row].content , isSender: false, username: messageArray[indexPath.row].senderId, profilePicture: "profile_icon")
+        
+        return cell
     }
     
     
@@ -185,52 +214,15 @@ class ChatViewController: UIViewController, UITableViewDelegate, UITableViewData
     @objc func tableViewTapped() {
         view.endEditing(true)
     }
-
-    // Textfield Methods
-    func textFieldDidBeginEditing(_ textField: UITextField) {
-        
-        UIView.animate(withDuration: 0.25) {
-            self.composeViewHeightConstraint.constant = self.keyboardHeight + 44
-            self.view.layoutIfNeeded()
-        }
-
-    }
-
-    func textFieldDidEndEditing(_ textField: UITextField) {
-        UIView.animate(withDuration: 0.25) {
-
-            self.composeViewHeightConstraint.constant = 44
-            self.view.layoutIfNeeded()
-        }
-    }
-
-    @objc func keyboardWillShow(notification: NSNotification) {
-        if let keyboardSize = (notification.userInfo?[UIKeyboardFrameBeginUserInfoKey] as? NSValue)?.cgRectValue {
-             if self.keyboardHeight >= keyboardSize.height {
-               
-                    self.composeViewHeightConstraint.constant = self.keyboardHeight + 44
-                    self.view.layoutIfNeeded()
-                    // TODO: Scroll to table to bottom
-                
-            } else {
-                self.keyboardHeight = keyboardSize.height
-                
-                    self.composeViewHeightConstraint.constant = self.keyboardHeight + 44
-                    self.view.layoutIfNeeded()
-                
-            }
-        }
-    }
     
-    @objc func keyboardWillHide(notification: NSNotification) {
-        UIView.animate(withDuration: 0.5) {
-            self.composeViewHeightConstraint.constant =  44
-            self.view.layoutIfNeeded()
-        }
-        
-            
-        
-    }
+   
+
+    
+    
+    
+    
+
+    
     
 }
 

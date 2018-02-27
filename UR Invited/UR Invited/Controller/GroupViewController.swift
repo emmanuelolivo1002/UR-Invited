@@ -13,9 +13,8 @@ class GroupViewController: UIViewController, UITableViewDataSource, UITableViewD
     
 
     // MARK: Variables
+    var groupsArray = [Group]()
     
-    var testArray = TestVariables.instance.loadGroupArray()
-
     
     
     // MARK: Outlets
@@ -24,10 +23,7 @@ class GroupViewController: UIViewController, UITableViewDataSource, UITableViewD
     // MARK: Functions
     override func viewDidLoad() {
         super.viewDidLoad()
-        
-        
-        
-        
+       
         // Set self as tableview delegate and data source
         groupTableView.delegate = self
         groupTableView.dataSource = self
@@ -35,15 +31,28 @@ class GroupViewController: UIViewController, UITableViewDataSource, UITableViewD
         // Register xib file for custom cell
         groupTableView.register(UINib(nibName: "GroupTableViewCell", bundle: nil), forCellReuseIdentifier: "GroupCell")
         
+    }
+    
+    override func viewDidAppear(_ animated: Bool) {
+        super.viewDidAppear(animated)
         
-        
+        // Observe every time there is a change in database
+        DataService.instance.REF_GROUPS.observeSingleEvent(of: .value) { (snapshot) in
+            DataService.instance.getAllGroups { (returnedGroupsArray) in
+                // Set local groups array to be equal to the returned array and reload data
+                self.groupsArray = returnedGroupsArray
+                print("Groups in array: \(self.groupsArray.count)")
+                self.groupTableView.reloadData()
+            }
+        }
     }
     
     
     // Table view Delegate methods
     
     func tableView(_ tableView: UITableView, numberOfRowsInSection section: Int) -> Int {
-        return testArray.count
+        print(groupsArray.count)
+        return groupsArray.count
         
     }
     
@@ -56,7 +65,7 @@ class GroupViewController: UIViewController, UITableViewDataSource, UITableViewD
         // if GroupTableViewCell is created
         if let cell = groupTableView.dequeueReusableCell(withIdentifier: "GroupCell", for: indexPath) as? GroupTableViewCell {
             
-            let group = testArray[indexPath.row]
+            let group = groupsArray[indexPath.row]
             
             cell.configureCell(group: group)
             
@@ -69,6 +78,19 @@ class GroupViewController: UIViewController, UITableViewDataSource, UITableViewD
             return UITableViewCell()
         }
     }
+    
+    func tableView(_ tableView: UITableView, didSelectRowAt indexPath: IndexPath) {
+        
+        // Set a storyboard for groupFeedViewController
+        guard let chatViewController = storyboard?.instantiateViewController(withIdentifier: "ChatViewController") as? ChatViewController else { return }
+        
+        // Initialize group in groupFeedViewController by passing the group selected
+        chatViewController.initData(forGroup: groupsArray[indexPath.row])
+        
+        // present groupFeedViewController
+        present(chatViewController, animated: true, completion: nil)
+    }
+    
 
     
 

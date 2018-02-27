@@ -7,29 +7,44 @@
 //
 
 import UIKit
-import AWSMobileClient
+
+import Firebase
+
+
 
 @UIApplicationMain
 class AppDelegate: UIResponder, UIApplicationDelegate {
 
+   
+    
     var window: UIWindow?
 
-    // AWS Mobile Sign in
-    func application(_ application: UIApplication, open url: URL,
-                     sourceApplication: String?, annotation: Any) -> Bool {
-        
-        return AWSMobileClient.sharedInstance().interceptApplication(
-            application, open: url,
-            sourceApplication: sourceApplication,
-            annotation: annotation)
-        
-    }
+   
 
     func application(_ application: UIApplication,
                      didFinishLaunchingWithOptions launchOptions:
                     [UIApplicationLaunchOptionsKey: Any]?) -> Bool {
+       
         
-        return AWSMobileClient.sharedInstance().interceptApplication(application, didFinishLaunchingWithOptions: launchOptions)
+        FirebaseApp.configure()
+        
+        //TODO: Implement first view controller if not logged in
+//        // If there is no current user logged in
+//        if Auth.auth().currentUser == nil {
+//            // Select main storyboard
+//            let storyboard = UIStoryboard(name: "Main", bundle: Bundle.main)
+//
+//            // Select AuthViewController
+//            let authViewController = storyboard.instantiateViewController(withIdentifier: "AuthViewController")
+//
+//            // Make window dissappear and present AuthViewController wherever we are if user is logged out
+//            window?.makeKeyAndVisible()
+//            window?.rootViewController?.present(authViewController, animated: true, completion: nil)
+//
+//        }
+        
+        
+        return true
     }
 
     func applicationWillResignActive(_ application: UIApplication) {

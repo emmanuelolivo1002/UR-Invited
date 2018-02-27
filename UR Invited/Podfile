@@ -8,6 +8,8 @@ target 'UR Invited' do
   # Pods for UR Invited
   pod 'Alamofire', '~> 4.5'
   pod 'SwiftyJSON'
-  pod 'AWSMobileClient', '~> 2.6.6'
+  pod 'Firebase/Core'
+  pod 'Firebase/Database'
+  pod 'Firebase/Auth'
 
 end

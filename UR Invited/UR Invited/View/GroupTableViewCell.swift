@@ -19,31 +19,24 @@ class GroupTableViewCell: UITableViewCell {
     @IBOutlet weak var membersStackView: UIStackView!
     
     
+    // Flag
+    var countFlag = 0
     
-    override func awakeFromNib() {
-        super.awakeFromNib()
-        // Initialization code
-    }
+    
+    
 
-    override func setSelected(_ selected: Bool, animated: Bool) {
-        super.setSelected(selected, animated: animated)
-
-        // Configure the view for the selected state
-    }
     
     // Configure elements in cell wit a Group object
-    func configureCell(group: Groups) {
-        groupNameLabel.text = group._name
-        categoryLabel.text = group._category
+    func configureCell(group: Group) {
         
-        if let numberOfMembers = group._members?.count {
-            numberOfMembersLabel.text =  "\(String(describing: numberOfMembers)) members"
-        } else {
-            numberOfMembersLabel.text = "No members"
-        }
+        groupNameLabel.text = group.groupTitle
+        
+        numberOfMembersLabel.text =  "\(group.memberCount) members"
+       
+      
         
         // loop through all members of a group to set the profile image
-        for _ in group._members! {
+        for _ in group.members {
             let profileImage = UIImage(named: "group_member_profile")
             let imageView = UIImageView(image: profileImage)
             
@@ -54,8 +47,12 @@ class GroupTableViewCell: UITableViewCell {
             imageView.layer.shadowOffset = CGSize.zero
             imageView.layer.shadowRadius = 1
             
-            // add profile image to stackview
-            membersStackView.addArrangedSubview(imageView)
+            countFlag += 1
+            
+            if countFlag <= group.members.count {
+                // add profile image to stackview
+                membersStackView.addArrangedSubview(imageView)
+            }
         }
     }
     

@@ -9,14 +9,25 @@
 import Foundation
 
 class Message {
-    let content : String
-    let username: String
-    let isSender: Bool
+  
+    // Declare private variables for encapsulation
+    private var _content : String
+    private var _senderId: String
     
-    init (content: String, username: String, isSender: Bool) {
-        self.content = content
-        self.username = username
-        self.isSender = isSender
+    
+    // initializer
+    init(content: String, senderId: String) {
+        self._content = content
+        self._senderId = senderId
+    }
+    
+    // get data from private variables
+    var content : String {
+        return _content
+    }
+    
+    var senderId : String {
+        return _senderId
     }
     
     
