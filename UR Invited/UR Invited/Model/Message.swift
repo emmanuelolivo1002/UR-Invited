@@ -14,7 +14,6 @@ class Message {
     private var _content : String
     private var _senderId: String
     
-    
     // initializer
     init(content: String, senderId: String) {
         self._content = content
