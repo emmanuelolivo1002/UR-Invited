@@ -116,7 +116,7 @@ class ChatViewController: UIViewController, UITableViewDelegate, UITableViewData
     override func viewWillAppear(_ animated: Bool) {
         super.viewWillAppear(animated)
         
-        self.chatTableView.estimatedRowHeight = 0
+        self.chatTableView.estimatedRowHeight = 30
         self.chatTableView.estimatedSectionHeaderHeight = 0
         self.chatTableView.estimatedSectionFooterHeight = 0
         
@@ -178,6 +178,13 @@ class ChatViewController: UIViewController, UITableViewDelegate, UITableViewData
     
     func tableView(_ tableView: UITableView, cellForRowAt indexPath: IndexPath) -> UITableViewCell {
         
+        guard let cell = chatTableView.dequeueReusableCell(withIdentifier: "MessageCell") as? MessageTableViewCell else {return UITableViewCell()}
+        
+        // call configure cell method
+        cell.configureCell(messageContent: messageArray[indexPath.row].content , isSender: false, username: messageArray[indexPath.row].senderId, profilePicture: "profile_icon")
+        
+        return cell
+        
         // TODO: Implement if Brand is invited with notice flag
         
 //        // if there is a brand invited
@@ -200,30 +207,16 @@ class ChatViewController: UIViewController, UITableViewDelegate, UITableViewData
 //
 //        } else { // if no brand was invited
         
-        guard let cell = chatTableView.dequeueReusableCell(withIdentifier: "MessageCell") as? MessageTableViewCell else {return UITableViewCell()}
       
-        // call configure cell method
-        cell.configureCell(messageContent: messageArray[indexPath.row].content , isSender: false, username: messageArray[indexPath.row].senderId, profilePicture: "profile_icon")
-        
-        return cell
     }
     
-    
+    // MARK: Selectors
     
     // tableViewTapped Method
     @objc func tableViewTapped() {
         view.endEditing(true)
     }
-    
-   
 
-    
-    
-    
-    
-
-    
-    
 }
 
     
