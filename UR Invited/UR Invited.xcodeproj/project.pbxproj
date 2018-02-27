@@ -9,11 +9,16 @@
 /* Begin PBXBuildFile section */
 		14541E182044812A00A32350 /* DataService.swift in Sources */ = {isa = PBXBuildFile; fileRef = 14541E172044812A00A32350 /* DataService.swift */; };
 		14541E1B2044A59300A32350 /* UIViewExtensions.swift in Sources */ = {isa = PBXBuildFile; fileRef = 14541E1A2044A59300A32350 /* UIViewExtensions.swift */; };
-		14541E1D2044B3B200A32350 /* GoogleService-Info.plist in Resources */ = {isa = PBXBuildFile; fileRef = 14541E1C2044B3B200A32350 /* GoogleService-Info.plist */; };
 		14541E1F2044B5B000A32350 /* AuthService.swift in Sources */ = {isa = PBXBuildFile; fileRef = 14541E1E2044B5B000A32350 /* AuthService.swift */; };
 		14541E212044B7B800A32350 /* Group.swift in Sources */ = {isa = PBXBuildFile; fileRef = 14541E202044B7B800A32350 /* Group.swift */; };
 		14541E232044BC0E00A32350 /* AuthViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 14541E222044BC0E00A32350 /* AuthViewController.swift */; };
 		14541E272044BF0800A32350 /* ProfileViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 14541E262044BF0800A32350 /* ProfileViewController.swift */; };
+		14541E2C2045D93F00A32350 /* GoogleService-Info.plist in Resources */ = {isa = PBXBuildFile; fileRef = 14541E2B2045D93F00A32350 /* GoogleService-Info.plist */; };
+		14541E2F2045DEE400A32350 /* Constants.swift in Sources */ = {isa = PBXBuildFile; fileRef = 14541E2E2045DEE400A32350 /* Constants.swift */; };
+		14541E312045DEEE00A32350 /* Event.swift in Sources */ = {isa = PBXBuildFile; fileRef = 14541E302045DEEE00A32350 /* Event.swift */; };
+		14541E332045DEF800A32350 /* EventCollectionViewCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = 14541E322045DEF800A32350 /* EventCollectionViewCell.swift */; };
+		14541E352045DF0400A32350 /* EventSectionCollectionViewCell.xib in Resources */ = {isa = PBXBuildFile; fileRef = 14541E342045DF0400A32350 /* EventSectionCollectionViewCell.xib */; };
+		14541E372045E1BA00A32350 /* EventTableViewCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = 14541E362045E1B900A32350 /* EventTableViewCell.swift */; };
 		146FE2BF20291A1300686A62 /* OpenSans-Italic.ttf in Resources */ = {isa = PBXBuildFile; fileRef = 146FE2BE20291A1300686A62 /* OpenSans-Italic.ttf */; };
 		146FE2C1202A045B00686A62 /* TabBarViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 146FE2C0202A045B00686A62 /* TabBarViewController.swift */; };
 		146FE2C9202A2C6800686A62 /* NoticeTableViewCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = 146FE2C7202A2C6800686A62 /* NoticeTableViewCell.swift */; };
@@ -39,11 +44,16 @@
 /* Begin PBXFileReference section */
 		14541E172044812A00A32350 /* DataService.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = DataService.swift; sourceTree = "<group>"; };
 		14541E1A2044A59300A32350 /* UIViewExtensions.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = UIViewExtensions.swift; sourceTree = "<group>"; };
-		14541E1C2044B3B200A32350 /* GoogleService-Info.plist */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.plist.xml; path = "GoogleService-Info.plist"; sourceTree = "<group>"; };
 		14541E1E2044B5B000A32350 /* AuthService.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AuthService.swift; sourceTree = "<group>"; };
 		14541E202044B7B800A32350 /* Group.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Group.swift; sourceTree = "<group>"; };
 		14541E222044BC0E00A32350 /* AuthViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AuthViewController.swift; sourceTree = "<group>"; };
 		14541E262044BF0800A32350 /* ProfileViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ProfileViewController.swift; sourceTree = "<group>"; };
+		14541E2B2045D93F00A32350 /* GoogleService-Info.plist */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.plist.xml; path = "GoogleService-Info.plist"; sourceTree = "<group>"; };
+		14541E2E2045DEE400A32350 /* Constants.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = Constants.swift; sourceTree = "<group>"; };
+		14541E302045DEEE00A32350 /* Event.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = Event.swift; sourceTree = "<group>"; };
+		14541E322045DEF800A32350 /* EventCollectionViewCell.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = EventCollectionViewCell.swift; sourceTree = "<group>"; };
+		14541E342045DF0400A32350 /* EventSectionCollectionViewCell.xib */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = file.xib; path = EventSectionCollectionViewCell.xib; sourceTree = "<group>"; };
+		14541E362045E1B900A32350 /* EventTableViewCell.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = EventTableViewCell.swift; sourceTree = "<group>"; };
 		146FE2BE20291A1300686A62 /* OpenSans-Italic.ttf */ = {isa = PBXFileReference; lastKnownFileType = file; path = "OpenSans-Italic.ttf"; sourceTree = "<group>"; };
 		146FE2C0202A045B00686A62 /* TabBarViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = TabBarViewController.swift; sourceTree = "<group>"; };
 		146FE2C7202A2C6800686A62 /* NoticeTableViewCell.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = NoticeTableViewCell.swift; sourceTree = "<group>"; };
@@ -90,6 +100,14 @@
 			path = Extensions;
 			sourceTree = "<group>";
 		};
+		14541E2D2045DEE400A32350 /* Constants */ = {
+			isa = PBXGroup;
+			children = (
+				14541E2E2045DEE400A32350 /* Constants.swift */,
+			);
+			path = Constants;
+			sourceTree = "<group>";
+		};
 		14605A7A20373D6F00B202BC /* Services */ = {
 			isa = PBXGroup;
 			children = (
@@ -103,6 +121,7 @@
 			isa = PBXGroup;
 			children = (
 				149328DE2032040D0095AE91 /* GroupTableViewCell.xib */,
+				14541E342045DF0400A32350 /* EventSectionCollectionViewCell.xib */,
 				146FE2C8202A2C6800686A62 /* NoticeTableViewCell.xib */,
 				149328E6203344A30095AE91 /* MessageTableViewCell.xib */,
 			);
@@ -130,6 +149,7 @@
 		14BFD7DA2024D5DD0028FADB /* UR Invited */ = {
 			isa = PBXGroup;
 			children = (
+				14541E2D2045DEE400A32350 /* Constants */,
 				14541E192044A56700A32350 /* Extensions */,
 				14605A7A20373D6F00B202BC /* Services */,
 				14BFD7EE2024E2B50028FADB /* Model */,
@@ -137,7 +157,7 @@
 				14BFD7F02024E2EE0028FADB /* Controller */,
 				14BFD7F12024E4900028FADB /* Supporting Files */,
 				14BFD7E22024D5DD0028FADB /* Assets.xcassets */,
-				14541E1C2044B3B200A32350 /* GoogleService-Info.plist */,
+				14541E2B2045D93F00A32350 /* GoogleService-Info.plist */,
 			);
 			path = "UR Invited";
 			sourceTree = "<group>";
@@ -147,6 +167,7 @@
 			children = (
 				146FE2D5202A4AEE00686A62 /* Message.swift */,
 				14541E202044B7B800A32350 /* Group.swift */,
+				14541E302045DEEE00A32350 /* Event.swift */,
 			);
 			path = Model;
 			sourceTree = "<group>";
@@ -159,7 +180,9 @@
 				14BFD7F820251AFC0028FADB /* Fonts */,
 				146FE2C6202A1E4600686A62 /* Xibs */,
 				146FE2C7202A2C6800686A62 /* NoticeTableViewCell.swift */,
+				14541E362045E1B900A32350 /* EventTableViewCell.swift */,
 				149328DD2032040D0095AE91 /* GroupTableViewCell.swift */,
+				14541E322045DEF800A32350 /* EventCollectionViewCell.swift */,
 				149328E5203344A30095AE91 /* MessageTableViewCell.swift */,
 			);
 			path = View;
@@ -282,10 +305,11 @@
 				149328E8203344A30095AE91 /* MessageTableViewCell.xib in Resources */,
 				14BFD7E32024D5DD0028FADB /* Assets.xcassets in Resources */,
 				14E599652027CE600075B5D1 /* Roboto-Bold.ttf in Resources */,
-				14541E1D2044B3B200A32350 /* GoogleService-Info.plist in Resources */,
+				14541E352045DF0400A32350 /* EventSectionCollectionViewCell.xib in Resources */,
 				149328E02032040D0095AE91 /* GroupTableViewCell.xib in Resources */,
 				146FE2BF20291A1300686A62 /* OpenSans-Italic.ttf in Resources */,
 				14BFD7FA20251B230028FADB /* Roboto-Regular.ttf in Resources */,
+				14541E2C2045D93F00A32350 /* GoogleService-Info.plist in Resources */,
 				146FE2CA202A2C6800686A62 /* NoticeTableViewCell.xib in Resources */,
 				14BFD7E12024D5DD0028FADB /* Main.storyboard in Resources */,
 			);
@@ -369,10 +393,14 @@
 				14BFD7F7202510540028FADB /* ChatViewController.swift in Sources */,
 				149328E7203344A30095AE91 /* MessageTableViewCell.swift in Sources */,
 				14541E272044BF0800A32350 /* ProfileViewController.swift in Sources */,
+				14541E2F2045DEE400A32350 /* Constants.swift in Sources */,
+				14541E312045DEEE00A32350 /* Event.swift in Sources */,
 				146FE2C1202A045B00686A62 /* TabBarViewController.swift in Sources */,
 				146FE2D6202A4AEE00686A62 /* Message.swift in Sources */,
+				14541E372045E1BA00A32350 /* EventTableViewCell.swift in Sources */,
 				14541E182044812A00A32350 /* DataService.swift in Sources */,
 				14541E1B2044A59300A32350 /* UIViewExtensions.swift in Sources */,
+				14541E332045DEF800A32350 /* EventCollectionViewCell.swift in Sources */,
 				149328DF2032040D0095AE91 /* GroupTableViewCell.swift in Sources */,
 				14BFD7F520250F400028FADB /* EventViewController.swift in Sources */,
 				14541E232044BC0E00A32350 /* AuthViewController.swift in Sources */,
