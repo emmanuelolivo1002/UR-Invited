@@ -10,6 +10,8 @@ import Foundation
 
 class Group {
     
+    
+    
     private var _groupTitle: String
     private var _groupId: String
     private var _memberCount: Int
