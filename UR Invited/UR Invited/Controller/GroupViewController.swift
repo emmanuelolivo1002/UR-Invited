@@ -8,26 +8,91 @@
 
 import UIKit
 
-class GroupViewController: UIViewController {
+class GroupViewController: UIViewController, UITableViewDataSource, UITableViewDelegate {
+  
+    
 
+    // MARK: Variables
+    var groupsArray = [Group]()
+    
+    
+    
+    // MARK: Outlets
+    @IBOutlet weak var groupTableView: UITableView!
+    
+    // MARK: Functions
     override func viewDidLoad() {
         super.viewDidLoad()
-
-        // Do any additional setup after loading the view.
-        print("Groups")
+       
+        // Set self as tableview delegate and data source
+        groupTableView.delegate = self
+        groupTableView.dataSource = self
+        
+        // Register xib file for custom cell
+        groupTableView.register(UINib(nibName: "GroupTableViewCell", bundle: nil), forCellReuseIdentifier: "GroupCell")
+        
     }
-
+    
+    override func viewDidAppear(_ animated: Bool) {
+        super.viewDidAppear(animated)
+        
+        // Observe every time there is a change in database
+        DataService.instance.REF_GROUPS.observeSingleEvent(of: .value) { (snapshot) in
+            DataService.instance.getAllGroups { (returnedGroupsArray) in
+                // Set local groups array to be equal to the returned array and reload data
+                self.groupsArray = returnedGroupsArray
+                print("Groups in array: \(self.groupsArray.count)")
+                self.groupTableView.reloadData()
+            }
+        }
+    }
     
     
-
-    /*
-    // MARK: - Navigation
-
-    // In a storyboard-based application, you will often want to do a little preparation before navigation
-    override func prepare(for segue: UIStoryboardSegue, sender: Any?) {
-        // Get the new view controller using segue.destinationViewController.
-        // Pass the selected object to the new view controller.
+    // Table view Delegate methods
+    
+    func tableView(_ tableView: UITableView, numberOfRowsInSection section: Int) -> Int {
+        print(groupsArray.count)
+        return groupsArray.count
+        
     }
-    */
+    
+    func numberOfSections(in tableView: UITableView) -> Int {
+        return 1
+    }
+    
+    func tableView(_ tableView: UITableView, cellForRowAt indexPath: IndexPath) -> UITableViewCell {
+    
+        // if GroupTableViewCell is created
+        if let cell = groupTableView.dequeueReusableCell(withIdentifier: "GroupCell", for: indexPath) as? GroupTableViewCell {
+            
+            let group = groupsArray[indexPath.row]
+            
+            cell.configureCell(group: group)
+            
+            // Return custom cell
+            return cell
+       
+        } else {
+        
+            // Return empty cell if GroupTableViewCell could not be created
+            return UITableViewCell()
+        }
+    }
+    
+    func tableView(_ tableView: UITableView, didSelectRowAt indexPath: IndexPath) {
+        
+        // Set a storyboard for groupFeedViewController
+        guard let chatViewController = storyboard?.instantiateViewController(withIdentifier: "ChatViewController") as? ChatViewController else { return }
+        
+        // Initialize group in groupFeedViewController by passing the group selected
+        chatViewController.initData(forGroup: groupsArray[indexPath.row])
+        
+        // present groupFeedViewController
+        present(chatViewController, animated: true, completion: nil)
+    }
+    
+
+    
+
 
 }

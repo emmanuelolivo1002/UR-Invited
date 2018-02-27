@@ -8,14 +8,42 @@
 
 import UIKit
 
+import Firebase
+
+
+
 @UIApplicationMain
 class AppDelegate: UIResponder, UIApplicationDelegate {
 
+   
+    
     var window: UIWindow?
 
+   
 
-    func application(_ application: UIApplication, didFinishLaunchingWithOptions launchOptions: [UIApplicationLaunchOptionsKey: Any]?) -> Bool {
-        // Override point for customization after application launch.
+    func application(_ application: UIApplication,
+                     didFinishLaunchingWithOptions launchOptions:
+                    [UIApplicationLaunchOptionsKey: Any]?) -> Bool {
+       
+        
+        FirebaseApp.configure()
+        
+        //TODO: Implement first view controller if not logged in
+//        // If there is no current user logged in
+//        if Auth.auth().currentUser == nil {
+//            // Select main storyboard
+//            let storyboard = UIStoryboard(name: "Main", bundle: Bundle.main)
+//
+//            // Select AuthViewController
+//            let authViewController = storyboard.instantiateViewController(withIdentifier: "AuthViewController")
+//
+//            // Make window dissappear and present AuthViewController wherever we are if user is logged out
+//            window?.makeKeyAndVisible()
+//            window?.rootViewController?.present(authViewController, animated: true, completion: nil)
+//
+//        }
+        
+        
         return true
     }
 
