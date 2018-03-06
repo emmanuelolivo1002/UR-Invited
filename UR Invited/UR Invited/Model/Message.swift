@@ -13,12 +13,13 @@ class Message {
     // Declare private variables for encapsulation
     private var _content : String
     private var _senderId: String
-    
+    private var _username: String
     
     // initializer
-    init(content: String, senderId: String) {
+    init(content: String, senderId: String, username: String) {
         self._content = content
         self._senderId = senderId
+        self._username = username
     }
     
     // get data from private variables
@@ -28,6 +29,10 @@ class Message {
     
     var senderId : String {
         return _senderId
+    }
+    
+    var username: String {
+        return _username
     }
     
     

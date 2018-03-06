@@ -15,8 +15,8 @@ class NoticeTableViewCell: UITableViewCell {
     override func awakeFromNib() {
         super.awakeFromNib()
      
-//        // Set round corners
-//        noticeMessageView.layer.cornerRadius = 3
+        // Set round corners
+        noticeMessageView.layer.cornerRadius = 3
     }
 
     

@@ -11,10 +11,7 @@ import Firebase
 
 class ChatViewController: UIViewController, UITableViewDelegate, UITableViewDataSource, UITextFieldDelegate {
    
-    
-
     // MARK: Outlets
-    
     @IBOutlet weak var sendButton: UIButton!
     @IBOutlet weak var composeMessageView: UIView!
     @IBOutlet weak var chatTableView: UITableView!
@@ -32,6 +29,7 @@ class ChatViewController: UIViewController, UITableViewDelegate, UITableViewData
     
     // Set local array for messages
     var messageArray = [Message]()
+    
    
     // Set notice flag
     var noticeFlag = false
@@ -48,22 +46,33 @@ class ChatViewController: UIViewController, UITableViewDelegate, UITableViewData
         
         if messageTextField.text != "" {
             
+            var currentUsername = ""
+            
+           
+            
             // Disable textfield and send button
             messageTextField.isEnabled = false
             sendButton.isEnabled = false
             
-            // Upload message
-            DataService.instance.uploadPost(withMessage: messageTextField.text!, forUID: (Auth.auth().currentUser?.uid)!, withGroupKey: group?.groupId, sendComplete: { (complete) in
+            DataService.instance.getUsername(forUID: (Auth.auth().currentUser?.uid)!, handler: { (returnedUsername) in
+                currentUsername = returnedUsername
                 
-                if complete {
-                    // Clear textfield
-                    self.messageTextField.text = ""
-                    // Enabled texfield and button
-                    self.messageTextField.isEnabled = true
-                    self.sendButton.isEnabled = true
-                    self.chatTableView.reloadData()
-                }
+                // Upload message
+                DataService.instance.uploadPost(withMessage: self.messageTextField.text!, forUID: (Auth.auth().currentUser?.uid)!, andUsername: currentUsername, withGroupKey: self.group?.groupId, sendComplete: { (complete) in
+                    
+                    if complete {
+                        // Clear textfield
+                        self.messageTextField.text = ""
+                        // Enabled texfield and button
+                        self.messageTextField.isEnabled = true
+                        self.sendButton.isEnabled = true
+                        print("messages count AFTER sending: \(self.messageArray.count)")
+
+                    }
+                })
             })
+            
+            
         }
     }
     
@@ -86,9 +95,14 @@ class ChatViewController: UIViewController, UITableViewDelegate, UITableViewData
     override func viewDidLoad() {
         super.viewDidLoad()
         
+        
+        self.chatTableView.estimatedRowHeight = 200
+        self.chatTableView.rowHeight = UITableViewAutomaticDimension;
+        
+        
         // Bind to keyboard
         composeMessageView.bindToKeyboard()
-        
+
         
         // TODO: Change textfield placeholder text and maybe change to a TextView
         
@@ -100,7 +114,8 @@ class ChatViewController: UIViewController, UITableViewDelegate, UITableViewData
         
         
         // Register Xib files for custom cells
-        self.chatTableView.register(UINib(nibName: "MessageTableViewCell", bundle: nil), forCellReuseIdentifier: "MessageCell")
+        self.chatTableView.register(UINib(nibName: "SentMessageTableViewCell", bundle: nil), forCellReuseIdentifier: "SentMessageCell")
+        self.chatTableView.register(UINib(nibName: "ReceivedMessageTableViewCell", bundle: nil), forCellReuseIdentifier: "ReceivedMessageCell")
         
         
         // Set self as Text Field delegate
@@ -116,9 +131,7 @@ class ChatViewController: UIViewController, UITableViewDelegate, UITableViewData
     override func viewWillAppear(_ animated: Bool) {
         super.viewWillAppear(animated)
         
-        self.chatTableView.estimatedRowHeight = 30
-        self.chatTableView.estimatedSectionHeaderHeight = 0
-        self.chatTableView.estimatedSectionFooterHeight = 0
+       
         
         // Set title and members label
         groupNameLabel.text = group?.groupTitle
@@ -126,12 +139,17 @@ class ChatViewController: UIViewController, UITableViewDelegate, UITableViewData
         membersLabel.text = "\(memberCount) members"
         
         
+        
+        
         // Observe when there is a change in database
-        DataService.instance.REF_GROUPS.observeSingleEvent(of: .value) { (snapshot) in
+        DataService.instance.REF_GROUPS.observe(.value) { (snapshot) in
             // Get messages from the database for current group
             DataService.instance.getAllMessages(forGroup: self.group!) { (returnedGroupMessages) in
                 self.messageArray = returnedGroupMessages
+                
+                print("messages count BEFORE reloading: \(self.messageArray.count)")
                 self.chatTableView.reloadData()
+                print("messages count AFTER reloading: \(self.messageArray.count)")
                 
                 // Scroll to bottom of table view
                 if self.messageArray.count > 0 {
@@ -143,18 +161,7 @@ class ChatViewController: UIViewController, UITableViewDelegate, UITableViewData
         
     }
     
-    // Configure view elements
-    func configureView() {
-        DataService.instance.getAllMessages(forGroup: group!) { (returnedMessageArray) in
-            self.messageArray = returnedMessageArray
-        }
-        
-        groupNameLabel.text = group?.groupTitle
-        
-        guard let memberCount = group?.memberCount else {return}
-        membersLabel.text = "\(memberCount) members"
-        
-    }
+  
     
     // MARK: TableView Delegate Methods
     
@@ -178,36 +185,43 @@ class ChatViewController: UIViewController, UITableViewDelegate, UITableViewData
     
     func tableView(_ tableView: UITableView, cellForRowAt indexPath: IndexPath) -> UITableViewCell {
         
-        guard let cell = chatTableView.dequeueReusableCell(withIdentifier: "MessageCell") as? MessageTableViewCell else {return UITableViewCell()}
-        
-        // call configure cell method
-        cell.configureCell(messageContent: messageArray[indexPath.row].content , isSender: false, username: messageArray[indexPath.row].senderId, profilePicture: "profile_icon")
-        
-        return cell
         
         // TODO: Implement if Brand is invited with notice flag
         
-//        // if there is a brand invited
-//        if noticeFlag {
-//            if indexPath.row == 0 { // if first message
-//                if let noticeCell = chatTableView.dequeueReusableCell(withIdentifier: "NoticeCell", for: indexPath) as? NoticeTableViewCell {
-//
-//                    return noticeCell
-//                }
-//            } else { // if new message
-//
-//                if let cell = chatTableView.dequeueReusableCell(withIdentifier: "MessageCell", for: indexPath) as? MessageTableViewCell {
-//
-//                    // call configure cell method
-//                    cell.configureCell(messageContent: messageArray[indexPath.row].content , isSender: true, username: messageArray[indexPath.row].senderId, profilePicture: "profile_icon")
-//
-//                    return cell
-//                }
-//            }
-//
-//        } else { // if no brand was invited
-        
-      
+        // If message was sent
+        if messageArray[indexPath.row].senderId == Auth.auth().currentUser?.uid {
+            guard let cell = chatTableView.dequeueReusableCell(withIdentifier: "SentMessageCell") as? SentMessageTableViewCell else {return UITableViewCell()}
+            
+            // call configure cell method
+            cell.configureCell(messageContent: messageArray[indexPath.row].content)
+            
+            return cell
+            
+        } else { // If message was received
+            
+            guard let cell = self.chatTableView.dequeueReusableCell(withIdentifier: "ReceivedMessageCell") as? ReceivedMessageTableViewCell else {return UITableViewCell()}
+            
+            // Get username for label and then configure cell
+            let message = messageArray[indexPath.row]
+            
+            
+            
+            // Create a profile image depending on the username
+            var profileImage = "profile_icon"
+            
+            if messageArray[indexPath.row].username == "Fanatics" {
+                profileImage = "fanatics-icon"
+            }
+            
+            // call configure cell method
+            cell.configureCell(messageContent: message.content, username: message.username, profileImage: profileImage)
+                
+            
+            
+            return cell
+            
+            
+        }
     }
     
     // MARK: Selectors

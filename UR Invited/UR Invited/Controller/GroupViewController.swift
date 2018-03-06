@@ -42,6 +42,7 @@ class GroupViewController: UIViewController, UITableViewDataSource, UITableViewD
                 // Set local groups array to be equal to the returned array and reload data
                 self.groupsArray = returnedGroupsArray
                 print("Groups in array: \(self.groupsArray.count)")
+                
                 self.groupTableView.reloadData()
             }
         }
@@ -51,7 +52,6 @@ class GroupViewController: UIViewController, UITableViewDataSource, UITableViewD
     // Table view Delegate methods
     
     func tableView(_ tableView: UITableView, numberOfRowsInSection section: Int) -> Int {
-        print(groupsArray.count)
         return groupsArray.count
         
     }
@@ -80,6 +80,14 @@ class GroupViewController: UIViewController, UITableViewDataSource, UITableViewD
     }
     
     func tableView(_ tableView: UITableView, didSelectRowAt indexPath: IndexPath) {
+        
+        guard let cell = tableView.cellForRow(at: indexPath) as? GroupTableViewCell else {return}
+        
+        // Set color of cell when selected
+        let bgColorView = UIView()
+        bgColorView.backgroundColor = #colorLiteral(red: 1, green: 1, blue: 1, alpha: 1)
+        cell.selectedBackgroundView = bgColorView
+    
         
         // Set a storyboard for groupFeedViewController
         guard let chatViewController = storyboard?.instantiateViewController(withIdentifier: "ChatViewController") as? ChatViewController else { return }

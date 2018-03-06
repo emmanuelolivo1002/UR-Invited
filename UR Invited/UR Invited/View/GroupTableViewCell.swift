@@ -17,7 +17,7 @@ class GroupTableViewCell: UITableViewCell {
     @IBOutlet weak var numberOfUnreadMessagesLabel: UILabel!
     @IBOutlet weak var unreadMessagesNotificationView: UIView!
     @IBOutlet weak var membersStackView: UIStackView!
-    
+    @IBOutlet weak var separatorView: UIView!
     
     // Flag
     var countFlag = 0

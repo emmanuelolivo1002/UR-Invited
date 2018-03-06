@@ -29,6 +29,8 @@ class EventViewController: UIViewController,UITableViewDelegate, UITableViewData
     var date = Date();
     var dateFormatter = DateFormatter() // for api changing date to actual date
     let dispatchGroup = DispatchGroup()
+    let screenSize = UIScreen.main.bounds
+    var friendsView: UIView! // UIView to display the friends to invite
     
     @IBOutlet weak var searchQuery: UITextField!
     @IBOutlet weak var eventsTableView: UITableView!
@@ -120,6 +122,39 @@ class EventViewController: UIViewController,UITableViewDelegate, UITableViewData
         
         return cell
     }
+    
+    // MARK: - UICollectionViewDelegate protocol
+    
+    func collectionView(_ collectionView: UICollectionView, didSelectItemAt indexPath: IndexPath) {
+        // handle tap events NBA
+        if collectionView.tag == 0 {
+            
+            displayFriendsUiViewController(nameOfEvent: eventDic[indexPath.item].name)
+        }
+        // handle tap events MLB
+        if collectionView.tag == 1 {
+            
+            displayFriendsUiViewController(nameOfEvent: eventDic[nbaDic.count + indexPath.item].name)
+            
+        }
+        // handle tap events NFL
+        if collectionView.tag == 2 {
+            
+            displayFriendsUiViewController(nameOfEvent: eventDic[nbaDic.count + mlbDic.count + indexPath.item].name)
+            
+        }
+        // handle tap events NASCAR
+        if collectionView.tag == 3 {
+            
+            displayFriendsUiViewController(nameOfEvent: eventDic[nbaDic.count + mlbDic.count  + nflDic.count + indexPath.item].name)
+        }
+        // handle tap events COLLEGESPORTS
+        if collectionView.tag == 4 {
+            
+            displayFriendsUiViewController(nameOfEvent: eventDic[nbaDic.count + mlbDic.count + nflDic.count + nascarDic.count + indexPath.item].name)
+        }
+    }
+    
     // UITextField Delagates
     // UITextField Delagates ends
     // NBA alamofire gathering of data
@@ -370,7 +405,7 @@ class EventViewController: UIViewController,UITableViewDelegate, UITableViewData
         view.addSubview(activityIndicator)
         
         activityIndicator.startAnimating()
-        UIApplication.shared.beginIgnoringInteractionEvents()
+//        UIApplication.shared.beginIgnoringInteractionEvents()
         
         // activity indicator to be ended here
         
@@ -451,7 +486,18 @@ class EventViewController: UIViewController,UITableViewDelegate, UITableViewData
             ncaaSportsDic.insert(tempCFB[i], at: 2 * i + 1)
         }
     }
+    
+    // function to create the UIView that displays the friends to invite
+    func displayFriendsUiViewController(nameOfEvent: String){
+        
+        let popOverVc = UIStoryboard(name: "Main", bundle: nil).instantiateViewController(withIdentifier: "sbFriendsPopUp") as! InviteFriendsPopUpViewController
+        self.addChildViewController(popOverVc)
+        popOverVc.view.frame = self.view.frame
+        popOverVc.eventNameForGroupLabel.text = nameOfEvent
+        self.view.addSubview(popOverVc.view)
+        popOverVc.didMove(toParentViewController: self)
+    }
+    
+    
 }
-
-
 

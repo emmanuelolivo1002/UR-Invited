@@ -56,18 +56,19 @@ class DataService {
             for user in usernameSnapshot {
                 // user is equal to the uid return its email
                 if user.key == uid {
-                    handler(user.childSnapshot(forPath: "email").value as! String)
+                    handler(user.childSnapshot(forPath: "username").value as! String)
                 }
             }
         }
     }
     
-    // Function to upload post to Group or Regular Feed
-    func uploadPost(withMessage message: String, forUID uid: String, withGroupKey groupKey: String?, sendComplete: @escaping (_ status: Bool) -> ()) {
+    // Function to upload message to Group 
+    func uploadPost(withMessage message: String, forUID uid: String, andUsername username: String, withGroupKey groupKey: String?, sendComplete: @escaping (_ status: Bool) -> ()) {
         
         if groupKey != nil {
             // if group key exists send to group
-            REF_GROUPS.child(groupKey!).child("messages").childByAutoId().updateChildValues(["content": message, "senderId": uid])
+            REF_GROUPS.child(groupKey!).child("messages").childByAutoId().updateChildValues(["content": message, "senderId": uid, "username": username])
+            
             sendComplete(true)
             
         }
@@ -88,7 +89,9 @@ class DataService {
                 // Get all elements of message and store them in a message object
                 let content = groupMessage.childSnapshot(forPath: "content").value as! String
                 let senderId = groupMessage.childSnapshot(forPath: "senderId").value as! String
-                let message = Message(content: content, senderId: senderId)
+                let username = groupMessage.childSnapshot(forPath: "username").value as! String
+              
+                let message = Message(content: content, senderId: senderId, username: username)
                 
                 // Append message to array
                 groupMessageArray.append(message)
@@ -99,6 +102,32 @@ class DataService {
         
     }
     
+
+    // Function for searching usernames
+    func getUsername(forSearchQuery query: String, handler: @escaping (_ usernameArray: [String]) -> ()) {
+        // Initialize array of usernames that will be shown
+        var usernameArray = [String]()
+        
+        // Get snapshot of all users
+        REF_USERS.observe(.value) { (userSnapshot) in
+            
+            // Create userSnapshot otherwise return
+            guard let userSnapshot = userSnapshot.children.allObjects as? [DataSnapshot] else { return }
+            
+            // Loop through users in snapshot
+            for user in userSnapshot {
+                // Get username
+                let username = user.childSnapshot(forPath: "username").value as! String
+                
+                // If username contains whats in the query and is not the current user's username
+                if username.contains(query) == true && username != Auth.auth().currentUser?.email{
+                    // Append to array of users shown
+                    usernameArray.append(username)
+                }
+                handler(usernameArray)
+            }
+        }
+    }
     
     // Function for searching emails
     func getEmail(forSearchQuery query: String, handler: @escaping (_ emailArray: [String]) -> ()) {
@@ -136,11 +165,11 @@ class DataService {
             // Loop through user snapshot
             guard let userSnapshot = userSnapshot.children.allObjects as? [DataSnapshot] else { return }
             for user in userSnapshot {
-                // Get email of user
-                let email = user.childSnapshot(forPath: "email").value as! String
+                // Get username of user
+                let username = user.childSnapshot(forPath: "username").value as! String
                 
                 // if email is in array of usernames requested
-                if usernames.contains(email) {
+                if usernames.contains(username) {
                     // append Id to idArray to return
                     idArray.append(user.key)
                 }
@@ -151,7 +180,10 @@ class DataService {
         }
     }
     
-    // Funtion to get all the usernames in a group
+    
+    
+    
+    // Function to get all the usernames in a group
     func getUsernames(forGroup group: Group, handler: @escaping(_ emailArray: [String]) -> ()) {
         //Initialize array to be passed back
         var emailArray = [String]()
@@ -174,12 +206,98 @@ class DataService {
         }
     }
     
-    
     // Function to create group in database
     func createGroup(withTitle title: String, forUserIds ids: [String], handler: @escaping(_ createdGroup: Bool) -> ()) {
+        
+        // Set flag for brand Invited
+        var isBrandInvited = false
+        
+        if ids.contains("0") {
+            isBrandInvited = true
+        } else {
+            isBrandInvited = false
+        }
+        
         // Add group to Database
-        REF_GROUPS.childByAutoId().updateChildValues(["title": title, "members": ids])
+        REF_GROUPS.childByAutoId().updateChildValues(["title": title, "members": ids, "isBrandInvited": isBrandInvited ])
+       
+        DataService.instance.createBrandMessage { (complete) in
+            print("Group with brand message created")
+        }
+        
         handler(true)
+    }
+    
+    // Function to create brand message
+    func createBrandMessage(handler: @escaping(_ createdBrandMessage: Bool) -> ()) {
+        REF_GROUPS.observeSingleEvent(of: .value) { (groupSnapshot) in
+            
+            // create snapshot
+            guard let groupSnapshot = groupSnapshot.children.allObjects as? [DataSnapshot] else {return}
+            
+            // Loop through all groups
+            for group in groupSnapshot {
+                let isBrandInvited = group.childSnapshot(forPath: "isBrandInvited").value as! Bool
+                
+                if isBrandInvited {
+                    
+                    // Create an instance of current group
+                    let memberArray = group.childSnapshot(forPath: "members").value as! [String]
+                    let groupTitle = group.childSnapshot(forPath: "title").value as! String
+                    let currentGroup = Group(title: groupTitle, id: group.key, members: memberArray, memberCount: memberArray.count, isBrandInvited: isBrandInvited)
+                    
+                    
+                    DataService.instance.getAllMessages(forGroup: currentGroup, handler: { (returnedMessageArray) in
+                        // Set up a flag
+                        var doesBrandMessageExist = false
+                        
+                        // Loop through all messages
+                        for message in returnedMessageArray {
+                            // If there is a message from id 0 then brand message already exists
+                            if message.senderId == "0" {
+                                doesBrandMessageExist = true
+                            }
+                        }
+                        
+                        // If brand message doesn't exist then create
+                        if doesBrandMessageExist == false {
+                            DataService.instance.uploadPost(withMessage: "this is a test message from Fanatics", forUID: "0", andUsername: "Fanatics", withGroupKey: group.key, sendComplete: { (complete) in
+                                if complete {
+                                    print("Fanatics message created")
+                                }
+                            })
+                        }
+                    })
+                }
+            }
+        }
+        
+        
+        handler(true)
+    }
+    
+    // Function to get all users in database
+    func getAllUsernames(handler: @escaping(_ usernamesArray: [String]) -> ()) {
+        
+        // Initialize array to be passed back
+        var usernameArray = [String]()
+        
+        REF_USERS.observeSingleEvent(of: .value) { (usernamesSnapshot) in
+            
+            guard let usernamesSnapshot = usernamesSnapshot.children.allObjects as? [DataSnapshot] else {return}
+            
+            // Loop through all users
+            for user in usernamesSnapshot {
+                if user.key != Auth.auth().currentUser?.uid {
+                    let username = user.childSnapshot(forPath: "username").value as! String
+                    usernameArray.append(username)
+                }
+            }
+            
+            handler(usernameArray)
+            
+        }
+        
     }
     
     // Function to get all groups
@@ -194,7 +312,6 @@ class DataService {
             // Loop through snapshot
             for group in groupSnapshot {
                 
-                print("Looping through database")
                 // Create an array to store every member of group
                 let memberArray = group.childSnapshot(forPath: "members").value as! [String]
                 // If group contains current user create a group to be appended to array
@@ -217,6 +334,8 @@ class DataService {
             handler(groupsArray)
         }
     }
+    
+    
     
 }
 

@@ -15,7 +15,7 @@ class AuthService {
     static let instance =  AuthService()
     
     
-    func registerUser(withEmail email: String, andPassword password: String, userCreationComplete: @escaping (_ status: Bool, _ error: Error?) -> ()) {
+    func registerUser(withEmail email: String, andUsername username: String, andPassword password: String, userCreationComplete: @escaping (_ status: Bool, _ error: Error?) -> ()) {
         
         
         Auth.auth().createUser(withEmail: email, password: password) { (user, error) in
@@ -24,7 +24,7 @@ class AuthService {
                 return
             }
             
-            let userData = ["provider" : user.providerID, "email" : user.email]
+            let userData = ["provider" : user.providerID, "email" : user.email, "username": username]
             DataService.instance.createFirebaseUser(uid: user.uid, userData: userData)
             userCreationComplete(true, nil)
             
