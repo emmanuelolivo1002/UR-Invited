@@ -24,6 +24,9 @@ class GroupViewController: UIViewController, UITableViewDataSource, UITableViewD
     override func viewDidLoad() {
         super.viewDidLoad()
        
+        
+        
+        
         // Set self as tableview delegate and data source
         groupTableView.delegate = self
         groupTableView.dataSource = self

@@ -15,7 +15,7 @@ class ChatViewController: UIViewController, UITableViewDelegate, UITableViewData
     @IBOutlet weak var sendButton: UIButton!
     @IBOutlet weak var composeMessageView: UIView!
     @IBOutlet weak var chatTableView: UITableView!
-    @IBOutlet weak var messageTextField: UITextField!
+    @IBOutlet weak var messageTextField: ItalicPlaceholderTextField!
     @IBOutlet weak var groupNameLabel: UILabel!
     @IBOutlet weak var membersLabel: UILabel!
     
@@ -103,11 +103,6 @@ class ChatViewController: UIViewController, UITableViewDelegate, UITableViewData
         // Bind to keyboard
         composeMessageView.bindToKeyboard()
 
-        
-        // TODO: Change textfield placeholder text and maybe change to a TextView
-        
-        
-
         // Set self as Table view delegate and data source
         chatTableView.delegate = self
         chatTableView.dataSource = self
@@ -190,7 +185,6 @@ class ChatViewController: UIViewController, UITableViewDelegate, UITableViewData
     
     func tableView(_ tableView: UITableView, cellForRowAt indexPath: IndexPath) -> UITableViewCell {
         
-        // TODO: Implement if Brand is invited with notice flag
         
         // If brand was invited and there are two sections
         if numberOfSections(in: chatTableView) > 1 {

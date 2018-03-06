@@ -8,6 +8,7 @@
 
 /* Begin PBXBuildFile section */
 		1439BAF3204DE3DE001103DA /* WhitePlaceholderTextField.swift in Sources */ = {isa = PBXBuildFile; fileRef = 1439BAF2204DE3DE001103DA /* WhitePlaceholderTextField.swift */; };
+		1439BAF9204F0C6A001103DA /* ItalicPlaceholderTextField.swift in Sources */ = {isa = PBXBuildFile; fileRef = 1439BAF8204F0C6A001103DA /* ItalicPlaceholderTextField.swift */; };
 		14541E182044812A00A32350 /* DataService.swift in Sources */ = {isa = PBXBuildFile; fileRef = 14541E172044812A00A32350 /* DataService.swift */; };
 		14541E1B2044A59300A32350 /* UIViewExtensions.swift in Sources */ = {isa = PBXBuildFile; fileRef = 14541E1A2044A59300A32350 /* UIViewExtensions.swift */; };
 		14541E1F2044B5B000A32350 /* AuthService.swift in Sources */ = {isa = PBXBuildFile; fileRef = 14541E1E2044B5B000A32350 /* AuthService.swift */; };
@@ -48,6 +49,7 @@
 
 /* Begin PBXFileReference section */
 		1439BAF2204DE3DE001103DA /* WhitePlaceholderTextField.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = WhitePlaceholderTextField.swift; sourceTree = "<group>"; };
+		1439BAF8204F0C6A001103DA /* ItalicPlaceholderTextField.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ItalicPlaceholderTextField.swift; sourceTree = "<group>"; };
 		14541E172044812A00A32350 /* DataService.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = DataService.swift; sourceTree = "<group>"; };
 		14541E1A2044A59300A32350 /* UIViewExtensions.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = UIViewExtensions.swift; sourceTree = "<group>"; };
 		14541E1E2044B5B000A32350 /* AuthService.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AuthService.swift; sourceTree = "<group>"; };
@@ -198,6 +200,7 @@
 				14541E382047084200A32350 /* SentMessageTableViewCell.swift */,
 				14541E482049F67500A32350 /* ReceivedMessageTableViewCell.swift */,
 				1439BAF2204DE3DE001103DA /* WhitePlaceholderTextField.swift */,
+				1439BAF8204F0C6A001103DA /* ItalicPlaceholderTextField.swift */,
 			);
 			path = View;
 			sourceTree = "<group>";
@@ -412,6 +415,7 @@
 				14BFD7F7202510540028FADB /* ChatViewController.swift in Sources */,
 				14541E472049AFC100A32350 /* FriendsInvitationTableViewCell.swift in Sources */,
 				14541E452049AFA600A32350 /* InviteFriendsPopUpViewController.swift in Sources */,
+				1439BAF9204F0C6A001103DA /* ItalicPlaceholderTextField.swift in Sources */,
 				14541E272044BF0800A32350 /* ProfileViewController.swift in Sources */,
 				14541E2F2045DEE400A32350 /* Constants.swift in Sources */,
 				14541E312045DEEE00A32350 /* Event.swift in Sources */,

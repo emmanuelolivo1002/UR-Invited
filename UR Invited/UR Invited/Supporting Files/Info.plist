@@ -25,7 +25,7 @@
 	<key>UIAppFonts</key>
 	<array>
 		<string>OpenSans-Regular.ttf</string>
-		<string>OpenSans-Itallic.ttf</string>
+		<string>OpenSans-Italic.ttf</string>
 		<string>Roboto-Bold.ttf</string>
 		<string>Roboto-Regultar.ttf</string>
 	</array>

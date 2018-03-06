@@ -504,7 +504,7 @@
                                     <view contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="s2p-fh-IZ4" userLabel="ComposeView">
                                         <rect key="frame" x="0.0" y="503" width="375" height="44"/>
                                         <subviews>
-                                            <textField opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="left" contentVerticalAlignment="center" borderStyle="roundedRect" placeholder="Type a message" textAlignment="natural" minimumFontSize="17" translatesAutoresizingMaskIntoConstraints="NO" id="KGG-a6-MeC">
+                                            <textField opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="left" contentVerticalAlignment="center" borderStyle="roundedRect" placeholder="Type a message" textAlignment="natural" minimumFontSize="17" translatesAutoresizingMaskIntoConstraints="NO" id="KGG-a6-MeC" customClass="ItalicPlaceholderTextField" customModule="UR_Invited" customModuleProvider="target">
                                                 <rect key="frame" x="6" y="7" width="338" height="30"/>
                                                 <nil key="textColor"/>
                                                 <fontDescription key="fontDescription" name="Roboto-Regular" family="Roboto" pointSize="14"/>
@@ -553,7 +553,7 @@
                         <outlet property="composeMessageView" destination="s2p-fh-IZ4" id="6Ap-jR-OM7"/>
                         <outlet property="groupNameLabel" destination="u9y-CW-shW" id="mTy-Af-JbU"/>
                         <outlet property="membersLabel" destination="sUh-Il-RZG" id="guo-tT-UpM"/>
-                        <outlet property="messageTextField" destination="KGG-a6-MeC" id="oTZ-2s-pVM"/>
+                        <outlet property="messageTextField" destination="KGG-a6-MeC" id="S4V-IS-r06"/>
                         <outlet property="sendButton" destination="hBN-jI-Y5y" id="TLg-Mj-oj9"/>
                     </connections>
                 </viewController>
