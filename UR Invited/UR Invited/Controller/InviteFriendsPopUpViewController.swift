@@ -61,10 +61,10 @@ class InviteFriendsPopUpViewController: UIViewController, UITableViewDelegate, U
                     // Set a storyboard for groupFeedViewController
                     guard let groupViewController = UIStoryboard(name: "Main", bundle: nil).instantiateViewController(withIdentifier: "GroupViewController") as? GroupViewController else { return }
 
-//                    self.view.removeFromSuperview()
+                    self.view.removeFromSuperview()
                     
-                    // present groupFeedViewController
-                    self.navigationController?.pushViewController(groupViewController, animated: true)
+//                    // present groupFeedViewController
+//                    self.navigationController?.pushViewController(groupViewController, animated: true)
 
                     
 
@@ -168,8 +168,6 @@ class InviteFriendsPopUpViewController: UIViewController, UITableViewDelegate, U
     
     func tableView(_ tableView: UITableView, didSelectRowAt indexPath: IndexPath) {
         
-        
-        
         guard let cell = tableView.cellForRow(at: indexPath) as?  FriendsInvitationTableViewCell else {return}
         
         // Set color of cell when selected
@@ -206,7 +204,6 @@ class InviteFriendsPopUpViewController: UIViewController, UITableViewDelegate, U
             cell.invitedLabel.textColor = #colorLiteral(red: 0.2352941176, green: 0.662745098, blue: 0.7176470588, alpha: 1)
             cell.invitedLabel.text = "INVITE"
           
-            
             // Remove it from the array of users invited
             usersInvited = usersInvited.filter({ $0 != cell.usernameLabel.text!})
             
@@ -216,9 +213,5 @@ class InviteFriendsPopUpViewController: UIViewController, UITableViewDelegate, U
                 saveButton.isHidden = true
             }
         }
-        
-        
-        
-        
     }
 }

@@ -116,6 +116,7 @@ class ChatViewController: UIViewController, UITableViewDelegate, UITableViewData
         // Register Xib files for custom cells
         self.chatTableView.register(UINib(nibName: "SentMessageTableViewCell", bundle: nil), forCellReuseIdentifier: "SentMessageCell")
         self.chatTableView.register(UINib(nibName: "ReceivedMessageTableViewCell", bundle: nil), forCellReuseIdentifier: "ReceivedMessageCell")
+        self.chatTableView.register(UINib(nibName: "NoticeTableViewCell", bundle: nil), forCellReuseIdentifier: "NoticeCell")
         
         
         // Set self as Text Field delegate
@@ -168,25 +169,39 @@ class ChatViewController: UIViewController, UITableViewDelegate, UITableViewData
     // Table view Methods
     func tableView(_ tableView: UITableView, numberOfRowsInSection section: Int) -> Int {
         
-        // TODO: Implement if brand is invited
-        
-//        // If a brand was invited to a chat increase the number of rows
-//        if noticeFlag {
-//            return messageArray.count + 1
-//        } else {
-//            return messageArray.count
-//        }
+        // if there is a brand invited
+        if numberOfSections(in: chatTableView) > 1 {
+            if section == 0 {
+                return 1
+            }
+        }
+        // if there is just one section
         return messageArray.count
     }
     
     func numberOfSections(in tableView: UITableView) -> Int {
-        return 1
+        
+        if (group?.isBrandInvited)! {
+            return 2
+        } else {
+            return 1
+        }
     }
     
     func tableView(_ tableView: UITableView, cellForRowAt indexPath: IndexPath) -> UITableViewCell {
         
-        
         // TODO: Implement if Brand is invited with notice flag
+        
+        // If brand was invited and there are two sections
+        if numberOfSections(in: chatTableView) > 1 {
+            // If first message
+            if indexPath.section == 0 {
+                guard let cell = chatTableView.dequeueReusableCell(withIdentifier: "NoticeCell") as? NoticeTableViewCell else {return UITableViewCell()}
+                
+                return cell
+            }
+        }
+        
         
         // If message was sent
         if messageArray[indexPath.row].senderId == Auth.auth().currentUser?.uid {
