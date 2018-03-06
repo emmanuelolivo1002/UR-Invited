@@ -31,18 +31,28 @@ class EventViewController: UIViewController,UITableViewDelegate, UITableViewData
     let dispatchGroup = DispatchGroup()
     let screenSize = UIScreen.main.bounds
     var friendsView: UIView! // UIView to display the friends to invite
+    var searchEventArray = [String] () // copy of main event array
+    let storyBoard : UIStoryboard = UIStoryboard(name: "Main", bundle:nil) // the entire storyboard variable
     
-    @IBOutlet weak var searchQuery: UITextField!
-    @IBOutlet weak var eventsTableView: UITableView!
+    @IBOutlet weak var searchQuery: UITextField! // search bar textfield to find events
+    @IBOutlet weak var eventsTableView: UITableView! // main tableview to display event content
     
+    @IBOutlet weak var closeButton: UIButton! // button to return to the main view after the user quits editing
     override func viewDidLoad() {
         
         super.viewDidLoad()
         eventsTableView.delegate = self
         eventsTableView.dataSource = self
         searchQuery.delegate = self
-        
+        closeButton.isHidden = true
         getSportsFromApis () // Load the data from the API
+        
+        let nib = UINib(nibName: "EventSearchTableViewCell", bundle: nil)
+        self.eventsTableView.register(nib, forCellReuseIdentifier: "EventSearchTableViewCell")
+        
+        
+        searchQuery.addTarget(self, action: #selector(textFieldDidChange), for: .editingChanged)
+        
         dispatchGroup.notify(queue: .main){
             
             self.storeEvents() // Store the events in the an event array
@@ -51,25 +61,113 @@ class EventViewController: UIViewController,UITableViewDelegate, UITableViewData
             //ends here
             
             self.displayEvents()
+            self.searchEventArray = self.eventNameInStringForSearch
+            
         }
         
     }
+    
+    // Beginning of Actions to begin Event Search & Close search
+    
+    // Close button action to return to main event view
+    @IBAction func closeButtonPressed(_ sender: Any) {
+        
+        searchQuery.text = ""
+        searchQuery.endEditing(true)
+        
+        eventsTableView.reloadData()
+        
+        print ("Close button was pressed")
+    }
+    
+    // if the user begins typing an event display the search view
+    // Function to execute whenever textfield changes
+    @objc func textFieldDidChange () {
+        
+        closeButton.isHidden = false
+        
+        eventsTableView.allowsSelection = true
+        
+        if searchQuery.text == "" {
+            searchEventArray = eventNameInStringForSearch
+            self.eventsTableView.reloadData()
+        } else {
+            var eventString = [String]()
+            for event in eventNameInStringForSearch {
+                
+                if event.lowercased().contains(searchQuery.text!.lowercased()) == true {
+                    eventString.append(event)
+                }
+            }
+            searchEventArray = eventString
+            self.eventsTableView.reloadData()
+        }
+    }
+    
+    // End of Actions to begin Event Search & Close search
+    
+    
     // MARK:- table view delegate
+    func numberOfSections(in tableView: UITableView) -> Int {
+        return 1
+    }
+    
     func tableView(_ tableView: UITableView, numberOfRowsInSection section: Int) -> Int {
-        return titles.count
+        
+        if searchQuery.isEditing  {
+            return searchEventArray.count
+        }else{
+            return titles.count
+        }
+    }
+    
+    func tableView(_ tableView: UITableView, heightForRowAt indexPath: IndexPath) -> CGFloat {
+        if searchQuery.isEditing {
+            return 44
+        } else {
+            return 228
+        }
     }
     
     func tableView(_ tableView: UITableView, cellForRowAt indexPath: IndexPath) -> UITableViewCell {
         
-        guard let cell = tableView.dequeueReusableCell(withIdentifier: "EventTableViewCell") as? EventTableViewCell else {return UITableViewCell()}
-        cell.eventCollectionView.delegate = self
-        cell.eventCollectionView.dataSource = self
-        cell.eventCollectionView.tag = indexPath.row
+        if !searchQuery.isEditing {
+            
+            guard let cell = tableView.dequeueReusableCell(withIdentifier: "EventTableViewCell") as? EventTableViewCell else {return UITableViewCell()}
+            cell.eventCollectionView.delegate = self
+            cell.eventCollectionView.dataSource = self
+            cell.eventCollectionView.tag = indexPath.row
+            
+            cell.sportsTitleLabel.text = titles[indexPath.row]
+            cell.eventCollectionView.reloadData()
+            return cell
+        }else{
+            // here goes the xib file values
+            guard let cell = tableView.dequeueReusableCell(withIdentifier: "EventSearchTableViewCell") as? EventSearchTableViewCell else {return UITableViewCell()}
+            
+            
+            cell.eventNameLabel.text = searchEventArray[indexPath.row]
+            return cell
+        }
+    }
+    
+    func tableView(_ tableView: UITableView, didSelectRowAt indexPath: IndexPath) {
+          guard let cell = tableView.cellForRow(at: indexPath) as? EventSearchTableViewCell else {return}
         
-        cell.sportsTitleLabel.text = titles[indexPath.row]
-        cell.eventCollectionView.reloadData()
+        // Set color of cell when selected
+        let bgColorView = UIView()
+        bgColorView.backgroundColor = #colorLiteral(red: 0.2041445076, green: 0.1733199656, blue: 0.297611773, alpha: 1)
+        cell.selectedBackgroundView = bgColorView
         
-        return cell
+        // Return to normal view
+        closeButton.isHidden = true
+        searchQuery.text = ""
+        searchQuery.endEditing(true)
+        eventsTableView.reloadData()
+        
+        // Display invitation
+        displayFriendsUiViewController(nameOfEvent: cell.eventNameLabel.text!)
+        
     }
     
     func collectionView(_ collectionView: UICollectionView, numberOfItemsInSection section: Int) -> Int {
@@ -405,7 +503,7 @@ class EventViewController: UIViewController,UITableViewDelegate, UITableViewData
         view.addSubview(activityIndicator)
         
         activityIndicator.startAnimating()
-//        UIApplication.shared.beginIgnoringInteractionEvents()
+        //        UIApplication.shared.beginIgnoringInteractionEvents()
         
         // activity indicator to be ended here
         
@@ -471,11 +569,12 @@ class EventViewController: UIViewController,UITableViewDelegate, UITableViewData
             self.eventDic.append(newEvent)
         }
         
-        // stores the name of the event in a string array for searching purpose
-        //        for stringEvent in self.eventDic{
-        //
-        //            self.eventNameInStringForSearch.append(stringEvent.name)
-        //        }
+        //         stores the name of the event in a string array for searching purpose
+        for stringEvent in self.eventDic{
+            
+            self.eventNameInStringForSearch.append(stringEvent.name)
+        }
+        
     }
     
     func getCollegeSportsInArray()
@@ -497,6 +596,9 @@ class EventViewController: UIViewController,UITableViewDelegate, UITableViewData
         self.view.addSubview(popOverVc.view)
         popOverVc.didMove(toParentViewController: self)
     }
+    
+   
+    
     
     
 }

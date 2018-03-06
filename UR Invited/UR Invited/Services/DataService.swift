@@ -120,7 +120,7 @@ class DataService {
                 let username = user.childSnapshot(forPath: "username").value as! String
                 
                 // If username contains whats in the query and is not the current user's username
-                if username.contains(query) == true && username != Auth.auth().currentUser?.email{
+                if username.lowercased().contains(query.lowercased()) == true && username != Auth.auth().currentUser?.email{
                     // Append to array of users shown
                     usernameArray.append(username)
                 }

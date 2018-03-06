@@ -116,7 +116,7 @@
         <!--Event View Controller-->
         <scene sceneID="Mf9-zo-aaS">
             <objects>
-                <viewController id="FWf-ej-0OY" customClass="EventViewController" customModule="UR_Invited" customModuleProvider="target" sceneMemberID="viewController">
+                <viewController storyboardIdentifier="EventsbViewController" id="FWf-ej-0OY" customClass="EventViewController" customModule="UR_Invited" customModuleProvider="target" sceneMemberID="viewController">
                     <view key="view" contentMode="scaleToFill" id="TMq-fW-bP7">
                         <rect key="frame" x="0.0" y="0.0" width="375" height="618"/>
                         <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
@@ -129,12 +129,26 @@
                                 </constraints>
                             </view>
                             <textField opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="left" contentVerticalAlignment="center" placeholder="What are you watching?" textAlignment="natural" minimumFontSize="17" translatesAutoresizingMaskIntoConstraints="NO" id="9do-S9-YlC" customClass="WhitePlaceholderTextField" customModule="UR_Invited" customModuleProvider="target">
-                                <rect key="frame" x="16" y="50" width="343" height="22"/>
+                                <rect key="frame" x="16" y="50" width="300" height="22"/>
                                 <color key="textColor" white="1" alpha="1" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
                                 <fontDescription key="fontDescription" name="Roboto-Regular" family="Roboto" pointSize="18"/>
                                 <textInputTraits key="textInputTraits"/>
                             </textField>
-                            <tableView clipsSubviews="YES" contentMode="scaleToFill" alwaysBounceVertical="YES" dataMode="prototypes" style="plain" separatorStyle="none" allowsSelection="NO" rowHeight="226" estimatedRowHeight="-1" sectionHeaderHeight="28" sectionFooterHeight="28" translatesAutoresizingMaskIntoConstraints="NO" id="Q1V-9T-Ru6">
+                            <button opaque="NO" contentMode="scaleAspectFit" contentHorizontalAlignment="center" contentVerticalAlignment="center" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="hgx-Gy-FYy">
+                                <rect key="frame" x="324" y="43" width="35" height="35"/>
+                                <accessibility key="accessibilityConfiguration">
+                                    <accessibilityTraits key="traits" button="YES" image="YES"/>
+                                </accessibility>
+                                <constraints>
+                                    <constraint firstAttribute="height" constant="35" id="ZNg-LZ-v4y"/>
+                                    <constraint firstAttribute="width" constant="35" id="wzk-bS-h4t"/>
+                                </constraints>
+                                <state key="normal" image="close_button"/>
+                                <connections>
+                                    <action selector="closeButtonPressed:" destination="FWf-ej-0OY" eventType="touchUpInside" id="BAS-Jf-Lm8"/>
+                                </connections>
+                            </button>
+                            <tableView clipsSubviews="YES" contentMode="scaleToFill" alwaysBounceVertical="YES" dataMode="prototypes" style="plain" separatorStyle="none" allowsSelection="NO" rowHeight="228" estimatedRowHeight="228" sectionHeaderHeight="28" sectionFooterHeight="28" translatesAutoresizingMaskIntoConstraints="NO" id="Q1V-9T-Ru6">
                                 <rect key="frame" x="0.0" y="104" width="375" height="514"/>
                                 <color key="backgroundColor" red="0.0" green="0.47843137250000001" blue="1" alpha="0.0" colorSpace="custom" customColorSpace="sRGB"/>
                                 <color key="tintColor" white="0.0" alpha="0.0" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
@@ -219,9 +233,11 @@
                             <constraint firstItem="8wJ-By-Dlc" firstAttribute="trailing" secondItem="Q1V-9T-Ru6" secondAttribute="trailing" id="9VY-za-J3b"/>
                             <constraint firstItem="Fed-CV-hpF" firstAttribute="centerX" secondItem="TMq-fW-bP7" secondAttribute="centerX" id="DJo-hv-uwB"/>
                             <constraint firstItem="Fed-CV-hpF" firstAttribute="top" secondItem="9do-S9-YlC" secondAttribute="bottom" constant="10" id="Jbq-vj-aDi"/>
+                            <constraint firstItem="8wJ-By-Dlc" firstAttribute="trailing" secondItem="hgx-Gy-FYy" secondAttribute="trailing" constant="16" id="Thu-R8-4yS"/>
+                            <constraint firstItem="hgx-Gy-FYy" firstAttribute="centerY" secondItem="9do-S9-YlC" secondAttribute="centerY" id="XVi-gU-8LK"/>
+                            <constraint firstItem="hgx-Gy-FYy" firstAttribute="leading" secondItem="9do-S9-YlC" secondAttribute="trailing" constant="8" id="YUQ-7w-ERi"/>
                             <constraint firstItem="Fed-CV-hpF" firstAttribute="leading" secondItem="TMq-fW-bP7" secondAttribute="leadingMargin" id="Yqa-r3-Ash"/>
                             <constraint firstItem="9do-S9-YlC" firstAttribute="top" secondItem="TMq-fW-bP7" secondAttribute="top" constant="50" id="Zzq-ZB-4VQ"/>
-                            <constraint firstItem="8wJ-By-Dlc" firstAttribute="trailing" secondItem="9do-S9-YlC" secondAttribute="trailing" constant="16" id="cg9-ds-ebs"/>
                             <constraint firstItem="8wJ-By-Dlc" firstAttribute="bottom" secondItem="Q1V-9T-Ru6" secondAttribute="bottom" id="p7a-u1-XxS"/>
                             <constraint firstItem="9do-S9-YlC" firstAttribute="leading" secondItem="8wJ-By-Dlc" secondAttribute="leading" constant="16" id="tbV-Zr-5Ce"/>
                             <constraint firstItem="Q1V-9T-Ru6" firstAttribute="leading" secondItem="8wJ-By-Dlc" secondAttribute="leading" id="xMO-Og-beW"/>
@@ -233,13 +249,14 @@
                         <color key="badgeColor" white="1" alpha="1" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
                     </tabBarItem>
                     <connections>
+                        <outlet property="closeButton" destination="hgx-Gy-FYy" id="xTC-1J-ecL"/>
                         <outlet property="eventsTableView" destination="Q1V-9T-Ru6" id="Z5T-ie-RPT"/>
                         <outlet property="searchQuery" destination="9do-S9-YlC" id="zsX-I6-2ah"/>
                     </connections>
                 </viewController>
                 <placeholder placeholderIdentifier="IBFirstResponder" id="BKU-T0-hWs" userLabel="First Responder" sceneMemberID="firstResponder"/>
             </objects>
-            <point key="canvasLocation" x="1577" y="-770"/>
+            <point key="canvasLocation" x="1576.8" y="-770.46476761619192"/>
         </scene>
         <!--Invite Friends Pop Up View Controller-->
         <scene sceneID="4Mj-dU-iE8">
@@ -750,6 +767,7 @@
         <image name="Group 11562" width="375" height="100"/>
         <image name="Settings_icon" width="24" height="24"/>
         <image name="back_button_white" width="24" height="24"/>
+        <image name="close_button" width="24" height="24"/>
         <image name="contact_calendar_icon" width="24" height="24"/>
         <image name="group_title_icon" width="24" height="24"/>
         <image name="group_work_icon" width="24" height="24"/>

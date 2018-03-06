@@ -9,6 +9,8 @@
 /* Begin PBXBuildFile section */
 		1439BAF3204DE3DE001103DA /* WhitePlaceholderTextField.swift in Sources */ = {isa = PBXBuildFile; fileRef = 1439BAF2204DE3DE001103DA /* WhitePlaceholderTextField.swift */; };
 		1439BAF9204F0C6A001103DA /* ItalicPlaceholderTextField.swift in Sources */ = {isa = PBXBuildFile; fileRef = 1439BAF8204F0C6A001103DA /* ItalicPlaceholderTextField.swift */; };
+		1439BAFB204F2FCB001103DA /* EventSearchTableViewCell.xib in Resources */ = {isa = PBXBuildFile; fileRef = 1439BAFA204F2FCB001103DA /* EventSearchTableViewCell.xib */; };
+		1439BAFD204F2FD5001103DA /* EventSearchTableViewCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = 1439BAFC204F2FD5001103DA /* EventSearchTableViewCell.swift */; };
 		14541E182044812A00A32350 /* DataService.swift in Sources */ = {isa = PBXBuildFile; fileRef = 14541E172044812A00A32350 /* DataService.swift */; };
 		14541E1B2044A59300A32350 /* UIViewExtensions.swift in Sources */ = {isa = PBXBuildFile; fileRef = 14541E1A2044A59300A32350 /* UIViewExtensions.swift */; };
 		14541E1F2044B5B000A32350 /* AuthService.swift in Sources */ = {isa = PBXBuildFile; fileRef = 14541E1E2044B5B000A32350 /* AuthService.swift */; };
@@ -50,6 +52,8 @@
 /* Begin PBXFileReference section */
 		1439BAF2204DE3DE001103DA /* WhitePlaceholderTextField.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = WhitePlaceholderTextField.swift; sourceTree = "<group>"; };
 		1439BAF8204F0C6A001103DA /* ItalicPlaceholderTextField.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ItalicPlaceholderTextField.swift; sourceTree = "<group>"; };
+		1439BAFA204F2FCB001103DA /* EventSearchTableViewCell.xib */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = file.xib; path = EventSearchTableViewCell.xib; sourceTree = "<group>"; };
+		1439BAFC204F2FD5001103DA /* EventSearchTableViewCell.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = EventSearchTableViewCell.swift; sourceTree = "<group>"; };
 		14541E172044812A00A32350 /* DataService.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = DataService.swift; sourceTree = "<group>"; };
 		14541E1A2044A59300A32350 /* UIViewExtensions.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = UIViewExtensions.swift; sourceTree = "<group>"; };
 		14541E1E2044B5B000A32350 /* AuthService.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AuthService.swift; sourceTree = "<group>"; };
@@ -134,6 +138,7 @@
 			children = (
 				149328DE2032040D0095AE91 /* GroupTableViewCell.xib */,
 				14541E342045DF0400A32350 /* EventSectionCollectionViewCell.xib */,
+				1439BAFA204F2FCB001103DA /* EventSearchTableViewCell.xib */,
 				146FE2C8202A2C6800686A62 /* NoticeTableViewCell.xib */,
 				14541E392047084200A32350 /* SentMessageTableViewCell.xib */,
 				14541E492049F67500A32350 /* ReceivedMessageTableViewCell.xib */,
@@ -194,6 +199,7 @@
 				146FE2C6202A1E4600686A62 /* Xibs */,
 				146FE2C7202A2C6800686A62 /* NoticeTableViewCell.swift */,
 				14541E362045E1B900A32350 /* EventTableViewCell.swift */,
+				1439BAFC204F2FD5001103DA /* EventSearchTableViewCell.swift */,
 				149328DD2032040D0095AE91 /* GroupTableViewCell.swift */,
 				14541E322045DEF800A32350 /* EventCollectionViewCell.swift */,
 				14541E462049AFC100A32350 /* FriendsInvitationTableViewCell.swift */,
@@ -318,6 +324,7 @@
 			isa = PBXResourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				1439BAFB204F2FCB001103DA /* EventSearchTableViewCell.xib in Resources */,
 				14BFD7E62024D5DD0028FADB /* LaunchScreen.storyboard in Resources */,
 				146FE2D4202A461900686A62 /* OpenSans-Regular.ttf in Resources */,
 				14541E4B2049F67500A32350 /* ReceivedMessageTableViewCell.xib in Resources */,
@@ -414,6 +421,7 @@
 				14541E212044B7B800A32350 /* Group.swift in Sources */,
 				14BFD7F7202510540028FADB /* ChatViewController.swift in Sources */,
 				14541E472049AFC100A32350 /* FriendsInvitationTableViewCell.swift in Sources */,
+				1439BAFD204F2FD5001103DA /* EventSearchTableViewCell.swift in Sources */,
 				14541E452049AFA600A32350 /* InviteFriendsPopUpViewController.swift in Sources */,
 				1439BAF9204F0C6A001103DA /* ItalicPlaceholderTextField.swift in Sources */,
 				14541E272044BF0800A32350 /* ProfileViewController.swift in Sources */,
