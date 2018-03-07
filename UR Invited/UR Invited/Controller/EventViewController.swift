@@ -499,7 +499,7 @@ class EventViewController: UIViewController,UITableViewDelegate, UITableViewData
         activityIndicator.center = self.view.center
         activityIndicator.hidesWhenStopped = true
         activityIndicator.activityIndicatorViewStyle = UIActivityIndicatorViewStyle.whiteLarge
-        activityIndicator.color = UIColor.black
+        activityIndicator.color = UIColor.white
         view.addSubview(activityIndicator)
         
         activityIndicator.startAnimating()

@@ -149,7 +149,12 @@ class ChatViewController: UIViewController, UITableViewDelegate, UITableViewData
                 
                 // Scroll to bottom of table view
                 if self.messageArray.count > 0 {
-                    self.chatTableView.scrollToRow(at: IndexPath(row: self.messageArray.count - 1 , section: 0), at: .none, animated: true)
+                    if (self.group?.isBrandInvited)! {
+                        self.chatTableView.scrollToRow(at: IndexPath(row: self.messageArray.count - 1 , section: 1), at: .none, animated: true)
+                    } else {
+                        self.chatTableView.scrollToRow(at: IndexPath(row: self.messageArray.count - 1 , section: 0), at: .none, animated: true)
+                    }
+                    
                 }
             }
         }
