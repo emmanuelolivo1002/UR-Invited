@@ -58,15 +58,15 @@ class InviteFriendsPopUpViewController: UIViewController, UITableViewDelegate, U
                     print("Group was created")
                     
                     //TODO: Go to chatview
-                    // Set a storyboard for groupFeedViewController
-                    guard let groupViewController = UIStoryboard(name: "Main", bundle: nil).instantiateViewController(withIdentifier: "GroupViewController") as? GroupViewController else { return }
-
-                    self.view.removeFromSuperview()
+                
+                    // Select main storyboard
+                    let storyboard = UIStoryboard(name: "Main", bundle: Bundle.main)
                     
-//                    // present groupFeedViewController
-//                    self.navigationController?.pushViewController(groupViewController, animated: true)
-
+                    // Select AuthViewController
+                    let tabBarViewController = storyboard.instantiateInitialViewController() as! UITabBarController
+                    tabBarViewController.selectedIndex = 0
                     
+                    self.present(tabBarViewController, animated: true, completion: nil)
 
                 } else {
                     print("Group could not be created")
