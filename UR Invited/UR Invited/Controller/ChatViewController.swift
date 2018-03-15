@@ -69,19 +69,29 @@ class ChatViewController: UIViewController, UITableViewDelegate, UITableViewData
             DataService.instance.getUsername(forUID: (Auth.auth().currentUser?.uid)!, handler: { (returnedUsername) in
                 currentUsername = returnedUsername
                 
-                // Upload message
-                DataService.instance.uploadPost(withMessage: self.messageTextField.text!, forUID: (Auth.auth().currentUser?.uid)!, andUsername: currentUsername, withGroupKey: self.group?.groupId, sendComplete: { (complete) in
+                DataService.instance.getProfilePictureURL(forUID: (Auth.auth().currentUser?.uid)!, handler: { (returnedURL) in
                     
-                    if complete {
-                        // Clear textfield
-                        self.messageTextField.text = ""
-                        // Enabled texfield and button
-                        self.messageTextField.isEnabled = true
-                        self.sendButton.isEnabled = true
-                        print("messages count AFTER sending: \(self.messageArray.count)")
-
-                    }
+                    let profileImageURL = returnedURL
+                    
+                    // Upload message
+                    DataService.instance.uploadPost(withMessage: self.messageTextField.text!, forUID: (Auth.auth().currentUser?.uid)!, andUsername: currentUsername, andProfilePictureURL: profileImageURL,  withGroupKey: self.group?.groupId, sendComplete: { (complete) in
+                        
+                        if complete {
+                            // Clear textfield
+                            self.messageTextField.text = ""
+                            // Enabled texfield and button
+                            self.messageTextField.isEnabled = true
+                            self.sendButton.isEnabled = true
+                            print("messages count AFTER sending: \(self.messageArray.count)")
+                            
+                        }
+                    })
+                    
+                    
                 })
+                
+                
+               
             })
             
             
@@ -240,33 +250,29 @@ class ChatViewController: UIViewController, UITableViewDelegate, UITableViewData
             
             // Get username for label and then configure cell
             let message = messageArray[indexPath.row]
-            
-//
-//            DataService.instance.getProfilePictureURL(forUID: message.senderId, handler: { (returnedURL) in
-//
-//
-//
-//                let profileImage = UIImageView()
-//                profileImage.sd_setImage(with: URL(string: returnedURL ), completed: { (image, error, cacheType, url) in
-//
-//                    if error != nil {
-//                        print(error)
-//                    } else {
-//                        // call configure cell method
-//                        cell.configureCell(messageContent: message.content, username: message.username, profileImage: image!)
-//                    }
-//                })
-//            })
-            
-            // Create a profile image depending on the username
-            var profileImage = UIImage(named: "profile_icon")
 
-            if messageArray[indexPath.row].username == "Fanatics" {
-                profileImage = UIImage(named: "fanatics-icon")
-            }
+            let profileImage = UIImageView()
             
-            // call configure cell method
-            cell.configureCell(messageContent: message.content, username: message.username, profileImage: profileImage!)
+            profileImage.sd_setImage(with: URL(string: message.profilePictureURL ), completed: { (image, error, cacheType, url) in
+
+                if error != nil {
+                    print(error)
+                } else {
+                    // call configure cell method
+                    cell.configureCell(messageContent: message.content, username: message.username, profileImage: image!)
+                }
+            
+            })
+            
+//            // Create a profile image depending on the username
+//            var profileImage = UIImage(named: "profile_icon")
+//
+//            if messageArray[indexPath.row].username == "Fanatics" {
+//                profileImage = UIImage(named: "fanatics-icon")
+//            }
+//
+//            // call configure cell method
+//            cell.configureCell(messageContent: message.content, username: message.username, profileImage: profileImage!)
         
             
             return cell

@@ -14,12 +14,14 @@ class Message {
     private var _content : String
     private var _senderId: String
     private var _username: String
+    private var _profilePictureURL: String
     
     // initializer
-    init(content: String, senderId: String, username: String) {
+    init(content: String, senderId: String, username: String, profilePictureURL: String) {
         self._content = content
         self._senderId = senderId
         self._username = username
+        self._profilePictureURL = profilePictureURL
     }
     
     // get data from private variables
@@ -33,6 +35,10 @@ class Message {
     
     var username: String {
         return _username
+    }
+    
+    var profilePictureURL: String {
+        return _profilePictureURL
     }
     
     

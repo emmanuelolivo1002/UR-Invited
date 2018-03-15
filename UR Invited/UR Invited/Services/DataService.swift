@@ -84,11 +84,11 @@ class DataService {
     }
     
     // Function to upload message to Group 
-    func uploadPost(withMessage message: String, forUID uid: String, andUsername username: String, withGroupKey groupKey: String?, sendComplete: @escaping (_ status: Bool) -> ()) {
+    func uploadPost(withMessage message: String, forUID uid: String, andUsername username: String, andProfilePictureURL profilePictureURL: String, withGroupKey groupKey: String?, sendComplete: @escaping (_ status: Bool) -> ()) {
         
         if groupKey != nil {
             // if group key exists send to group
-            REF_GROUPS.child(groupKey!).child("messages").childByAutoId().updateChildValues(["content": message, "senderId": uid, "username": username])
+            REF_GROUPS.child(groupKey!).child("messages").childByAutoId().updateChildValues(["content": message, "senderId": uid, "username": username, "profilePictureURL": profilePictureURL])
             
             sendComplete(true)
             
@@ -111,8 +111,9 @@ class DataService {
                 let content = groupMessage.childSnapshot(forPath: "content").value as! String
                 let senderId = groupMessage.childSnapshot(forPath: "senderId").value as! String
                 let username = groupMessage.childSnapshot(forPath: "username").value as! String
-              
-                let message = Message(content: content, senderId: senderId, username: username)
+                let profilePictureURL = groupMessage.childSnapshot(forPath: "profilePictureURL").value as! String
+                
+                let message = Message(content: content, senderId: senderId, username: username, profilePictureURL: profilePictureURL)
                 
                 // Append message to array
                 groupMessageArray.append(message)
@@ -391,7 +392,7 @@ class DataService {
                         
                         // If brand message doesn't exist then create
                         if doesBrandMessageExist == false {
-                            DataService.instance.uploadPost(withMessage: "this is a test message from Fanatics", forUID: "0", andUsername: "Fanatics", withGroupKey: group.key, sendComplete: { (complete) in
+                            DataService.instance.uploadPost(withMessage: "This is a test message from Fanatics", forUID: "0", andUsername: "Fanatics", andProfilePictureURL: "https://firebasestorage.googleapis.com/v0/b/ur-invited.appspot.com/o/profile_images%2Ffanatics-icon%403x.png?alt=media&token=2fd769bc-1ece-4177-b432-feff90590ec0", withGroupKey: group.key, sendComplete: { (complete) in
                                 if complete {
                                     print("Fanatics message created")
                                 }
