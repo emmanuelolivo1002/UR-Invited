@@ -34,7 +34,7 @@
                                 </constraints>
                             </imageView>
                             <textView clipsSubviews="YES" multipleTouchEnabled="YES" alpha="0.69999999999999996" contentMode="scaleAspectFit" scrollEnabled="NO" showsHorizontalScrollIndicator="NO" showsVerticalScrollIndicator="NO" editable="NO" text="lorem" textAlignment="natural" selectable="NO" translatesAutoresizingMaskIntoConstraints="NO" id="42O-Ml-6VC">
-                                <rect key="frame" x="16" y="5" width="168" height="35"/>
+                                <rect key="frame" x="16" y="9" width="168" height="31"/>
                                 <color key="backgroundColor" white="0.0" alpha="0.0" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
                                 <color key="textColor" white="1" alpha="1" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
                                 <fontDescription key="fontDescription" name="OpenSans-Regular" family="Open Sans" pointSize="16"/>
@@ -46,7 +46,7 @@
                             <constraint firstItem="yFu-b1-nyS" firstAttribute="leading" secondItem="JuO-vm-Ttc" secondAttribute="leading" id="9ee-X7-L2A"/>
                             <constraint firstItem="42O-Ml-6VC" firstAttribute="bottom" secondItem="yFu-b1-nyS" secondAttribute="bottom" id="GmP-Fu-IE4"/>
                             <constraint firstItem="yFu-b1-nyS" firstAttribute="centerY" secondItem="JuO-vm-Ttc" secondAttribute="centerY" id="LgF-w4-2JA"/>
-                            <constraint firstItem="42O-Ml-6VC" firstAttribute="top" secondItem="yFu-b1-nyS" secondAttribute="top" id="Qje-7N-ZDf"/>
+                            <constraint firstItem="42O-Ml-6VC" firstAttribute="top" secondItem="yFu-b1-nyS" secondAttribute="top" constant="4" id="Qje-7N-ZDf"/>
                             <constraint firstItem="42O-Ml-6VC" firstAttribute="trailing" secondItem="yFu-b1-nyS" secondAttribute="trailing" constant="-16" id="Rql-Rk-sdk"/>
                             <constraint firstAttribute="height" constant="45" id="XpB-4G-c88"/>
                             <constraint firstAttribute="width" constant="200" id="db7-Gc-fd4"/>

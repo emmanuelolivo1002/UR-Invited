@@ -37,26 +37,26 @@
                                 </constraints>
                             </imageView>
                             <textView clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="scaleToFill" editable="NO" text="Lorem " textAlignment="natural" selectable="NO" translatesAutoresizingMaskIntoConstraints="NO" id="hkv-N9-gaz">
-                                <rect key="frame" x="16" y="23.5" width="168" height="34"/>
+                                <rect key="frame" x="16" y="28.5" width="168" height="29"/>
                                 <color key="backgroundColor" white="0.0" alpha="0.0" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
                                 <color key="textColor" red="0.37647058823529411" green="0.37647058823529411" blue="0.37647058823529411" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>
                                 <fontDescription key="fontDescription" name="OpenSans-Regular" family="Open Sans" pointSize="16"/>
                                 <textInputTraits key="textInputTraits" autocapitalizationType="sentences"/>
                             </textView>
                             <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="Username" textAlignment="natural" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" minimumFontSize="5" translatesAutoresizingMaskIntoConstraints="NO" id="daV-01-H90">
-                                <rect key="frame" x="22" y="25.5" width="41" height="11"/>
+                                <rect key="frame" x="22" y="28.5" width="41" height="11"/>
                                 <fontDescription key="fontDescription" name="Roboto-Regular" family="Roboto" pointSize="9"/>
                                 <color key="textColor" red="0.33725490200000002" green="0.33725490200000002" blue="0.33725490200000002" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>
                                 <nil key="highlightedColor"/>
                             </label>
                         </subviews>
                         <constraints>
-                            <constraint firstItem="hkv-N9-gaz" firstAttribute="top" secondItem="rxe-eP-khq" secondAttribute="top" constant="3" id="13N-Mg-euY"/>
+                            <constraint firstItem="hkv-N9-gaz" firstAttribute="top" secondItem="rxe-eP-khq" secondAttribute="top" constant="8" id="13N-Mg-euY"/>
                             <constraint firstItem="daV-01-H90" firstAttribute="leading" secondItem="hkv-N9-gaz" secondAttribute="leading" constant="6" id="JcI-Jx-P9g"/>
                             <constraint firstItem="rxe-eP-khq" firstAttribute="leading" secondItem="Ppk-Bs-w7P" secondAttribute="leading" id="UNT-lM-q97"/>
                             <constraint firstItem="rxe-eP-khq" firstAttribute="centerY" secondItem="Ppk-Bs-w7P" secondAttribute="centerY" id="Xtj-9j-vUk"/>
                             <constraint firstItem="hkv-N9-gaz" firstAttribute="leading" secondItem="rxe-eP-khq" secondAttribute="leading" constant="16" id="dCC-6t-R4p"/>
-                            <constraint firstItem="daV-01-H90" firstAttribute="top" secondItem="hkv-N9-gaz" secondAttribute="top" constant="2" id="dRO-o5-qu4"/>
+                            <constraint firstItem="daV-01-H90" firstAttribute="top" secondItem="hkv-N9-gaz" secondAttribute="top" id="dRO-o5-qu4"/>
                             <constraint firstAttribute="trailing" secondItem="rxe-eP-khq" secondAttribute="trailing" id="kH3-5o-lnq"/>
                             <constraint firstItem="hkv-N9-gaz" firstAttribute="bottom" secondItem="rxe-eP-khq" secondAttribute="bottom" id="lFG-Kg-s91"/>
                             <constraint firstAttribute="height" constant="77.5" id="vd0-BJ-ZvG"/>
