@@ -35,6 +35,11 @@
 		146FE2CA202A2C6800686A62 /* NoticeTableViewCell.xib in Resources */ = {isa = PBXBuildFile; fileRef = 146FE2C8202A2C6800686A62 /* NoticeTableViewCell.xib */; };
 		146FE2D4202A461900686A62 /* OpenSans-Regular.ttf in Resources */ = {isa = PBXBuildFile; fileRef = 146FE2D3202A461900686A62 /* OpenSans-Regular.ttf */; };
 		146FE2D6202A4AEE00686A62 /* Message.swift in Sources */ = {isa = PBXBuildFile; fileRef = 146FE2D5202A4AEE00686A62 /* Message.swift */; };
+		148B05A4205084C4003B8E37 /* RegisterViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 148B05A3205084C4003B8E37 /* RegisterViewController.swift */; };
+		148B05A620519C06003B8E37 /* RoundImage.swift in Sources */ = {isa = PBXBuildFile; fileRef = 148B05A520519C06003B8E37 /* RoundImage.swift */; };
+		148B05AB2052F298003B8E37 /* User.swift in Sources */ = {isa = PBXBuildFile; fileRef = 148B05AA2052F298003B8E37 /* User.swift */; };
+		148B05AD205874F9003B8E37 /* GuestsOptionFromChatViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 148B05AC205874F9003B8E37 /* GuestsOptionFromChatViewController.swift */; };
+		148B05AF20587551003B8E37 /* CurrentMembersInGroupTableViewCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = 148B05AE20587551003B8E37 /* CurrentMembersInGroupTableViewCell.swift */; };
 		149328DF2032040D0095AE91 /* GroupTableViewCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = 149328DD2032040D0095AE91 /* GroupTableViewCell.swift */; };
 		149328E02032040D0095AE91 /* GroupTableViewCell.xib in Resources */ = {isa = PBXBuildFile; fileRef = 149328DE2032040D0095AE91 /* GroupTableViewCell.xib */; };
 		14BFD7DC2024D5DD0028FADB /* AppDelegate.swift in Sources */ = {isa = PBXBuildFile; fileRef = 14BFD7DB2024D5DD0028FADB /* AppDelegate.swift */; };
@@ -78,6 +83,11 @@
 		146FE2C8202A2C6800686A62 /* NoticeTableViewCell.xib */ = {isa = PBXFileReference; lastKnownFileType = file.xib; path = NoticeTableViewCell.xib; sourceTree = "<group>"; };
 		146FE2D3202A461900686A62 /* OpenSans-Regular.ttf */ = {isa = PBXFileReference; lastKnownFileType = file; path = "OpenSans-Regular.ttf"; sourceTree = "<group>"; };
 		146FE2D5202A4AEE00686A62 /* Message.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Message.swift; sourceTree = "<group>"; };
+		148B05A3205084C4003B8E37 /* RegisterViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = RegisterViewController.swift; sourceTree = "<group>"; };
+		148B05A520519C06003B8E37 /* RoundImage.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = RoundImage.swift; sourceTree = "<group>"; };
+		148B05AA2052F298003B8E37 /* User.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = User.swift; sourceTree = "<group>"; };
+		148B05AC205874F9003B8E37 /* GuestsOptionFromChatViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = GuestsOptionFromChatViewController.swift; sourceTree = "<group>"; };
+		148B05AE20587551003B8E37 /* CurrentMembersInGroupTableViewCell.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CurrentMembersInGroupTableViewCell.swift; sourceTree = "<group>"; };
 		149328DD2032040D0095AE91 /* GroupTableViewCell.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = GroupTableViewCell.swift; sourceTree = "<group>"; };
 		149328DE2032040D0095AE91 /* GroupTableViewCell.xib */ = {isa = PBXFileReference; lastKnownFileType = file.xib; path = GroupTableViewCell.xib; sourceTree = "<group>"; };
 		14BFD7D82024D5DD0028FADB /* UR Invited.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = "UR Invited.app"; sourceTree = BUILT_PRODUCTS_DIR; };
@@ -186,6 +196,7 @@
 				146FE2D5202A4AEE00686A62 /* Message.swift */,
 				14541E202044B7B800A32350 /* Group.swift */,
 				14541E302045DEEE00A32350 /* Event.swift */,
+				148B05AA2052F298003B8E37 /* User.swift */,
 			);
 			path = Model;
 			sourceTree = "<group>";
@@ -197,16 +208,18 @@
 				14BFD7E42024D5DD0028FADB /* LaunchScreen.storyboard */,
 				14BFD7F820251AFC0028FADB /* Fonts */,
 				146FE2C6202A1E4600686A62 /* Xibs */,
+				148B05A520519C06003B8E37 /* RoundImage.swift */,
+				1439BAF2204DE3DE001103DA /* WhitePlaceholderTextField.swift */,
+				1439BAF8204F0C6A001103DA /* ItalicPlaceholderTextField.swift */,
 				146FE2C7202A2C6800686A62 /* NoticeTableViewCell.swift */,
 				14541E362045E1B900A32350 /* EventTableViewCell.swift */,
 				1439BAFC204F2FD5001103DA /* EventSearchTableViewCell.swift */,
 				149328DD2032040D0095AE91 /* GroupTableViewCell.swift */,
 				14541E322045DEF800A32350 /* EventCollectionViewCell.swift */,
-				14541E462049AFC100A32350 /* FriendsInvitationTableViewCell.swift */,
 				14541E382047084200A32350 /* SentMessageTableViewCell.swift */,
 				14541E482049F67500A32350 /* ReceivedMessageTableViewCell.swift */,
-				1439BAF2204DE3DE001103DA /* WhitePlaceholderTextField.swift */,
-				1439BAF8204F0C6A001103DA /* ItalicPlaceholderTextField.swift */,
+				14541E462049AFC100A32350 /* FriendsInvitationTableViewCell.swift */,
+				148B05AE20587551003B8E37 /* CurrentMembersInGroupTableViewCell.swift */,
 			);
 			path = View;
 			sourceTree = "<group>";
@@ -215,13 +228,15 @@
 			isa = PBXGroup;
 			children = (
 				14BFD7DB2024D5DD0028FADB /* AppDelegate.swift */,
-				14541E442049AFA600A32350 /* InviteFriendsPopUpViewController.swift */,
 				14BFD7F220250B7D0028FADB /* GroupViewController.swift */,
 				14BFD7F420250F400028FADB /* EventViewController.swift */,
 				14BFD7F6202510540028FADB /* ChatViewController.swift */,
 				146FE2C0202A045B00686A62 /* TabBarViewController.swift */,
 				14541E222044BC0E00A32350 /* AuthViewController.swift */,
+				148B05A3205084C4003B8E37 /* RegisterViewController.swift */,
 				14541E262044BF0800A32350 /* ProfileViewController.swift */,
+				14541E442049AFA600A32350 /* InviteFriendsPopUpViewController.swift */,
+				148B05AC205874F9003B8E37 /* GuestsOptionFromChatViewController.swift */,
 			);
 			path = Controller;
 			sourceTree = "<group>";
@@ -387,6 +402,7 @@
 				"${BUILT_PRODUCTS_DIR}/Alamofire/Alamofire.framework",
 				"${BUILT_PRODUCTS_DIR}/GTMSessionFetcher/GTMSessionFetcher.framework",
 				"${BUILT_PRODUCTS_DIR}/GoogleToolboxForMac/GoogleToolboxForMac.framework",
+				"${BUILT_PRODUCTS_DIR}/SDWebImage/SDWebImage.framework",
 				"${BUILT_PRODUCTS_DIR}/SwiftyJSON/SwiftyJSON.framework",
 				"${BUILT_PRODUCTS_DIR}/leveldb-library/leveldb.framework",
 				"${BUILT_PRODUCTS_DIR}/nanopb/nanopb.framework",
@@ -396,6 +412,7 @@
 				"${TARGET_BUILD_DIR}/${FRAMEWORKS_FOLDER_PATH}/Alamofire.framework",
 				"${TARGET_BUILD_DIR}/${FRAMEWORKS_FOLDER_PATH}/GTMSessionFetcher.framework",
 				"${TARGET_BUILD_DIR}/${FRAMEWORKS_FOLDER_PATH}/GoogleToolboxForMac.framework",
+				"${TARGET_BUILD_DIR}/${FRAMEWORKS_FOLDER_PATH}/SDWebImage.framework",
 				"${TARGET_BUILD_DIR}/${FRAMEWORKS_FOLDER_PATH}/SwiftyJSON.framework",
 				"${TARGET_BUILD_DIR}/${FRAMEWORKS_FOLDER_PATH}/leveldb.framework",
 				"${TARGET_BUILD_DIR}/${FRAMEWORKS_FOLDER_PATH}/nanopb.framework",
@@ -416,6 +433,7 @@
 				14BFD7F320250B7D0028FADB /* GroupViewController.swift in Sources */,
 				14BFD7DC2024D5DD0028FADB /* AppDelegate.swift in Sources */,
 				146FE2C9202A2C6800686A62 /* NoticeTableViewCell.swift in Sources */,
+				148B05A620519C06003B8E37 /* RoundImage.swift in Sources */,
 				1439BAF3204DE3DE001103DA /* WhitePlaceholderTextField.swift in Sources */,
 				14541E3A2047084200A32350 /* SentMessageTableViewCell.swift in Sources */,
 				14541E212044B7B800A32350 /* Group.swift in Sources */,
@@ -423,18 +441,22 @@
 				14541E472049AFC100A32350 /* FriendsInvitationTableViewCell.swift in Sources */,
 				1439BAFD204F2FD5001103DA /* EventSearchTableViewCell.swift in Sources */,
 				14541E452049AFA600A32350 /* InviteFriendsPopUpViewController.swift in Sources */,
+				148B05AD205874F9003B8E37 /* GuestsOptionFromChatViewController.swift in Sources */,
 				1439BAF9204F0C6A001103DA /* ItalicPlaceholderTextField.swift in Sources */,
 				14541E272044BF0800A32350 /* ProfileViewController.swift in Sources */,
 				14541E2F2045DEE400A32350 /* Constants.swift in Sources */,
 				14541E312045DEEE00A32350 /* Event.swift in Sources */,
 				146FE2C1202A045B00686A62 /* TabBarViewController.swift in Sources */,
+				148B05AF20587551003B8E37 /* CurrentMembersInGroupTableViewCell.swift in Sources */,
 				146FE2D6202A4AEE00686A62 /* Message.swift in Sources */,
 				14541E372045E1BA00A32350 /* EventTableViewCell.swift in Sources */,
 				14541E182044812A00A32350 /* DataService.swift in Sources */,
+				148B05AB2052F298003B8E37 /* User.swift in Sources */,
 				14541E1B2044A59300A32350 /* UIViewExtensions.swift in Sources */,
 				14541E332045DEF800A32350 /* EventCollectionViewCell.swift in Sources */,
 				149328DF2032040D0095AE91 /* GroupTableViewCell.swift in Sources */,
 				14BFD7F520250F400028FADB /* EventViewController.swift in Sources */,
+				148B05A4205084C4003B8E37 /* RegisterViewController.swift in Sources */,
 				14541E232044BC0E00A32350 /* AuthViewController.swift in Sources */,
 				14541E1F2044B5B000A32350 /* AuthService.swift in Sources */,
 			);

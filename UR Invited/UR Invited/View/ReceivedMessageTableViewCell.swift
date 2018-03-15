@@ -7,6 +7,7 @@
 //
 
 import UIKit
+import FirebaseStorageUI
 
 class ReceivedMessageTableViewCell: UITableViewCell {
 
@@ -25,10 +26,10 @@ class ReceivedMessageTableViewCell: UITableViewCell {
     
     // MARK: Functions
     
-    func configureCell(messageContent: String, username: String, profileImage: String) {
+    func configureCell(messageContent: String, username: String, profileImage: UIImage) {
         
         // Set up profile image 
-        profileImageView.image = UIImage(named: profileImage)
+        profileImageView.image = profileImage
         
         // Set up username
         usernameLabel.text = username

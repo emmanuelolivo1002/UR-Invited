@@ -8,12 +8,14 @@
 
 import UIKit
 import Firebase
+import FirebaseStorageUI
 
 class ProfileViewController: UIViewController {
 
     //MARK: Outlets
     @IBOutlet weak var userLabel: UILabel!
-    
+    @IBOutlet weak var profileImageView: UIImageView!
+
     
     // MARK: Functions
     override func viewDidLoad() {
@@ -23,6 +25,12 @@ class ProfileViewController: UIViewController {
     
     override func viewWillAppear(_ animated: Bool) {
         super.viewWillAppear(animated)
+        
+        DataService.instance.getProfilePictureURL(forUID: (Auth.auth().currentUser?.uid)!) { (returnedURL) in
+            self.profileImageView.sd_setImage(with: URL(string: returnedURL), completed: nil)
+            
+        }
+        
         userLabel.text = Auth.auth().currentUser?.email
     }
 

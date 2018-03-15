@@ -63,24 +63,27 @@ class GroupViewController: UIViewController, UITableViewDataSource, UITableViewD
         return 1
     }
     
+    
+    
     func tableView(_ tableView: UITableView, cellForRowAt indexPath: IndexPath) -> UITableViewCell {
     
         // if GroupTableViewCell is created
-        if let cell = groupTableView.dequeueReusableCell(withIdentifier: "GroupCell", for: indexPath) as? GroupTableViewCell {
-            
-            let group = groupsArray[indexPath.row]
-            
-            cell.configureCell(group: group)
-            
-            // Return custom cell
-            return cell
-       
-        } else {
         
-            // Return empty cell if GroupTableViewCell could not be created
-            return UITableViewCell()
-        }
+        guard let cell = groupTableView.dequeueReusableCell(withIdentifier: "GroupCell", for: indexPath) as? GroupTableViewCell else {return UITableViewCell()}
+     
+        let group = groupsArray[indexPath.row]
+        
+        
+        cell.configureCell(group: group)
+        
+        
+        // Return custom cell
+        return cell
+       
+       
     }
+    
+    
     
     func tableView(_ tableView: UITableView, didSelectRowAt indexPath: IndexPath) {
         

@@ -7,25 +7,20 @@
 //
 
 import UIKit
+import Firebase
 
-class AuthViewController: UIViewController, UITextFieldDelegate {
-
+class AuthViewController: UIViewController, UITextFieldDelegate, UIImagePickerControllerDelegate, UINavigationControllerDelegate {
     
     //MARK: Outlets
     
     @IBOutlet weak var emailTextfield: UITextField!
     @IBOutlet weak var passwordTextField: UITextField!
-    @IBOutlet weak var usernameTextField: UITextField!
     
-    override func viewDidLoad() {
-        super.viewDidLoad()
-
-        emailTextfield.delegate = self
-        passwordTextField.delegate = self
-        usernameTextField.delegate = self
-    }
-
-  
+    
+    // MARK: Actions
+    
+    
+    
     @IBAction func signInButtonPressed(_ sender: Any) {
         if emailTextfield.text != nil && passwordTextField.text != nil {
             AuthService.instance.loginUser(withEmail: emailTextfield.text!, andPassword: passwordTextField.text!, loginComplete: { (success, error) in
@@ -34,29 +29,40 @@ class AuthViewController: UIViewController, UITextFieldDelegate {
                 } else {
                     print(String(describing: error?.localizedDescription))
                 }
-                
-                // if login was not successful, try to register user
-                if self.usernameTextField.text != nil {
-                    AuthService.instance.registerUser(withEmail: self.emailTextfield.text!, andUsername: self.usernameTextField.text!, andPassword: self.passwordTextField.text!, userCreationComplete: { (success, error) in
-                        
-                        if success {
-                            // Log in user
-                            AuthService.instance.loginUser(withEmail: self.emailTextfield.text!, andPassword: self.passwordTextField.text!, loginComplete: { (success, nil) in
-                                self.dismiss(animated: true, completion: nil)
-                                print("Successfully registered user")
-                            })
-                        } else {
-                            print(String(describing: error?.localizedDescription))
-                            
-                        }
-                    })
-                }
-                
-                
             })
-            
         }
     }
     
-
+    
+    
+    // MARK: Functions
+    override func viewDidLoad() {
+        super.viewDidLoad()
+        
+        emailTextfield.delegate = self
+        passwordTextField.delegate = self
+        
+        
+        // Tap Gesture
+        let tapGesture = UITapGestureRecognizer(target: self, action: #selector(viewTapped))
+        self.view.addGestureRecognizer(tapGesture)
+    }
+    
+    override func viewDidAppear(_ animated: Bool) {
+        super.viewDidAppear(animated)
+        
+        if Auth.auth().currentUser != nil {
+            dismiss(animated: true, completion: nil)
+        }
+        
+    }
+    
+    // MARK: Selectors
+    
+    // tableViewTapped Method
+    @objc func viewTapped() {
+        view.endEditing(true)
+    }
+    
 }
+

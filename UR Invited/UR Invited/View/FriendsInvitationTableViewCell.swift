@@ -7,6 +7,7 @@
 //
 
 import UIKit
+import FirebaseStorageUI
 
 class FriendsInvitationTableViewCell: UITableViewCell {
 
@@ -15,20 +16,22 @@ class FriendsInvitationTableViewCell: UITableViewCell {
     @IBOutlet weak var typeOfMember: UILabel!
     @IBOutlet weak var invitedLabel: UILabel!
     @IBOutlet weak var profileImage: UIImageView!
-    
+    @IBOutlet weak var idLabel: UILabel!
     
     
     // MARK: Functions
-    func configureCell(username: String, isSelected: Bool) {
-        self.usernameLabel.text = username
+    func configureCell(user: User, isSelected: Bool ) {
+        self.usernameLabel.text = user.username
+         self.idLabel.text = user.uid
         
-        if username == "Fanatics" {
-            profileImage.image = UIImage(named: "fanatics-icon")
+        if user.username == "Fanatics" {
+         
             typeOfMember.text = "Premium guest"
         } else {
             typeOfMember.text = ""
-            profileImage.image = UIImage(named: "profile_icon")
+            
         }
+        profileImage.sd_setImage(with: URL(string: user.profilePicture), completed: nil)
         
         if isSelected {
             invitedLabel.textColor = #colorLiteral(red: 0.9294117647, green: 0.568627451, blue: 0.2078431373, alpha: 1)

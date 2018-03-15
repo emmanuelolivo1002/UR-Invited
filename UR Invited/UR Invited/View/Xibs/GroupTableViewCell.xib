@@ -57,12 +57,6 @@
                                     <constraint firstAttribute="width" constant="16" id="d2o-5a-Y1m"/>
                                 </constraints>
                             </view>
-                            <stackView opaque="NO" contentMode="scaleAspectFit" ambiguous="YES" distribution="equalCentering" translatesAutoresizingMaskIntoConstraints="NO" id="1A8-v6-UoW">
-                                <rect key="frame" x="13" y="66" width="50" height="32"/>
-                                <constraints>
-                                    <constraint firstAttribute="height" constant="32" id="diU-q4-Waz"/>
-                                </constraints>
-                            </stackView>
                             <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="Category" textAlignment="natural" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="QUF-Rf-wkc">
                                 <rect key="frame" x="16" y="38.5" width="48.5" height="14.5"/>
                                 <fontDescription key="fontDescription" name="Roboto-Regular" family="Roboto" pointSize="12"/>
@@ -76,12 +70,19 @@
                                 <nil key="highlightedColor"/>
                             </label>
                             <view contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="uZH-A1-1dw">
-                                <rect key="frame" x="0.0" y="107.5" width="320" height="8"/>
+                                <rect key="frame" x="0.0" y="107" width="320" height="8"/>
                                 <color key="backgroundColor" red="0.2041445076" green="0.17331996559999999" blue="0.29761177300000002" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>
                                 <constraints>
                                     <constraint firstAttribute="height" constant="8" id="6u8-FR-MkT"/>
                                 </constraints>
                             </view>
+                            <stackView opaque="NO" contentMode="scaleAspectFit" distribution="fillEqually" translatesAutoresizingMaskIntoConstraints="NO" id="Jh7-X9-Kjq">
+                                <rect key="frame" x="8" y="61" width="300" height="32"/>
+                                <constraints>
+                                    <constraint firstAttribute="height" constant="32" id="SyK-4v-kvV"/>
+                                    <constraint firstAttribute="width" constant="300" id="lPT-Ut-f31"/>
+                                </constraints>
+                            </stackView>
                         </subviews>
                         <color key="backgroundColor" white="1" alpha="1" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
                         <constraints>
@@ -91,13 +92,13 @@
                             <constraint firstItem="Ahk-cG-dVu" firstAttribute="leading" secondItem="QUF-Rf-wkc" secondAttribute="trailing" constant="9" id="Eec-nU-LQk"/>
                             <constraint firstItem="QUF-Rf-wkc" firstAttribute="top" secondItem="mss-TB-wzV" secondAttribute="bottom" constant="10" id="PYi-86-uHD"/>
                             <constraint firstItem="mss-TB-wzV" firstAttribute="top" secondItem="koe-eD-y7k" secondAttribute="top" constant="13" id="Qem-eA-wAU"/>
-                            <constraint firstItem="1A8-v6-UoW" firstAttribute="top" secondItem="QUF-Rf-wkc" secondAttribute="bottom" constant="13" id="RKw-Gu-q8v"/>
                             <constraint firstAttribute="bottom" secondItem="uZH-A1-1dw" secondAttribute="bottom" id="Rsj-b1-koq"/>
                             <constraint firstItem="Ahk-cG-dVu" firstAttribute="centerY" secondItem="QUF-Rf-wkc" secondAttribute="centerY" id="WVb-aO-yPQ"/>
                             <constraint firstItem="uZH-A1-1dw" firstAttribute="leading" secondItem="koe-eD-y7k" secondAttribute="leading" id="bPt-yL-geb"/>
+                            <constraint firstItem="Jh7-X9-Kjq" firstAttribute="top" secondItem="QUF-Rf-wkc" secondAttribute="bottom" constant="8" id="foa-qQ-CJP"/>
                             <constraint firstAttribute="trailing" secondItem="uZH-A1-1dw" secondAttribute="trailing" id="mEq-C0-OIo"/>
                             <constraint firstItem="I25-6s-i1C" firstAttribute="leading" secondItem="mss-TB-wzV" secondAttribute="trailing" constant="9" id="mcr-Ox-gXF"/>
-                            <constraint firstItem="1A8-v6-UoW" firstAttribute="leading" secondItem="koe-eD-y7k" secondAttribute="leading" constant="4" id="ynS-HI-tHJ"/>
+                            <constraint firstItem="Jh7-X9-Kjq" firstAttribute="leading" secondItem="koe-eD-y7k" secondAttribute="leading" constant="8" id="ocS-UK-Ll0"/>
                         </constraints>
                     </view>
                 </subviews>
@@ -113,7 +114,8 @@
             <connections>
                 <outlet property="categoryLabel" destination="QUF-Rf-wkc" id="wog-lF-vg6"/>
                 <outlet property="groupNameLabel" destination="mss-TB-wzV" id="udE-zY-lWa"/>
-                <outlet property="membersStackView" destination="1A8-v6-UoW" id="6I6-fn-ryR"/>
+                <outlet property="membersStackView" destination="Jh7-X9-Kjq" id="RrN-6v-uVX"/>
+                <outlet property="membersStackViewWidthConstraint" destination="lPT-Ut-f31" id="JeG-LP-ePg"/>
                 <outlet property="numberOfMembersLabel" destination="Ahk-cG-dVu" id="d49-mX-3BH"/>
                 <outlet property="numberOfUnreadMessagesLabel" destination="pKp-Lj-L61" id="aZV-Tr-RC6"/>
                 <outlet property="separatorView" destination="uZH-A1-1dw" id="FTI-ZW-czZ"/>

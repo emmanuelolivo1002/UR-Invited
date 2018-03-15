@@ -62,6 +62,27 @@ class DataService {
         }
     }
     
+    func getUserData(forUID uid: String, handler: @escaping (_ user: User) -> ()) {
+        // Get a snapshot from the Users table
+        REF_USERS.observeSingleEvent(of: .value) { (userSnapshot) in
+            
+            // create a Snapshot otherwise return
+            guard let userSnapshot = userSnapshot.children.allObjects as? [DataSnapshot] else { return }
+            
+            // loop through snapshot
+            for user in userSnapshot {
+                // user is equal to the uid return its edata
+                if user.key == uid {
+                    let username = user.childSnapshot(forPath: "username").value as! String
+                    let profilePicture = user.childSnapshot(forPath: "profilePicture").value as! String
+                    
+                    let userFound = User(uid: user.key, username: username, profilePicture: profilePicture)
+                    handler(userFound)
+                }
+            }
+        }
+    }
+    
     // Function to upload message to Group 
     func uploadPost(withMessage message: String, forUID uid: String, andUsername username: String, withGroupKey groupKey: String?, sendComplete: @escaping (_ status: Bool) -> ()) {
         
@@ -104,9 +125,9 @@ class DataService {
     
 
     // Function for searching usernames
-    func getUsername(forSearchQuery query: String, handler: @escaping (_ usernameArray: [String]) -> ()) {
+    func getUsers(forSearchQuery query: String, handler: @escaping (_ usersArray: [User]) -> ()) {
         // Initialize array of usernames that will be shown
-        var usernameArray = [String]()
+        var usersArray = [User]()
         
         // Get snapshot of all users
         REF_USERS.observe(.value) { (userSnapshot) in
@@ -116,15 +137,19 @@ class DataService {
             
             // Loop through users in snapshot
             for user in userSnapshot {
-                // Get username
+                // Get username and Profile picture
                 let username = user.childSnapshot(forPath: "username").value as! String
+                let profilePicture = user.childSnapshot(forPath: "profilePicture").value as! String
                 
                 // If username contains whats in the query and is not the current user's username
-                if username.lowercased().contains(query.lowercased()) == true && username != Auth.auth().currentUser?.email{
+                if username.lowercased().contains(query.lowercased()) == true && username != Auth.auth().currentUser?.email {
+                    
                     // Append to array of users shown
-                    usernameArray.append(username)
+                    let userFound = User(uid: user.key, username: username, profilePicture: profilePicture)
+                    
+                    usersArray.append(userFound)
                 }
-                handler(usernameArray)
+                handler(usersArray)
             }
         }
     }
@@ -207,7 +232,15 @@ class DataService {
     }
     
     // Function to create group in database
-    func createGroup(withTitle title: String, forUserIds ids: [String], handler: @escaping(_ createdGroup: Bool) -> ()) {
+    func createGroup(withTitle title: String, forUsers users: [User], handler: @escaping(_ createdGroup: Bool) -> ()) {
+        
+        // Array of ids
+        var ids = [String]()
+        
+        // Loop through array of users to get ids
+        for user in users {
+            ids.append(user.uid)
+        }
         
         // Set flag for brand Invited
         var isBrandInvited = false
@@ -227,6 +260,103 @@ class DataService {
         
         handler(true)
     }
+    
+    // Function to get all users in a group
+    func getAllUsersInGroup (group: Group, handler: @escaping(_ usersArray: [User]) -> ()) {
+        
+        // Initialize array to be passed back
+        var usersArray = [User]()
+        
+        REF_USERS.observeSingleEvent(of: .value) { (usersSnapshot) in
+            
+            guard let usersSnapshot = usersSnapshot.children.allObjects as? [DataSnapshot] else {return}
+            
+            // Loop through all users
+            for user in usersSnapshot {
+                
+                // if userId of current iteration is NOT in group
+                if group.members.contains(user.key) {
+                    
+                    // Append user to array
+                    let username = user.childSnapshot(forPath: "username").value as! String
+                    let profilePicture = user.childSnapshot(forPath: "profilePicture").value as! String
+                    
+                    let userFound = User(uid: user.key, username: username, profilePicture: profilePicture)
+                    
+                    usersArray.append(userFound)
+                }
+            }
+            
+            handler(usersArray)
+            
+        }
+        
+    }
+    
+    // Function to get all users NOT in a group
+    func getAllUsersNotInGroup (group: Group, handler: @escaping(_ usersArray: [User]) -> ()) {
+    
+        // Initialize array to be passed back
+        var usersArray = [User]()
+        
+        REF_USERS.observeSingleEvent(of: .value) { (usersSnapshot) in
+            
+            guard let usersSnapshot = usersSnapshot.children.allObjects as? [DataSnapshot] else {return}
+            
+            // Loop through all users
+            for user in usersSnapshot {
+                
+                // if userId of current iteration is NOT in group
+                if !group.members.contains(user.key) {
+                    
+                    // Append user to array 
+                    let username = user.childSnapshot(forPath: "username").value as! String
+                    let profilePicture = user.childSnapshot(forPath: "profilePicture").value as! String
+                    
+                    let userFound = User(uid: user.key, username: username, profilePicture: profilePicture)
+                    
+                    usersArray.append(userFound)
+                }
+            }
+            
+            handler(usersArray)
+        
+        }
+        
+    }
+    
+    
+    // Function to invite users
+    func inviteUsers(toGroup group: Group, usersInvited: [User], invitationComplete: @escaping (_ status: Bool) -> ()) {
+        
+        
+        // Initialize array to be passed back
+        var usersArray = [String]()
+        
+        REF_USERS.observeSingleEvent(of: .value) { (usersSnapshot) in
+            
+            guard let usersSnapshot = usersSnapshot.children.allObjects as? [DataSnapshot] else {return}
+            
+            // Loop through all users
+            for user in usersSnapshot {
+                // if userId of current iteration is in group
+                if group.members.contains(user.key) {
+                    usersArray.append(user.key)
+                }
+            }
+            
+            for user in usersInvited {
+                usersArray.append(user.uid)
+            }
+            
+            
+            // Add group to Database
+            self.REF_GROUPS.child(group.groupId).updateChildValues(["members": usersArray])
+            
+            invitationComplete(true)
+        }
+    }
+    
     
     // Function to create brand message
     func createBrandMessage(handler: @escaping(_ createdBrandMessage: Bool) -> ()) {
@@ -275,6 +405,33 @@ class DataService {
         
         handler(true)
     }
+    
+    func getAllUsers(handler: @escaping(_ usersArray: [User]) -> ()) {
+        
+        // Initialize array to be passed back
+        var usersArray = [User]()
+        
+        REF_USERS.observeSingleEvent(of: .value) { (usersSnapshot) in
+            
+            guard let usersSnapshot = usersSnapshot.children.allObjects as? [DataSnapshot] else {return}
+            
+            // Loop through all users
+            for user in usersSnapshot {
+                if user.key != Auth.auth().currentUser?.uid {
+                    let username = user.childSnapshot(forPath: "username").value as! String
+                    let profilePicture = user.childSnapshot(forPath: "profilePicture").value as! String
+                    
+                    let userFound = User(uid: user.key, username: username, profilePicture: profilePicture)
+                    usersArray.append(userFound)
+                }
+            }
+            
+            handler(usersArray)
+            
+        }
+        
+    }
+    
     
     // Function to get all users in database
     func getAllUsernames(handler: @escaping(_ usernamesArray: [String]) -> ()) {
@@ -333,6 +490,75 @@ class DataService {
             // Pass back groups array
             handler(groupsArray)
         }
+    }
+    
+    
+    func getAllProfilePictures(forGroup group: Group, handler: @escaping(_ imageViewArray: [UIImageView]) -> () ) {
+        
+        //Initialize array to be passed back
+        var imageArray = [UIImageView]()
+        
+        REF_USERS.observeSingleEvent(of: .value) { (usersSnapshot) in
+            // Loop through user snapshot
+            guard let usersSnapshot = usersSnapshot.children.allObjects as? [DataSnapshot] else { return }
+            
+            for user in usersSnapshot {
+                
+                // if userId of current iteration is in group
+                if group.members.contains(user.key) {
+                    
+                    // Set an imageURL and append to array
+                    let url = user.childSnapshot(forPath: "profilePicture").value as! String
+                    
+                    let imageView = RoundImage()
+                    
+                    imageView.sd_setImage(with: URL(string: url ), completed: { (image, error, cacheType, url) in
+                        
+                        imageView.frame = CGRect(x: 0, y: 0, width: 32, height: 32)
+                        imageView.setupView()
+                        
+                        // Set constraints
+                        imageView.heightAnchor.constraint(equalToConstant: 32)
+                        imageView.widthAnchor.constraint(equalToConstant: 32)
+                        
+                        
+                        // set image shadow
+                        imageView.layer.shadowColor = UIColor.black.cgColor
+                        imageView.layer.shadowOpacity = 1
+                        imageView.layer.shadowOffset = CGSize.zero
+                        imageView.layer.shadowRadius = 1
+                        
+                        imageArray.append(imageView)
+                    })
+                }
+            }
+            // pass back image array
+            handler(imageArray)
+        }
+        
+    }
+    
+    // Get URL for any user profile picture
+    func getProfilePictureURL(forUID uid: String, handler: @escaping(_ reference: String) -> ()) {
+        
+        // Get a snapshot from the Users table
+        REF_USERS.observeSingleEvent(of: .value) { (usernameSnapshot) in
+            
+            // create a Snapshot otherwise return
+            guard let usernameSnapshot = usernameSnapshot.children.allObjects as? [DataSnapshot] else { return }
+            
+            // loop through snapshot
+            for user in usernameSnapshot {
+                // user is equal to the uid return its email
+                if user.key == uid {
+                    
+                    let profilePictureURL = user.childSnapshot(forPath: "profilePicture").value as! String
+                    
+                    handler(profilePictureURL)
+                }
+            }
+        }
+        
     }
     
     

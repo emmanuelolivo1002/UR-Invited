@@ -18,17 +18,19 @@ class InviteFriendsPopUpViewController: UIViewController, UITableViewDelegate, U
     @IBOutlet weak var friendsToInviteTableView: UITableView! // table view for the group
     @IBOutlet weak var eventNameForGroupLabel: UILabel! // name of the group label
     @IBOutlet weak var searchTextField: UITextField!
+    @IBOutlet weak var groupNameView: UIView!
     
     // MARK: Variables
     
    
     
-    // Array of users id
-    var usersArray = [String]()
-    var allUsersArray = [String]()
+    // Array of users 
+    var usersArray = [User]()
+    var allUsersArray = [User]()
     
     // Array of users invited
-    var usersInvited = [String]()
+    var usersInvited = [User]()
+
     
 
     
@@ -40,25 +42,17 @@ class InviteFriendsPopUpViewController: UIViewController, UITableViewDelegate, U
     
     @IBAction func saveButtonPressed(_ sender: Any) {
         
-        // Get ids for users selected in the group
-        DataService.instance.getIds(forUsernames: usersInvited, handler: { (returnedIdsArray) in
-            print("usersInvited array count:\(self.usersInvited.count)")
-            
-            // Create a temporary array for the ids
-            var userIds = returnedIdsArray
-            
-            // Append currend user to array
-            userIds.append((Auth.auth().currentUser?.uid)!)
+        DataService.instance.getUserData(forUID: (Auth.auth().currentUser?.uid)!) { (returnedUser) in
+            self.usersInvited.append(returnedUser)
             
             
-            // Save array in Database
-            DataService.instance.createGroup(withTitle: self.eventNameForGroupLabel.text!, forUserIds: userIds, handler: { (groupCreated) in
+            DataService.instance.createGroup(withTitle: self.eventNameForGroupLabel.text!, forUsers: self.usersInvited, handler: { (groupCreated) in
                 // Dismiss view once a new group is created
                 if groupCreated {
                     print("Group was created")
                     
                     //TODO: Go to chatview
-                
+                    
                     // Select main storyboard
                     let storyboard = UIStoryboard(name: "Main", bundle: Bundle.main)
                     
@@ -67,22 +61,16 @@ class InviteFriendsPopUpViewController: UIViewController, UITableViewDelegate, U
                     tabBarViewController.selectedIndex = 0
                     
                     self.present(tabBarViewController, animated: true, completion: nil)
-
+                    
                 } else {
                     print("Group could not be created")
                 }
-                
             })
-            
-            
-        })
-        
-        
+        }
     }
+
     
     // MARK: Functions
-    
-  
 
     override func viewDidLoad() {
         super.viewDidLoad()
@@ -102,6 +90,9 @@ class InviteFriendsPopUpViewController: UIViewController, UITableViewDelegate, U
         saveButton.isHidden = true
         skipButton.isHidden = false
 
+        // Tap Gesture
+        let tapGesture = UITapGestureRecognizer(target: self, action: #selector(tableViewTapped))
+        groupNameView.addGestureRecognizer(tapGesture)
         
     }
     
@@ -110,9 +101,11 @@ class InviteFriendsPopUpViewController: UIViewController, UITableViewDelegate, U
         
         // Load users array
         print("Loading array")
-        DataService.instance.getAllUsernames { (returnedUsernamesArray) in
-            self.usersArray = returnedUsernamesArray
+        DataService.instance.getAllUsers { (returnedUsersArray) in
+            self.usersArray = returnedUsersArray
             self.allUsersArray = self.usersArray
+            
+            
             
             self.friendsToInviteTableView.reloadData()
         }
@@ -130,10 +123,11 @@ class InviteFriendsPopUpViewController: UIViewController, UITableViewDelegate, U
             
             // if there is a search in textfield start getting emails from database
             
-            DataService.instance.getUsername(forSearchQuery: searchTextField.text!, handler: { (returnedUsernameArray) in
+            DataService.instance.getUsers(forSearchQuery: searchTextField.text!, handler: { (returnedUsersArray) in
+                
                 
                 // Load usersArray with result and reload the data
-                self.usersArray = returnedUsernameArray
+                self.usersArray = returnedUsersArray.filter({ $0.uid != Auth.auth().currentUser?.uid})
                 self.friendsToInviteTableView.reloadData()
             })
         }
@@ -152,13 +146,11 @@ class InviteFriendsPopUpViewController: UIViewController, UITableViewDelegate, U
         
          guard let cell = tableView.dequeueReusableCell(withIdentifier: "FriendsInvitationTableViewCell") as? FriendsInvitationTableViewCell else {return UITableViewCell()}
         
-        
         // Configure User Cell depending on whether or not user is in the array
-        if usersInvited.contains(usersArray[indexPath.row]) {
-            cell.configureCell(username: usersArray[indexPath.row], isSelected: true )
+        if usersInvited.contains(where: { $0.uid == usersArray[indexPath.row].uid }) {
+            cell.configureCell(user: usersArray[indexPath.row], isSelected: true)
         } else {
-            
-            cell.configureCell(username: usersArray[indexPath.row], isSelected: false )
+         cell.configureCell(user: usersArray[indexPath.row], isSelected: false)
         }
         
         return cell
@@ -167,6 +159,8 @@ class InviteFriendsPopUpViewController: UIViewController, UITableViewDelegate, U
     
     
     func tableView(_ tableView: UITableView, didSelectRowAt indexPath: IndexPath) {
+        
+        self.view.endEditing(true)
         
         guard let cell = tableView.cellForRow(at: indexPath) as?  FriendsInvitationTableViewCell else {return}
         
@@ -178,12 +172,12 @@ class InviteFriendsPopUpViewController: UIViewController, UITableViewDelegate, U
         // Toggle between invite and invited
         
         // If selected user is NOT in array of users invited
-        if !usersInvited.contains(cell.usernameLabel.text!) {
+        if !usersInvited.contains(where: { $0.uid == cell.idLabel.text!}) {
             
             print("user TO BE added to array: \(cell.usernameLabel.text!)")
             
             // Append user to invited array
-            usersInvited.append(cell.usernameLabel.text!)
+            usersInvited.append(usersArray[indexPath.row])
             
             print("user added to array: \(String(describing: usersInvited.last))")
             
@@ -205,7 +199,7 @@ class InviteFriendsPopUpViewController: UIViewController, UITableViewDelegate, U
             cell.invitedLabel.text = "INVITE"
           
             // Remove it from the array of users invited
-            usersInvited = usersInvited.filter({ $0 != cell.usernameLabel.text!})
+            usersInvited = usersInvited.filter({ $0.uid != cell.idLabel.text!})
             
             // If array is empty show the skip button and hide save button
             if usersInvited.count == 0 {
@@ -214,4 +208,11 @@ class InviteFriendsPopUpViewController: UIViewController, UITableViewDelegate, U
             }
         }
     }
+    
+    // MARK: Selectors
+    // tableViewTapped Method
+    @objc func tableViewTapped() {
+        view.endEditing(true)
+    }
+
 }

@@ -15,7 +15,7 @@ class AuthService {
     static let instance =  AuthService()
     
     
-    func registerUser(withEmail email: String, andUsername username: String, andPassword password: String, userCreationComplete: @escaping (_ status: Bool, _ error: Error?) -> ()) {
+    func registerUser(withEmail email: String, andUsername username: String, andPassword password: String, andProfilePicture profilePicture: UIImage, userCreationComplete: @escaping (_ status: Bool, _ error: Error?) -> ()) {
         
         
         Auth.auth().createUser(withEmail: email, password: password) { (user, error) in
@@ -24,10 +24,25 @@ class AuthService {
                 return
             }
             
-            let userData = ["provider" : user.providerID, "email" : user.email, "username": username]
-            DataService.instance.createFirebaseUser(uid: user.uid, userData: userData)
-            userCreationComplete(true, nil)
+            // Set image url
+            let imageName = UUID().uuidString
+            let storageRef = Storage.storage().reference()
+            let profileImagesRef = storageRef.child("profile_images")
+            let imageNameRef = profileImagesRef.child("\(imageName).png")
             
+            if let uploadData = UIImagePNGRepresentation(profilePicture) {
+                imageNameRef.putData(uploadData, metadata: nil) { (metadata, error) in
+                    if error != nil {
+                        print(error)
+                        return
+                    } else {
+                        let profilePictureURL = metadata?.downloadURL()?.absoluteString
+                        let userData = ["provider" : user.providerID, "email" : user.email, "username": username, "profilePicture": profilePictureURL!] as [String : Any]
+                        DataService.instance.createFirebaseUser(uid: user.uid, userData: userData)
+                    }
+                }
+            }
+            userCreationComplete(true, nil)
         }
         
         
@@ -44,6 +59,7 @@ class AuthService {
             
         }
     }
+    
     
     
 }
