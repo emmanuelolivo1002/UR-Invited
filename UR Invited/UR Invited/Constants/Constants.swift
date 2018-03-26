@@ -18,3 +18,6 @@ let MYSPORTS_API_HEADERS = ["Authorization": "Basic \(MYSPORTS_API_BASE64CREDENT
 let MYNASCAR_API_HEADERS = ["Ocp-Apim-Subscription-Key": "a43868bb148b4cddaed0cfcfffc56d40"]
 let MYNCAABASKETBALL_API_HEADERS = ["Ocp-Apim-Subscription-Key": "2e590fcfe6a14fd7a6dc74c4c12cc8cd"]
 let MYNCAAFOOTBALL_API_HEADERS = ["Ocp-Apim-Subscription-Key": "9632ce49a6414514a2c2ee8891a63dd2"]
+
+// ONE SIGNAL CONSTANTS
+let ONE_SIGNAL_APP_ID = "de92c2da-ec26-4ae6-ab44-ae6aef034f14"

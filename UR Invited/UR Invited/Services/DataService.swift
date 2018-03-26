@@ -8,6 +8,7 @@
 
 import Foundation
 import Firebase
+import OneSignal
 
 // Base URL for Firebase Database
 let DB_BASE = Database.database().reference()
@@ -42,6 +43,12 @@ class DataService {
     func createFirebaseUser(uid: String, userData: Dictionary<String, Any>) {
         REF_USERS.child(uid).updateChildValues(userData)
     }
+    
+    // Update LoggedIn value
+    func updateLoggedInValue(forUid uid: String, loggedIn: Bool) {
+        REF_USERS.child(uid).updateChildValues(["loggedIn" : loggedIn])
+    }
+    
     
     // Function to get username for a specific uid
     func getUsername(forUID uid: String, handler: @escaping (_ username: String) -> ()) {
@@ -84,12 +91,61 @@ class DataService {
     }
     
     // Function to upload message to Group 
-    func uploadPost(withMessage message: String, forUID uid: String, andUsername username: String, andProfilePictureURL profilePictureURL: String, withGroupKey groupKey: String?, sendComplete: @escaping (_ status: Bool) -> ()) {
+    func uploadPost(withMessage message: String, forUID uid: String, andUsername username: String, andProfilePictureURL profilePictureURL: String, withGroup group: Group, sendComplete: @escaping (_ status: Bool) -> ()) {
         
-        if groupKey != nil {
+        if group.groupId != nil {
             // if group key exists send to group
-            REF_GROUPS.child(groupKey!).child("messages").childByAutoId().updateChildValues(["content": message, "senderId": uid, "username": username, "profilePictureURL": profilePictureURL])
+            REF_GROUPS.child(group.groupId).child("messages").childByAutoId().updateChildValues(["content": message, "senderId": uid, "username": username, "profilePictureURL": profilePictureURL])
             
+
+            // Array of OneSignal ids
+            var membersToNotifyArray = [String]()
+            
+           
+            
+            // Observe all members in current group
+            REF_GROUPS.child((group.groupId)).child("members").observeSingleEvent(of: .value) { (groupMembersSnapshot) in
+                
+                guard let groupMembersSnapshot = groupMembersSnapshot.children.allObjects as? [DataSnapshot] else { return }
+                
+                for user in groupMembersSnapshot {
+                    
+                    let userId = user.value as? String
+                    
+                    
+                    // Get a snapshot from the Users table
+                    self.REF_USERS.observeSingleEvent(of: .value) { (usersSnapshot) in
+                        
+                        // create a Snapshot otherwise return
+                        guard let usersSnapshot = usersSnapshot.children.allObjects as? [DataSnapshot] else { return }
+                        
+                        // loop through snapshot
+                        for user in usersSnapshot {
+                            
+                            // if userId is in group, excluding the user who sent the message
+                            if userId == user.key && user.key != Auth.auth().currentUser?.uid {
+                                
+                                // Get their oneSignalUserId
+                                let oneSignalUserId = user.childSnapshot(forPath: "oneSignalUserId").value as! String
+                                
+                                let loggedIn = user.childSnapshot(forPath: "loggedIn").value as! Bool
+                                
+                                if loggedIn {
+                                    
+                                    print("User: \(user.key) is logged in ")
+                                    
+                                    
+                                    
+                                    
+                                    // Send OneSignal notification to members
+                                    OneSignal.postNotification(["contents": ["en": message], "headings": ["en": "\(username) @ \(group.groupTitle)"] , "include_player_ids": [oneSignalUserId], "ios_badgeType": "Increase", "ios_badgeCount": 1])
+                                  
+                                }
+                            }
+                        }
+                    }
+                }
+            }
             sendComplete(true)
             
         }
@@ -238,9 +294,13 @@ class DataService {
         // Array of ids
         var ids = [String]()
         
+        // Array of profilePictures
+        var profilePictures = [String]()
+        
         // Loop through array of users to get ids
         for user in users {
             ids.append(user.uid)
+            profilePictures.append(user.profilePicture)
         }
         
         // Set flag for brand Invited
@@ -253,13 +313,68 @@ class DataService {
         }
         
         // Add group to Database
-        REF_GROUPS.childByAutoId().updateChildValues(["title": title, "members": ids, "isBrandInvited": isBrandInvited ])
+        REF_GROUPS.childByAutoId().updateChildValues(["title": title, "members": ids, "isBrandInvited": isBrandInvited, "profilePictures": profilePictures])
        
         DataService.instance.createBrandMessage { (complete) in
             print("Group with brand message created")
         }
         
         handler(true)
+    }
+    
+    // Update oneSignal ID
+    func updateOneSignalId(forUid uid: String, withNewOneSignalId oneSignalId: String, updateComplete: @escaping(_ status: Bool)->()) {
+        
+        REF_USERS.observeSingleEvent(of: .value) { (usersSnapshot) in
+            
+            guard let usersSnapshot = usersSnapshot.children.allObjects as? [DataSnapshot] else {return}
+            
+            // Loop through all users
+            for user in usersSnapshot {
+                
+                if user.key == uid {
+                
+                    self.REF_USERS.child(uid).updateChildValues(["oneSignalUserId": oneSignalId])
+                }
+            }
+        
+        }
+        
+        
+        updateComplete(true)
+    }
+    
+    // Function to get members profile pictures
+    func getProfilePictures (forGroup group: Group, handler: @escaping(_ picturesArray: [UIImageView]) -> ()) {
+        
+        // Initialize array to be passed back
+        var picturesArray = [UIImageView]()
+        
+        REF_USERS.observeSingleEvent(of: .value) { (usersSnapshot) in
+            
+            guard let usersSnapshot = usersSnapshot.children.allObjects as? [DataSnapshot] else {return}
+            
+            // Loop through all users
+            for user in usersSnapshot {
+                
+                // if userId of current iteration is NOT in group
+                if group.members.contains(user.key) {
+                    
+                    let url = URL(string: user.childSnapshot(forPath: "profilePicture").value as! String)
+                    let data = try? Data(contentsOf: url!)
+                    let image = UIImage(data: data!)
+                    
+                    let imageView = RoundImage(image: image)
+                    imageView.setupView()
+                    
+                    picturesArray.append(imageView)
+                }
+            }
+            
+            handler(picturesArray)
+            
+        }
+        
     }
     
     // Function to get all users in a group
@@ -392,7 +507,7 @@ class DataService {
                         
                         // If brand message doesn't exist then create
                         if doesBrandMessageExist == false {
-                            DataService.instance.uploadPost(withMessage: "This is a test message from Fanatics", forUID: "0", andUsername: "Fanatics", andProfilePictureURL: "https://firebasestorage.googleapis.com/v0/b/ur-invited.appspot.com/o/profile_images%2Ffanatics-icon%403x.png?alt=media&token=2fd769bc-1ece-4177-b432-feff90590ec0", withGroupKey: group.key, sendComplete: { (complete) in
+                            DataService.instance.uploadPost(withMessage: "This is a test message from Fanatics", forUID: "0", andUsername: "Fanatics", andProfilePictureURL: "https://firebasestorage.googleapis.com/v0/b/ur-invited.appspot.com/o/profile_images%2Ffanatics-icon%403x.png?alt=media&token=2fd769bc-1ece-4177-b432-feff90590ec0", withGroup: currentGroup, sendComplete: { (complete) in
                                 if complete {
                                     print("Fanatics message created")
                                 }
@@ -559,10 +674,5 @@ class DataService {
                 }
             }
         }
-        
     }
-    
-    
-    
 }
-

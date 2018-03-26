@@ -9,6 +9,7 @@
 import UIKit
 import Firebase
 import FirebaseStorageUI
+import OneSignal
 
 class ProfileViewController: UIViewController {
 
@@ -42,10 +43,19 @@ class ProfileViewController: UIViewController {
         // Create action to happend when popup button is tapped
         let logoutAction = UIAlertAction(title: "Log out", style: .destructive) { (buttonTapped) in
             
+            let currentUserUid = Auth.auth().currentUser?.uid
+            
             // Perform sign out in a do try block
             do {
                 // Try to perform sign out
                 try Auth.auth().signOut()
+                
+                // Delete OneSignal tag
+                OneSignal.deleteTag("loggedIn")
+                
+                // Update loggedIn value in Database to false
+                DataService.instance.updateLoggedInValue(forUid: (currentUserUid)!, loggedIn: false)
+                
                 // if successful present auth View Controller
                 let authViewController = self.storyboard?.instantiateViewController(withIdentifier: "AuthViewController") as? AuthViewController
                 self.present(authViewController!, animated: true, completion: nil)

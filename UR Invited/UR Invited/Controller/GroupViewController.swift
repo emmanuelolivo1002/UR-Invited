@@ -7,6 +7,8 @@
 //
 
 import UIKit
+import Firebase
+
 
 class GroupViewController: UIViewController, UITableViewDataSource, UITableViewDelegate {
   
@@ -15,6 +17,8 @@ class GroupViewController: UIViewController, UITableViewDataSource, UITableViewD
     // MARK: Variables
     var groupsArray = [Group]()
     
+    // Array of groups not checked
+    var updatedGroups = [String]()
     
     
     // MARK: Outlets
@@ -26,13 +30,75 @@ class GroupViewController: UIViewController, UITableViewDataSource, UITableViewD
        
         
         
-        
         // Set self as tableview delegate and data source
         groupTableView.delegate = self
         groupTableView.dataSource = self
         
         // Register xib file for custom cell
         groupTableView.register(UINib(nibName: "GroupTableViewCell", bundle: nil), forCellReuseIdentifier: "GroupCell")
+        
+        var initialCount = 0
+        var currentCount = 0
+        
+        // Observe whenever there is a change in the database
+        DataService.instance.REF_GROUPS.observe(.value) { (groupSnapshot) in
+            
+            
+            print("Something changed in \(groupSnapshot.key)")
+            
+            
+            guard let groupSnapshot = groupSnapshot.children.allObjects
+                as? [DataSnapshot] else { return }
+            
+            print("Snapshot endIndex: \(groupSnapshot.endIndex)")
+            
+            for group in groupSnapshot {
+            
+                currentCount = Int(group.childSnapshot(forPath: "messages").childrenCount)
+                
+                
+                print("Current count: \(currentCount) for group: \(group.key)")
+                
+            }
+            
+            
+            
+            
+            
+//            if currentCount > initialCount && initialCount != 0 {
+//                DataService.instance.REF_GROUPS.child(group.key).child("messages").observeSingleEvent(of: .childAdded, with: { (messageSnapshot) in
+//
+//
+//                    print("Message added: \(messageSnapshot.key) in group: \(group.key)")
+//
+//                    initialCount = currentCount
+//                })
+//            }
+        }
+        
+//        DataService.instance.REF_GROUPS.child("-L88bp3r2aXd_qlHMwYX").child("messages").observeSingleEvent(of: .value) { (messageSnapshot) in
+//            initialCount = Int(messageSnapshot.childrenCount)
+//
+//            print("Initial count: \(initialCount)")
+//
+//            DataService.instance.REF_GROUPS.child("-L88bp3r2aXd_qlHMwYX").child("messages").observe(.childAdded) { (messageSnapshot) in
+//
+//                currentCount += 1
+//                print("Current count: \(currentCount)")
+//
+//
+//
+//                if currentCount > initialCount {
+//
+//
+//                    print("Message added: \(messageSnapshot.childSnapshot(forPath: "content").value)")
+//
+//                }
+//
+//            }
+//        }
+        
+        
         
     }
     
@@ -43,12 +109,27 @@ class GroupViewController: UIViewController, UITableViewDataSource, UITableViewD
         DataService.instance.REF_GROUPS.observeSingleEvent(of: .value) { (snapshot) in
             DataService.instance.getAllGroups { (returnedGroupsArray) in
                 // Set local groups array to be equal to the returned array and reload data
-                self.groupsArray = returnedGroupsArray
+                self.groupsArray = returnedGroupsArray.reversed()
                 print("Groups in array: \(self.groupsArray.count)")
                 
                 self.groupTableView.reloadData()
             }
         }
+        
+        
+        
+    }
+    
+    
+    
+    override func prepare(for segue: UIStoryboardSegue, sender: Any?) {
+        self.groupTableView.reloadData()
+    }
+    
+    override func viewWillAppear(_ animated: Bool) {
+        super.viewWillAppear(animated)
+        groupTableView.reloadData()
+
     }
     
     
@@ -73,8 +154,13 @@ class GroupViewController: UIViewController, UITableViewDataSource, UITableViewD
      
         let group = groupsArray[indexPath.row]
         
+        var isNewMessageInGroup = false
         
-        cell.configureCell(group: group)
+        if updatedGroups.contains(group.groupTitle) {
+            isNewMessageInGroup = true
+        }
+        
+        cell.configureCell(group: group, newMesage: isNewMessageInGroup)
         
         
         // Return custom cell
@@ -93,6 +179,8 @@ class GroupViewController: UIViewController, UITableViewDataSource, UITableViewD
         let bgColorView = UIView()
         bgColorView.backgroundColor = #colorLiteral(red: 1, green: 1, blue: 1, alpha: 1)
         cell.selectedBackgroundView = bgColorView
+        
+        
     
         
         // Set a storyboard for groupFeedViewController

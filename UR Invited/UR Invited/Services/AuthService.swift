@@ -8,6 +8,7 @@
 
 import Foundation
 import Firebase
+import OneSignal
 
 class AuthService {
     
@@ -37,7 +38,12 @@ class AuthService {
                         return
                     } else {
                         let profilePictureURL = metadata?.downloadURL()?.absoluteString
-                        let userData = ["provider" : user.providerID, "email" : user.email, "username": username, "profilePicture": profilePictureURL!] as [String : Any]
+                        
+                        // One Signal id
+                        let status: OSPermissionSubscriptionState = OneSignal.getPermissionSubscriptionState()
+                        let oneSignalUserId = status.subscriptionStatus.userId
+                        
+                        let userData = ["provider" : user.providerID, "email" : user.email!, "username": username, "profilePicture": profilePictureURL!, "oneSignalUserId": oneSignalUserId!] as [String : Any]
                         DataService.instance.createFirebaseUser(uid: user.uid, userData: userData)
                     }
                 }
@@ -55,6 +61,9 @@ class AuthService {
                 loginComplete(false, error)
                 return
             }
+            // Update loggedIn value in Database to true
+            DataService.instance.updateLoggedInValue(forUid: (Auth.auth().currentUser?.uid)!, loggedIn: true)
+            
             loginComplete(true, nil)
             
         }

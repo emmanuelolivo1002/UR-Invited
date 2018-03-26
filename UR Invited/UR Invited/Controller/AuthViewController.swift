@@ -8,6 +8,7 @@
 
 import UIKit
 import Firebase
+import OneSignal
 
 class AuthViewController: UIViewController, UITextFieldDelegate, UIImagePickerControllerDelegate, UINavigationControllerDelegate {
     
@@ -25,7 +26,22 @@ class AuthViewController: UIViewController, UITextFieldDelegate, UIImagePickerCo
         if emailTextfield.text != nil && passwordTextField.text != nil {
             AuthService.instance.loginUser(withEmail: emailTextfield.text!, andPassword: passwordTextField.text!, loginComplete: { (success, error) in
                 if success {
-                    self.dismiss(animated: true, completion: nil)
+                    
+                    let status: OSPermissionSubscriptionState = OneSignal.getPermissionSubscriptionState()
+                    let userID = status.subscriptionStatus.userId
+                    
+                    OneSignal.sendTag("loggedIn", value: "true")
+                    
+                    // Update OneSignal userId
+                    DataService.instance.updateOneSignalId(forUid: (Auth.auth().currentUser?.uid)!, withNewOneSignalId: userID!, updateComplete: { (completed) in
+                        
+                        if completed {
+                            self.dismiss(animated: true, completion: nil)
+
+                        }
+                        
+                    })
+                    
                 } else {
                     print(String(describing: error?.localizedDescription))
                 }

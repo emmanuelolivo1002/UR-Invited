@@ -23,8 +23,8 @@
                         <rect key="frame" x="0.0" y="0.0" width="375" height="667"/>
                         <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
                         <subviews>
-                            <stackView opaque="NO" contentMode="scaleToFill" axis="vertical" alignment="center" spacing="-3" translatesAutoresizingMaskIntoConstraints="NO" id="2si-cI-6V7">
-                                <rect key="frame" x="100" y="234" width="175" height="199"/>
+                            <stackView opaque="NO" contentMode="scaleToFill" axis="vertical" alignment="center" spacing="9" translatesAutoresizingMaskIntoConstraints="NO" id="2si-cI-6V7">
+                                <rect key="frame" x="100" y="222" width="175" height="224"/>
                                 <subviews>
                                     <imageView userInteractionEnabled="NO" contentMode="scaleAspectFit" horizontalHuggingPriority="251" verticalHuggingPriority="251" image="UR Invited LOGO" translatesAutoresizingMaskIntoConstraints="NO" id="gaw-gs-Egg">
                                         <rect key="frame" x="0.0" y="0.0" width="175" height="175"/>
@@ -34,8 +34,8 @@
                                         </constraints>
                                     </imageView>
                                     <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="UR Invited" textAlignment="natural" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="MTX-L0-Gnz">
-                                        <rect key="frame" x="34.5" y="172" width="106.5" height="27"/>
-                                        <fontDescription key="fontDescription" name="Roboto-Bold" family="Roboto" pointSize="23"/>
+                                        <rect key="frame" x="9" y="184" width="157" height="40"/>
+                                        <fontDescription key="fontDescription" name="Roboto-Bold" family="Roboto" pointSize="34"/>
                                         <color key="textColor" red="0.96862745100000003" green="0.96862745100000003" blue="0.96862745100000003" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>
                                         <nil key="highlightedColor"/>
                                     </label>
@@ -56,6 +56,6 @@
         </scene>
     </scenes>
     <resources>
-        <image name="UR Invited LOGO" width="128" height="133"/>
+        <image name="UR Invited LOGO" width="512" height="512"/>
     </resources>
 </document>

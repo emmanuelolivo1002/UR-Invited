@@ -491,7 +491,7 @@
                                         <rect key="frame" x="343" y="8" width="24" height="24"/>
                                         <state key="normal" image="Settings_icon"/>
                                         <connections>
-                                            <action selector="ChatPopUpMenuPressed:" destination="rea-Hd-ybo" eventType="touchUpInside" id="KmU-4w-QGJ"/>
+                                            <action selector="ChatPopUpMenuPressed:" destination="rea-Hd-ybo" eventType="touchUpInside" id="Uzs-JD-mcS"/>
                                         </connections>
                                     </button>
                                 </subviews>
@@ -566,7 +566,60 @@
                                         </constraints>
                                     </view>
                                 </subviews>
+                                <gestureRecognizers/>
                             </stackView>
+                            <view contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="vCa-qx-Ppg">
+                                <rect key="frame" x="178" y="60" width="197" height="121"/>
+                                <subviews>
+                                    <button opaque="NO" clearsContextBeforeDrawing="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="roundedRect" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="Q18-A4-dDf">
+                                        <rect key="frame" x="0.0" y="0.0" width="197" height="40"/>
+                                        <color key="backgroundColor" red="0.97254901960784312" green="0.97254901960784312" blue="0.97254901960784312" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>
+                                        <constraints>
+                                            <constraint firstAttribute="height" constant="40.329999999999998" id="vVM-M7-PqR"/>
+                                        </constraints>
+                                        <fontDescription key="fontDescription" name="OpenSans-Regular" family="Open Sans" pointSize="15"/>
+                                        <state key="normal" title="      My offers">
+                                            <color key="titleColor" red="0.37647058823529411" green="0.37647058823529411" blue="0.37647058823529411" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>
+                                        </state>
+                                    </button>
+                                    <button opaque="NO" clearsContextBeforeDrawing="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="roundedRect" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="ice-MH-HGM">
+                                        <rect key="frame" x="0.0" y="40" width="197" height="40"/>
+                                        <color key="backgroundColor" red="0.97254901960784312" green="0.97254901960784312" blue="0.97254901960784312" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>
+                                        <constraints>
+                                            <constraint firstAttribute="height" constant="40.329999999999998" id="mNK-zT-bQX"/>
+                                        </constraints>
+                                        <fontDescription key="fontDescription" name="OpenSans-Regular" family="Open Sans" pointSize="15"/>
+                                        <state key="normal" title="      Guest">
+                                            <color key="titleColor" red="0.37647058820000001" green="0.37647058820000001" blue="0.37647058820000001" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>
+                                        </state>
+                                    </button>
+                                    <button opaque="NO" clearsContextBeforeDrawing="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="roundedRect" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="nFF-XI-rlW">
+                                        <rect key="frame" x="0.0" y="80" width="197" height="40"/>
+                                        <color key="backgroundColor" red="0.97254901960784312" green="0.97254901960784312" blue="0.97254901960784312" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>
+                                        <constraints>
+                                            <constraint firstAttribute="height" constant="40.329999999999998" id="nbC-6j-Ggo"/>
+                                        </constraints>
+                                        <fontDescription key="fontDescription" name="OpenSans-Regular" family="Open Sans" pointSize="16"/>
+                                        <state key="normal" title="      Mute notifications">
+                                            <color key="titleColor" red="0.37647058820000001" green="0.37647058820000001" blue="0.37647058820000001" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>
+                                        </state>
+                                    </button>
+                                </subviews>
+                                <color key="backgroundColor" red="0.97254901960784312" green="0.97254901960784312" blue="0.97254901960784312" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>
+                                <constraints>
+                                    <constraint firstAttribute="trailing" secondItem="nFF-XI-rlW" secondAttribute="trailing" id="5Rv-ZT-uyi"/>
+                                    <constraint firstItem="Q18-A4-dDf" firstAttribute="width" secondItem="vCa-qx-Ppg" secondAttribute="width" id="6p9-H4-bgx"/>
+                                    <constraint firstAttribute="width" constant="197" id="72S-wR-nmZ"/>
+                                    <constraint firstAttribute="height" constant="121" id="7SW-4h-Wpv"/>
+                                    <constraint firstItem="Q18-A4-dDf" firstAttribute="leading" secondItem="vCa-qx-Ppg" secondAttribute="leading" id="GKy-C5-vpb"/>
+                                    <constraint firstItem="ice-MH-HGM" firstAttribute="leading" secondItem="vCa-qx-Ppg" secondAttribute="leading" id="KMp-m4-d5U"/>
+                                    <constraint firstItem="nFF-XI-rlW" firstAttribute="top" secondItem="ice-MH-HGM" secondAttribute="bottom" id="PJU-eu-ZDW"/>
+                                    <constraint firstItem="ice-MH-HGM" firstAttribute="top" secondItem="Q18-A4-dDf" secondAttribute="bottom" id="SBX-0B-pDt"/>
+                                    <constraint firstAttribute="trailing" secondItem="ice-MH-HGM" secondAttribute="trailing" id="gw3-U7-lIw"/>
+                                    <constraint firstItem="nFF-XI-rlW" firstAttribute="leading" secondItem="vCa-qx-Ppg" secondAttribute="leading" id="heU-WS-lof"/>
+                                    <constraint firstItem="Q18-A4-dDf" firstAttribute="top" secondItem="vCa-qx-Ppg" secondAttribute="top" id="z48-Rb-IIi"/>
+                                </constraints>
+                            </view>
                         </subviews>
                         <color key="backgroundColor" red="0.1529411765" green="0.12549019610000001" blue="0.23137254900000001" alpha="1" colorSpace="calibratedRGB"/>
                         <constraints>
@@ -575,23 +628,30 @@
                             <constraint firstItem="Z4z-Uj-gPb" firstAttribute="trailing" secondItem="iSM-h9-Fq2" secondAttribute="trailing" id="Kat-rv-dfA"/>
                             <constraint firstItem="3Sc-Zr-7dq" firstAttribute="trailing" secondItem="iSM-h9-Fq2" secondAttribute="trailing" id="Ryz-aS-MkS"/>
                             <constraint firstItem="3Sc-Zr-7dq" firstAttribute="bottom" secondItem="iSM-h9-Fq2" secondAttribute="bottom" id="aaL-Ba-0XC"/>
+                            <constraint firstItem="iSM-h9-Fq2" firstAttribute="trailing" secondItem="vCa-qx-Ppg" secondAttribute="trailing" id="biB-4U-xeq"/>
                             <constraint firstItem="3Sc-Zr-7dq" firstAttribute="top" secondItem="Z4z-Uj-gPb" secondAttribute="bottom" id="pFV-qx-Iy1"/>
+                            <constraint firstItem="vCa-qx-Ppg" firstAttribute="top" secondItem="iSM-h9-Fq2" secondAttribute="top" constant="40" id="u9s-dd-Jgr"/>
                             <constraint firstItem="Z4z-Uj-gPb" firstAttribute="top" secondItem="iSM-h9-Fq2" secondAttribute="top" id="yl0-fg-URF"/>
                         </constraints>
                         <viewLayoutGuide key="safeArea" id="iSM-h9-Fq2"/>
                     </view>
+                    <navigationItem key="navigationItem" id="WdH-BP-Grb"/>
                     <connections>
                         <outlet property="chatTableView" destination="4QL-V3-4Qy" id="m4g-Dz-cqf"/>
                         <outlet property="composeMessageView" destination="s2p-fh-IZ4" id="6Ap-jR-OM7"/>
                         <outlet property="groupNameLabel" destination="u9y-CW-shW" id="mTy-Af-JbU"/>
+                        <outlet property="guestButton" destination="ice-MH-HGM" id="uaq-QA-9kV"/>
                         <outlet property="membersLabel" destination="sUh-Il-RZG" id="guo-tT-UpM"/>
+                        <outlet property="menuUiView" destination="vCa-qx-Ppg" id="mEd-8y-g2M"/>
                         <outlet property="messageTextField" destination="KGG-a6-MeC" id="S4V-IS-r06"/>
+                        <outlet property="muteButton" destination="nFF-XI-rlW" id="5Y9-Dg-ldy"/>
+                        <outlet property="myOffersButton" destination="Q18-A4-dDf" id="FiO-Lt-797"/>
                         <outlet property="sendButton" destination="hBN-jI-Y5y" id="TLg-Mj-oj9"/>
                     </connections>
                 </viewController>
                 <placeholder placeholderIdentifier="IBFirstResponder" id="0TR-L0-e5d" userLabel="First Responder" sceneMemberID="firstResponder"/>
             </objects>
-            <point key="canvasLocation" x="1432.8" y="133.5832083958021"/>
+            <point key="canvasLocation" x="1577" y="134"/>
         </scene>
         <!--View Controller-->
         <scene sceneID="cBz-K5-pyH">
@@ -1164,7 +1224,7 @@
         <image name="currentGroupMenuButton" width="24" height="24"/>
         <image name="group_title_icon" width="24" height="24"/>
         <image name="group_work_icon" width="24" height="24"/>
-        <image name="profile_icon" width="30" height="30"/>
+        <image name="profile_icon" width="29" height="29"/>
         <image name="profile_image_placeholder" width="360" height="360"/>
         <image name="receipt_icon" width="24" height="24"/>
         <image name="send_icon" width="24" height="24"/>

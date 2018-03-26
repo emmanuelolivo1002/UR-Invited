@@ -26,7 +26,7 @@ class EventViewController: UIViewController,UITableViewDelegate, UITableViewData
     var filteredEvent = [Event]() // array of events filtered with the search
     var eventNameInStringForSearch = [String]() // array of just the name of the event in order to search as a string
 //    var titles = ["NBA", "MLB", "NFL", "NASCAR", "CSPORTS"] // titles for the sections
-    var titles = ["NBA", "MLB", "NFL"] // titles for the sections
+    var titles = ["NBA", "MLB", "NFL", "NASCAR"] // titles for the sections
     var date = Date();
     var dateFormatter = DateFormatter() // for api changing date to actual date
     let dispatchGroup = DispatchGroup()
@@ -182,9 +182,9 @@ class EventViewController: UIViewController,UITableViewDelegate, UITableViewData
         if collectionView.tag == 2{
             return nflDic.count
         }
-//        if collectionView.tag == 3{
-//            return nascarDic.count
-//        }
+        if collectionView.tag == 3{
+            return nascarDic.count
+        }
 //        if collectionView.tag == 4{
 //            return ncaaSportsDic.count
 //        }
@@ -210,10 +210,10 @@ class EventViewController: UIViewController,UITableViewDelegate, UITableViewData
             cell.eventImage.image = UIImage(named: "nfl.jpg")
             cell.eventNameLabel.text = eventDic[nbaDic.count + mlbDic.count + indexPath.row].name
         }
-//        if collectionView.tag == 3 && eventDic[nbaDic.count + mlbDic.count + nflDic.count + indexPath.row].category == "NASCAR"{
-//            cell.eventImage.image = UIImage(named: "nascar.jpg")
-//            cell.eventNameLabel.text = eventDic[nbaDic.count + mlbDic.count  + nflDic.count + indexPath.row].name
-//        }
+        if collectionView.tag == 3 && eventDic[nbaDic.count + mlbDic.count + nflDic.count + indexPath.row].category == "NASCAR"{
+            cell.eventImage.image = UIImage(named: "nascar.jpg")
+            cell.eventNameLabel.text = eventDic[nbaDic.count + mlbDic.count  + nflDic.count + indexPath.row].name
+        }
 //        if collectionView.tag == 4 && eventDic[nbaDic.count + mlbDic.count + nflDic.count + nascarDic.count + indexPath.row].category == "CSPORTS"{
 //            cell.eventImage.image = UIImage(named: "College.jpg")
 //            cell.eventNameLabel.text = eventDic[nbaDic.count + mlbDic.count + nflDic.count + nascarDic.count + indexPath.row].name
@@ -243,10 +243,10 @@ class EventViewController: UIViewController,UITableViewDelegate, UITableViewData
             
         }
 //        // handle tap events NASCAR
-//        if collectionView.tag == 3 {
-//
-//            displayFriendsUiViewController(nameOfEvent: eventDic[nbaDic.count + mlbDic.count  + nflDic.count + indexPath.item].name)
-//        }
+        if collectionView.tag == 3 {
+
+            displayFriendsUiViewController(nameOfEvent: eventDic[nbaDic.count + mlbDic.count  + nflDic.count + indexPath.item].name)
+        }
 //        // handle tap events COLLEGESPORTS
 //        if collectionView.tag == 4 {
 //
@@ -511,7 +511,7 @@ class EventViewController: UIViewController,UITableViewDelegate, UITableViewData
         getMySportsFeedUrlNBA(api_url:"https://api.mysportsfeeds.com/v1.2/pull/nba/2017-2018-regular/full_game_schedule.json")
         getMySportsFeedUrlMLB(api_url:"https://api.mysportsfeeds.com/v1.2/pull/mlb/2018-regular/full_game_schedule.json")
         getMySportsFeedUrlNFL(api_url:"https://api.mysportsfeeds.com/v1.2/pull/nfl/2018-playoff/full_game_schedule.json")
-//        getMySportsFeedUrlNASCAR(api_url:"https://api.fantasydata.net/nascar/v2/json/series")
+        getMySportsFeedUrlNASCAR(api_url:"https://api.fantasydata.net/nascar/v2/json/series")
 //        getMySportsFeedUrlNCAABASKETBALL(api_url:"https://api.fantasydata.net/v3/cbb/stats/JSON/Games/2018")
 //        getMySportsFeedUrlNCAAFOOTBALL(api_url:"https://api.fantasydata.net/v3/cfb/stats/JSON/Games/2018")
     }
@@ -540,13 +540,13 @@ class EventViewController: UIViewController,UITableViewDelegate, UITableViewData
             let newEvent = Event(name: tempName, date: tempDate, category: tempCategory)
             self.eventDic.append(newEvent)
         }
-//        for nascar in self.nascarDic{
-//            let tempName = "Nascar | \(nascar["Name"] as! String)"
-//            let tempDate = "0000-00-00"
-//            let tempCategory = "NASCAR"
-//            let newEvent = Event(name: tempName, date: tempDate, category: tempCategory)
-//            self.eventDic.append(newEvent)
-//        }
+        for nascar in self.nascarDic{
+            let tempName = "Nascar | \(nascar["Name"] as! String)"
+            let tempDate = "0000-00-00"
+            let tempCategory = "NASCAR"
+            let newEvent = Event(name: tempName, date: tempDate, category: tempCategory)
+            self.eventDic.append(newEvent)
+        }
 //        for ncaaBasketBall in self.ncaaBasketballDic{
 //            let tempName = "CBB | \(ncaaBasketBall["HomeTeam"] as! String) vs \(ncaaBasketBall["AwayTeam"] as! String)"
 //            let tempDate = ncaaBasketBall["Day"] as! String

@@ -21,12 +21,18 @@ class ChatViewController: UIViewController, UITableViewDelegate, UITableViewData
     @IBOutlet weak var groupNameLabel: UILabel!
     @IBOutlet weak var membersLabel: UILabel!
     
-   
+    @IBOutlet weak var menuUiView: UIView! // view for the pop up menu
     
+    @IBOutlet weak var myOffersButton: UIButton! // button for offers made
+    @IBOutlet weak var guestButton: UIButton! // button for guests invited
+    @IBOutlet weak var muteButton: UIButton! // button to mute the notifications
     
     
     // MARK: Variables
 
+    
+    var menuOpen = false // counter to close and open button
+    
     // Setup an initial group optionally
     var group: Group?
     
@@ -38,14 +44,6 @@ class ChatViewController: UIViewController, UITableViewDelegate, UITableViewData
     var noticeFlag = false
     
    
-    
-    var menuOpen = false // counter to close and open button
-    
-    var menuUiView = UIView() // Creates the UIView for the menu
-    
-    let myOffersButton = UIButton() // Create a button for my offers
-    let guestButton = UIButton() //Create a button for my guest in invite
-    let muteButton = UIButton() //Create a button for my mute button
     
     
     // MARK: Actions
@@ -74,7 +72,7 @@ class ChatViewController: UIViewController, UITableViewDelegate, UITableViewData
                     let profileImageURL = returnedURL
                     
                     // Upload message
-                    DataService.instance.uploadPost(withMessage: self.messageTextField.text!, forUID: (Auth.auth().currentUser?.uid)!, andUsername: currentUsername, andProfilePictureURL: profileImageURL,  withGroupKey: self.group?.groupId, sendComplete: { (complete) in
+                    DataService.instance.uploadPost(withMessage: self.messageTextField.text!, forUID: (Auth.auth().currentUser?.uid)!, andUsername: currentUsername, andProfilePictureURL: profileImageURL,  withGroup: self.group!, sendComplete: { (complete) in
                         
                         if complete {
                             // Clear textfield
@@ -117,17 +115,16 @@ class ChatViewController: UIViewController, UITableViewDelegate, UITableViewData
     override func viewDidLoad() {
         super.viewDidLoad()
         
-        createUiView(views: menuUiView)
-        createMyOffersButton()
-        myOffersButton.isHidden = true
-        createGuestButton()
-        guestButton.isHidden = true
-        createMuteButton()
-        muteButton.isHidden = true
+      
         
         self.chatTableView.estimatedRowHeight = 200
         self.chatTableView.rowHeight = UITableViewAutomaticDimension;
         
+        // Hide menu
+        self.menuUiView.isHidden = true
+        
+        
+        buttonTitleAllignment()
         
         // Bind to keyboard
         composeMessageView.bindToKeyboard()
@@ -152,6 +149,12 @@ class ChatViewController: UIViewController, UITableViewDelegate, UITableViewData
         
         // Guest option button pressed
         guestButton.addTarget(self, action: #selector(displayCurrentAndNewGuest(_:)), for: .touchUpInside)
+        
+        // swipe right to go back to group view
+        let swipeRightRec = UISwipeGestureRecognizer()
+        swipeRightRec.addTarget(self, action: #selector(swipedRight) )
+        swipeRightRec.direction = .right
+        self.view!.addGestureRecognizer(swipeRightRec)
 
     }
    
@@ -288,16 +291,9 @@ class ChatViewController: UIViewController, UITableViewDelegate, UITableViewData
     @IBAction func ChatPopUpMenuPressed(_ sender: Any) {
         
         if menuUiView.isHidden == true{
-            
-            myOffersButton.isHidden = false
-            guestButton.isHidden = false
-            muteButton.isHidden = false
             menuUiView.isHidden = false
         } else {
             
-            myOffersButton.isHidden = true
-            guestButton.isHidden = true
-            muteButton.isHidden = true
             menuUiView.isHidden = true
         }
         
@@ -305,58 +301,7 @@ class ChatViewController: UIViewController, UITableViewDelegate, UITableViewData
     }
     
     
-    // End of PopUp Menu for group chat options
-    func createUiView (views: UIView){
-        
-        views.frame = CGRect.init(x: 179, y: 77, width: 280, height: 180)
-        views.backgroundColor = UIColor.black     //give color to the view
-        self.view.addSubview(views)
-        
-        // Contraints for the created view
-        
-        view.translatesAutoresizingMaskIntoConstraints = true
-        let horizontalConstraint = NSLayoutConstraint(item: views, attribute: NSLayoutAttribute.centerX, relatedBy: NSLayoutRelation.equal, toItem: views, attribute: NSLayoutAttribute.centerX, multiplier: 1, constant: 66.84)
-        let verticalConstraint = NSLayoutConstraint(item: views, attribute: NSLayoutAttribute.centerY, relatedBy: NSLayoutRelation.equal, toItem: views, attribute: NSLayoutAttribute.centerY, multiplier: 1, constant: -220)
-        let widthConstraint = NSLayoutConstraint(item: views, attribute: NSLayoutAttribute.width, relatedBy: NSLayoutRelation.equal, toItem: nil, attribute: NSLayoutAttribute.notAnAttribute, multiplier: 1, constant: 280)
-        let heightConstraint = NSLayoutConstraint(item: views, attribute: NSLayoutAttribute.height, relatedBy: NSLayoutRelation.equal, toItem: nil, attribute: NSLayoutAttribute.notAnAttribute, multiplier: 1, constant: 180)
-        view.addConstraints([horizontalConstraint, verticalConstraint, widthConstraint, heightConstraint])
-        
-        views.isHidden = true
-        
-    }
-    
-    func createMyOffersButton () {
-        
-        myOffersButton.setTitle("       My offers", for: .normal)
-        myOffersButton.contentHorizontalAlignment = UIControlContentHorizontalAlignment.left
-        myOffersButton.setTitleColor(#colorLiteral(red: 0.3764705882, green: 0.3764705882, blue: 0.3764705882, alpha: 1), for: .normal)
-        myOffersButton.backgroundColor = #colorLiteral(red: 0.9725490196, green: 0.9725490196, blue: 0.9725490196, alpha: 1)
-        myOffersButton.frame = CGRect(x: 179, y: 77, width: 234.8, height: 60)
-        self.view.addSubview(myOffersButton)
-        
-    }
-    
-    func createGuestButton(){
-        
-        guestButton.setTitle("       Guest", for: .normal)
-        guestButton.contentHorizontalAlignment = UIControlContentHorizontalAlignment.left
-        guestButton.setTitleColor(#colorLiteral(red: 0.3764705882, green: 0.3764705882, blue: 0.3764705882, alpha: 1), for: .normal)
-        guestButton.backgroundColor = #colorLiteral(red: 0.9725490196, green: 0.9725490196, blue: 0.9725490196, alpha: 1)
-        guestButton.frame = CGRect(x: 179, y: 137, width: 234.8, height: 60)
-        self.view.addSubview(guestButton)
-        
-    }
-    
-    func createMuteButton(){
-        
-        muteButton.setTitle("       Mute notifications off", for: .normal)
-        muteButton.contentHorizontalAlignment = UIControlContentHorizontalAlignment.left
-        muteButton.setTitleColor(#colorLiteral(red: 0.3764705882, green: 0.3764705882, blue: 0.3764705882, alpha: 1), for: .normal)
-        muteButton.backgroundColor = #colorLiteral(red: 0.9725490196, green: 0.9725490196, blue: 0.9725490196, alpha: 1)
-        muteButton.frame = CGRect(x: 179, y: 197, width: 234.8, height: 60)
-        self.view.addSubview(muteButton)
-        
-    }
+   
    
     
     // display current and new friends in group function
@@ -380,14 +325,41 @@ class ChatViewController: UIViewController, UITableViewDelegate, UITableViewData
     @objc func tableViewTapped() {
         view.endEditing(true)
         menuUiView.isHidden = true
-        myOffersButton.isHidden = true
-        guestButton.isHidden = true
-        muteButton.isHidden = true
+    
     }
     
     @objc func displayCurrentAndNewGuest(_ button: UIButton) {
         
         displayFriendsInGroupUiViewController(nameOfEvent: (group?.groupTitle)!)
+    }
+    
+    
+    @objc func swipedRight() {
+        
+        
+        let transition = CATransition()
+        transition.duration = 0.5
+        transition.type = kCATransitionPush
+        transition.subtype = kCATransitionFromLeft
+        transition.timingFunction = CAMediaTimingFunction(name:kCAMediaTimingFunctionEaseInEaseOut)
+        view.window!.layer.add(transition, forKey: kCATransition)
+        
+        let storyboard = UIStoryboard(name: "Main", bundle: Bundle.main)
+        
+        // Select AuthViewController
+        let tabBarViewController = storyboard.instantiateInitialViewController() as! UITabBarController
+        tabBarViewController.selectedIndex = 0
+        
+        self.present(tabBarViewController, animated: false, completion: nil)
+        
+    }
+    
+    
+    func buttonTitleAllignment()
+    {
+        guestButton.contentHorizontalAlignment = UIControlContentHorizontalAlignment.left
+        muteButton.contentHorizontalAlignment = UIControlContentHorizontalAlignment.left
+        myOffersButton.contentHorizontalAlignment = UIControlContentHorizontalAlignment.left
     }
     
 }

@@ -13,5 +13,12 @@ target 'UR Invited' do
   pod 'Firebase/Auth'
   pod 'Firebase/Storage'
   pod 'FirebaseUI/Storage'
+  pod 'Firebase/Messaging'
+  pod 'OneSignal', '>= 2.6.2', '< 3.0'
 
+end
+
+target 'OneSignalNotificationServiceExtension' do
+  use_frameworks!
+  pod 'OneSignal', '>= 2.6.2', '< 3.0'
 end
