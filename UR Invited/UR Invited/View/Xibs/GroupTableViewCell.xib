@@ -57,14 +57,14 @@
                                     <constraint firstAttribute="width" constant="16" id="d2o-5a-Y1m"/>
                                 </constraints>
                             </view>
-                            <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="Category" textAlignment="natural" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="QUF-Rf-wkc">
-                                <rect key="frame" x="16" y="38.5" width="48.5" height="14.5"/>
-                                <fontDescription key="fontDescription" name="Roboto-Regular" family="Roboto" pointSize="12"/>
-                                <nil key="textColor"/>
+                            <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="Sports" textAlignment="natural" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="QUF-Rf-wkc">
+                                <rect key="frame" x="16" y="38.5" width="39" height="15.5"/>
+                                <fontDescription key="fontDescription" name="Roboto-Bold" family="Roboto" pointSize="13"/>
+                                <color key="textColor" red="0.22183604907090249" green="0.76088594543147203" blue="0.2581910259104383" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>
                                 <nil key="highlightedColor"/>
                             </label>
                             <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="# members" textAlignment="natural" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="Ahk-cG-dVu">
-                                <rect key="frame" x="73.5" y="40.5" width="46" height="11"/>
+                                <rect key="frame" x="64" y="41" width="46" height="11"/>
                                 <fontDescription key="fontDescription" name="Roboto-Regular" family="Roboto" pointSize="9"/>
                                 <nil key="textColor"/>
                                 <nil key="highlightedColor"/>
@@ -77,7 +77,7 @@
                                 </constraints>
                             </view>
                             <stackView opaque="NO" contentMode="scaleAspectFit" distribution="fillEqually" translatesAutoresizingMaskIntoConstraints="NO" id="Jh7-X9-Kjq">
-                                <rect key="frame" x="8" y="61" width="300" height="32"/>
+                                <rect key="frame" x="8" y="62" width="300" height="32"/>
                                 <constraints>
                                     <constraint firstAttribute="height" constant="32" id="SyK-4v-kvV"/>
                                     <constraint firstAttribute="width" constant="300" id="lPT-Ut-f31"/>

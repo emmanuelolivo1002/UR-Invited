@@ -179,9 +179,12 @@ class ChatViewController: UIViewController, UITableViewDelegate, UITableViewData
             DataService.instance.getAllMessages(forGroup: self.group!) { (returnedGroupMessages) in
                 self.messageArray = returnedGroupMessages
                 
-                print("messages count BEFORE reloading: \(self.messageArray.count)")
+                
+                // Send message from Fanatics when there are multiple of 5 messages
+                
+                
+                
                 self.chatTableView.reloadData()
-                print("messages count AFTER reloading: \(self.messageArray.count)")
                 
                 // Scroll to bottom of table view
                 if self.messageArray.count > 0 {

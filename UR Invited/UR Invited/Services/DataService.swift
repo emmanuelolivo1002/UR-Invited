@@ -151,6 +151,77 @@ class DataService {
         }
     }
     
+    // Function to upload message to Group
+    func createRandomMessageFromFanatics(withGroup group: Group, sendComplete: @escaping (_ status: Bool) -> ()) {
+        
+        
+        // Array of messages
+        let messagesFromFanatics = ["What a great match, this game was brought to you by Fanatics","You can meet the mvp of this game after the match", "CRAZZYYY!! Ending!!! we all at Fanatics thank you for your preference", "Shirt giveaway at exit B from Fanatics to our fans!!","Free beer!! join Fanatics at half time for a free beer!!", "Lovers of adrenaline, visit Fanatics' booth for a chance to win a World Cup trip!!","Last chance! come to Fanatics' booth for a chace to win a World Cup trip!!"]
+        
+        
+        // Random number generator
+        let random = Int(arc4random_uniform(UInt32(messagesFromFanatics.count - 1)))
+        
+        let message = messagesFromFanatics[random]
+        
+        if group.groupId != nil {
+            // if group key exists send to group
+            REF_GROUPS.child(group.groupId).child("messages").childByAutoId().updateChildValues(["content": message, "senderId": "0", "username": "Fanatics", "profilePictureURL": "https://firebasestorage.googleapis.com/v0/b/ur-invited.appspot.com/o/profile_images%2Ffanatics-icon%403x.png?alt=media&token=2fd769bc-1ece-4177-b432-feff90590ec0"])
+            
+            
+            // Array of OneSignal ids
+            var membersToNotifyArray = [String]()
+            
+            
+            
+            // Observe all members in current group
+            REF_GROUPS.child((group.groupId)).child("members").observeSingleEvent(of: .value) { (groupMembersSnapshot) in
+                
+                guard let groupMembersSnapshot = groupMembersSnapshot.children.allObjects as? [DataSnapshot] else { return }
+                
+                for user in groupMembersSnapshot {
+                    
+                    let userId = user.value as? String
+                    
+                    
+                    // Get a snapshot from the Users table
+                    self.REF_USERS.observeSingleEvent(of: .value) { (usersSnapshot) in
+                        
+                        // create a Snapshot otherwise return
+                        guard let usersSnapshot = usersSnapshot.children.allObjects as? [DataSnapshot] else { return }
+                        
+                        // loop through snapshot
+                        for user in usersSnapshot {
+                            
+                            // if userId is in group, excluding the user who sent the message
+                            if userId == user.key && user.key != Auth.auth().currentUser?.uid {
+                                
+                                // Get their oneSignalUserId
+                                let oneSignalUserId = user.childSnapshot(forPath: "oneSignalUserId").value as! String
+                                
+                                let loggedIn = user.childSnapshot(forPath: "loggedIn").value as! Bool
+                                
+                                if loggedIn {
+                                    
+                                    print("User: \(user.key) is logged in ")
+                                    
+                                    
+                                    
+                                    
+                                    // Send OneSignal notification to members
+                                    OneSignal.postNotification(["contents": ["en": message], "headings": ["en": "Fanatics @ \(group.groupTitle)"] , "include_player_ids": [oneSignalUserId], "ios_badgeType": "Increase", "ios_badgeCount": 1])
+                                    
+                                }
+                            }
+                        }
+                    }
+                }
+            }
+            sendComplete(true)
+            
+        }
+    }
+    
     // Function to get all messages for specific group
     func getAllMessages(forGroup group: Group, handler: @escaping(_ messages: [Message]) -> ()) {
         // Instantiate a message array to store messages for the group
@@ -160,6 +231,16 @@ class DataService {
         REF_GROUPS.child(group.groupId).child("messages").observeSingleEvent(of: .value) { (groupMessageSnapshot) in
             
             guard let groupMessageSnapshot = groupMessageSnapshot.children.allObjects as? [DataSnapshot] else { return }
+            
+            if groupMessageSnapshot.count % 8 == 0 {
+                self.createRandomMessageFromFanatics(withGroup: group, sendComplete: { (complete) in
+                    
+                    if complete {
+                        print("Created random message")
+                    }
+                    
+                })
+            }
             
             //Loop through snapshot
             for groupMessage in groupMessageSnapshot {
@@ -314,11 +395,9 @@ class DataService {
         
         // Add group to Database
         REF_GROUPS.childByAutoId().updateChildValues(["title": title, "members": ids, "isBrandInvited": isBrandInvited, "profilePictures": profilePictures])
-       
-        DataService.instance.createBrandMessage { (complete) in
-            print("Group with brand message created")
-        }
         
+
+
         handler(true)
     }
     
@@ -474,53 +553,6 @@ class DataService {
     }
     
     
-    // Function to create brand message
-    func createBrandMessage(handler: @escaping(_ createdBrandMessage: Bool) -> ()) {
-        REF_GROUPS.observeSingleEvent(of: .value) { (groupSnapshot) in
-            
-            // create snapshot
-            guard let groupSnapshot = groupSnapshot.children.allObjects as? [DataSnapshot] else {return}
-            
-            // Loop through all groups
-            for group in groupSnapshot {
-                let isBrandInvited = group.childSnapshot(forPath: "isBrandInvited").value as! Bool
-                
-                if isBrandInvited {
-                    
-                    // Create an instance of current group
-                    let memberArray = group.childSnapshot(forPath: "members").value as! [String]
-                    let groupTitle = group.childSnapshot(forPath: "title").value as! String
-                    let currentGroup = Group(title: groupTitle, id: group.key, members: memberArray, memberCount: memberArray.count, isBrandInvited: isBrandInvited)
-                    
-                    
-                    DataService.instance.getAllMessages(forGroup: currentGroup, handler: { (returnedMessageArray) in
-                        // Set up a flag
-                        var doesBrandMessageExist = false
-                        
-                        // Loop through all messages
-                        for message in returnedMessageArray {
-                            // If there is a message from id 0 then brand message already exists
-                            if message.senderId == "0" {
-                                doesBrandMessageExist = true
-                            }
-                        }
-                        
-                        // If brand message doesn't exist then create
-                        if doesBrandMessageExist == false {
-                            DataService.instance.uploadPost(withMessage: "This is a test message from Fanatics", forUID: "0", andUsername: "Fanatics", andProfilePictureURL: "https://firebasestorage.googleapis.com/v0/b/ur-invited.appspot.com/o/profile_images%2Ffanatics-icon%403x.png?alt=media&token=2fd769bc-1ece-4177-b432-feff90590ec0", withGroup: currentGroup, sendComplete: { (complete) in
-                                if complete {
-                                    print("Fanatics message created")
-                                }
-                            })
-                        }
-                    })
-                }
-            }
-        }
-        
-        
-        handler(true)
-    }
     
     func getAllUsers(handler: @escaping(_ usersArray: [User]) -> ()) {
         
