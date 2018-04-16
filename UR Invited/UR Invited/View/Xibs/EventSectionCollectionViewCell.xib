@@ -1,11 +1,11 @@
 <?xml version="1.0" encoding="UTF-8"?>
-<document type="com.apple.InterfaceBuilder3.CocoaTouch.XIB" version="3.0" toolsVersion="13771" targetRuntime="iOS.CocoaTouch" propertyAccessControl="none" useAutolayout="YES" useTraitCollections="YES" useSafeAreas="YES" colorMatched="YES">
+<document type="com.apple.InterfaceBuilder3.CocoaTouch.XIB" version="3.0" toolsVersion="14109" targetRuntime="iOS.CocoaTouch" propertyAccessControl="none" useAutolayout="YES" useTraitCollections="YES" useSafeAreas="YES" colorMatched="YES">
     <device id="retina4_7" orientation="portrait">
         <adaptation id="fullscreen"/>
     </device>
     <dependencies>
         <deployment identifier="iOS"/>
-        <plugIn identifier="com.apple.InterfaceBuilder.IBCocoaTouchPlugin" version="13772"/>
+        <plugIn identifier="com.apple.InterfaceBuilder.IBCocoaTouchPlugin" version="14088"/>
         <capability name="Safe area layout guides" minToolsVersion="9.0"/>
         <capability name="documents saved in the Xcode 8 format" minToolsVersion="8.0"/>
     </dependencies>
@@ -24,21 +24,33 @@
                         <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
                     </imageView>
                     <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="Label" textAlignment="center" lineBreakMode="tailTruncation" numberOfLines="2" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="ZoA-O9-t3u">
-                        <rect key="frame" x="8" y="146" width="120" height="14.5"/>
+                        <rect key="frame" x="8" y="137" width="120" height="14.5"/>
                         <fontDescription key="fontDescription" type="system" pointSize="12"/>
+                        <color key="textColor" white="1" alpha="1" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
+                        <nil key="highlightedColor"/>
+                    </label>
+                    <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="04/09" textAlignment="center" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="fkf-Hr-dzz">
+                        <rect key="frame" x="8" y="156" width="120" height="11"/>
+                        <fontDescription key="fontDescription" type="system" pointSize="9"/>
                         <color key="textColor" white="1" alpha="1" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
                         <nil key="highlightedColor"/>
                     </label>
                 </subviews>
             </view>
             <constraints>
-                <constraint firstAttribute="bottom" secondItem="ZoA-O9-t3u" secondAttribute="bottom" constant="15" id="4DF-3f-bpA"/>
+                <constraint firstItem="fkf-Hr-dzz" firstAttribute="width" secondItem="ZoA-O9-t3u" secondAttribute="width" id="BHu-Lg-cTb"/>
+                <constraint firstItem="fkf-Hr-dzz" firstAttribute="top" secondItem="ZoA-O9-t3u" secondAttribute="bottom" constant="4.5" id="BJ0-KL-uUF"/>
+                <constraint firstItem="fkf-Hr-dzz" firstAttribute="centerX" secondItem="ZoA-O9-t3u" secondAttribute="centerX" id="JWh-f0-3WT"/>
+                <constraint firstAttribute="bottom" secondItem="fkf-Hr-dzz" secondAttribute="bottom" constant="9" id="QpV-dt-ANn"/>
+                <constraint firstAttribute="trailing" secondItem="fkf-Hr-dzz" secondAttribute="trailing" constant="8" id="edS-dL-iyJ"/>
                 <constraint firstAttribute="trailing" secondItem="ZoA-O9-t3u" secondAttribute="trailing" constant="8" id="g1M-Si-Z9u"/>
+                <constraint firstItem="fkf-Hr-dzz" firstAttribute="leading" secondItem="NXf-Qn-PJa" secondAttribute="leading" constant="8" id="jVx-A7-gNR"/>
                 <constraint firstItem="ZoA-O9-t3u" firstAttribute="leading" secondItem="NXf-Qn-PJa" secondAttribute="leading" constant="8" id="o9D-L7-aaS"/>
             </constraints>
             <viewLayoutGuide key="safeArea" id="1G0-Fn-biG"/>
             <size key="customSize" width="286" height="343"/>
             <connections>
+                <outlet property="eventDate" destination="fkf-Hr-dzz" id="dpc-g3-yfn"/>
                 <outlet property="eventImage" destination="TDK-Ky-jT0" id="4sT-CF-SyV"/>
                 <outlet property="eventNameLabel" destination="ZoA-O9-t3u" id="yqf-P5-qHx"/>
             </connections>

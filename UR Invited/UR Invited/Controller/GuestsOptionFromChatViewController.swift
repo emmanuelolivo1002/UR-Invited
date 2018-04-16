@@ -7,6 +7,7 @@
 //
 
 import UIKit
+import Firebase
 
 class GuestsOptionFromChatViewController: UIViewController, UITableViewDelegate, UITableViewDataSource, UITextFieldDelegate {
     
@@ -162,6 +163,9 @@ class GuestsOptionFromChatViewController: UIViewController, UITableViewDelegate,
         
         searchTextField.delegate = self
         
+        // Add target whenever textfield changes
+        searchTextField.addTarget(self, action: #selector(textFieldDidChange), for: .editingChanged)
+        
     }
     
     override func viewDidAppear(_ animated: Bool) {
@@ -189,6 +193,69 @@ class GuestsOptionFromChatViewController: UIViewController, UITableViewDelegate,
         self.group = group
     }
     
+    // Function to execute whenever textfield changes
+    @objc func textFieldDidChange () {
+        
+        // if search query is empty show the array as empty
+        if searchTextField.text == "" {
+            
+            if isCurrentGuestsButtonSelected {
+                usersDisplayed = usersCurrentlyInGroup
+            } else {
+                usersDisplayed = usersNotInGroup
+            }
+            
+            currentGuestTableView.reloadData()
+            
+        } else {
+            
+            // if there is a search in textfield start getting emails from database
+            
+            if isCurrentGuestsButtonSelected {
+                
+                DataService.instance.getUsers(forSearchQuery: searchTextField.text!, handler: { (returnedUsersArray) in
+                    
+                    var searchArray = returnedUsersArray
+                    
+                    
+                    for user in self.usersNotInGroup {
+                        
+                        searchArray = searchArray.filter({ $0.uid != user.uid})
+                        
+                    }
+                    
+                    self.usersDisplayed = searchArray
+                    self.currentGuestTableView.reloadData()
+                    
+                })
+                
+                
+            } else {
+                
+                DataService.instance.getUsers(forSearchQuery: searchTextField.text!, handler: { (returnedUsersArray) in
+                    
+                    var searchArray = returnedUsersArray
+                    
+                    
+                    for user in self.usersCurrentlyInGroup {
+                        
+                        searchArray = searchArray.filter({ $0.uid != user.uid})
+                        
+                    }
+                    
+                    self.usersDisplayed = searchArray
+                    self.currentGuestTableView.reloadData()
+                    
+                })
+                
+                
+            }
+            
+            
+           
+        }
+        
+    }
     
     // Tableview methods
     

@@ -14,6 +14,7 @@ class EventCollectionViewCell: UICollectionViewCell {
 
     @IBOutlet weak var eventImage: UIImageView!
     @IBOutlet weak var eventNameLabel: UILabel!
-    
+    @IBOutlet weak var eventDate: UILabel!
+
     
 }

@@ -24,15 +24,14 @@ class EventViewController: UIViewController,UITableViewDelegate, UITableViewData
     var tempCBB = [Event]() // Temporary Array for college basketball to be sorted
     var eventDic = [Event]() // array of events
     var filteredEvent = [Event]() // array of events filtered with the search
-    var eventNameInStringForSearch = [String]() // array of just the name of the event in order to search as a string
-//    var titles = ["NBA", "MLB", "NFL", "NASCAR", "CSPORTS"] // titles for the sections
-    var titles = ["NBA", "MLB", "NFL", "NASCAR"] // titles for the sections
+    //    var eventNameInStringForSearch = [String]() // array of just the name of the event in order to search as a string
+    var titles = ["NBA", "MLB", "NFL","NASCAR"] // titles for the sections
     var date = Date();
     var dateFormatter = DateFormatter() // for api changing date to actual date
     let dispatchGroup = DispatchGroup()
     let screenSize = UIScreen.main.bounds
     var friendsView: UIView! // UIView to display the friends to invite
-    var searchEventArray = [String] () // copy of main event array
+    var searchEventArray = [Event] () // copy of main event array
     let storyBoard : UIStoryboard = UIStoryboard(name: "Main", bundle:nil) // the entire storyboard variable
     
     @IBOutlet weak var searchQuery: UITextField! // search bar textfield to find events
@@ -61,8 +60,12 @@ class EventViewController: UIViewController,UITableViewDelegate, UITableViewData
             UIApplication.shared.endIgnoringInteractionEvents()
             //ends here
             
+            //            print ("Begging of Nascar: \(self.nbaDic)")
+            
+            
+            
             self.displayEvents()
-            self.searchEventArray = self.eventNameInStringForSearch
+            self.searchEventArray = self.eventDic
             
         }
         
@@ -90,17 +93,18 @@ class EventViewController: UIViewController,UITableViewDelegate, UITableViewData
         eventsTableView.allowsSelection = true
         
         if searchQuery.text == "" {
-            searchEventArray = eventNameInStringForSearch
+            searchEventArray = eventDic
             self.eventsTableView.reloadData()
         } else {
-            var eventString = [String]()
-            for event in eventNameInStringForSearch {
+            var eventArray = [Event]()
+            for event in eventDic {
                 
-                if event.lowercased().contains(searchQuery.text!.lowercased()) == true {
-                    eventString.append(event)
+                if event.name.lowercased().contains(searchQuery.text!.lowercased()) == true || event.date.lowercased().contains(searchQuery.text!.lowercased()) == true || event.homeTeamCity?.lowercased().contains(searchQuery.text!.lowercased()) == true || event.awayTeamCity?.lowercased().contains(searchQuery.text!.lowercased()) == true || event.category.lowercased().contains(searchQuery.text!.lowercased()) == true {
+                    
+                    eventArray.append(event)
                 }
             }
-            searchEventArray = eventString
+            searchEventArray = eventArray
             self.eventsTableView.reloadData()
         }
     }
@@ -132,6 +136,10 @@ class EventViewController: UIViewController,UITableViewDelegate, UITableViewData
     
     func tableView(_ tableView: UITableView, cellForRowAt indexPath: IndexPath) -> UITableViewCell {
         
+        dateFormatter.dateFormat = "yyyy-MM-dd"
+        let nowString = dateFormatter.string(from: date)
+        let nowDate = self.dateFormatter.date(from: nowString)
+        
         if !searchQuery.isEditing {
             
             guard let cell = tableView.dequeueReusableCell(withIdentifier: "EventTableViewCell") as? EventTableViewCell else {return UITableViewCell()}
@@ -146,14 +154,32 @@ class EventViewController: UIViewController,UITableViewDelegate, UITableViewData
             // here goes the xib file values
             guard let cell = tableView.dequeueReusableCell(withIdentifier: "EventSearchTableViewCell") as? EventSearchTableViewCell else {return UITableViewCell()}
             
+            let stringDate = searchEventArray[indexPath.row].date
+            let newDateFixed = stringDate.replacingOccurrences(of: "-", with: "/", options: .literal, range: nil)
+            let tempDate = newDateFixed.replacingOccurrences(of: "2018/", with: "", options: .literal, range: nil)
+            let eventDate = self.dateFormatter.date(from: stringDate)
+            let tomorrow = Calendar.current.date(byAdding:
+                .day, // updated this params to add hours
+                value: 1,
+                to: nowDate!)
             
-            cell.eventNameLabel.text = searchEventArray[indexPath.row]
+            cell.eventNameLabel.text = searchEventArray[indexPath.row].name
+            
+            if eventDate == nowDate
+            {
+                cell.eventDateForSearch.text = "Today"
+            }else if eventDate == tomorrow{
+                cell.eventDateForSearch.text = "Tomorrow"
+            }else{
+                cell.eventDateForSearch.text = tempDate
+            }
+            
             return cell
         }
     }
     
     func tableView(_ tableView: UITableView, didSelectRowAt indexPath: IndexPath) {
-          guard let cell = tableView.cellForRow(at: indexPath) as? EventSearchTableViewCell else {return}
+        guard let cell = tableView.cellForRow(at: indexPath) as? EventSearchTableViewCell else {return}
         
         // Set color of cell when selected
         let bgColorView = UIView()
@@ -185,9 +211,9 @@ class EventViewController: UIViewController,UITableViewDelegate, UITableViewData
         if collectionView.tag == 3{
             return nascarDic.count
         }
-//        if collectionView.tag == 4{
-//            return ncaaSportsDic.count
-//        }
+        //        if collectionView.tag == 4{
+        //            return ncaaSportsDic.count
+        //        }
         
         return 0
     }
@@ -196,28 +222,79 @@ class EventViewController: UIViewController,UITableViewDelegate, UITableViewData
         
         guard let cell = collectionView.dequeueReusableCell(withReuseIdentifier: "EventSectionCollectionViewCell",for: indexPath) as? EventCollectionViewCell else {return UICollectionViewCell()}
         
+        // todays date formated already
+        dateFormatter.dateFormat = "yyyy-MM-dd"
+        let nowString = dateFormatter.string(from: date)
+        let nowDate = self.dateFormatter.date(from: nowString)
         // Event DISPLAY CODE
         if collectionView.tag == 0 && eventDic[indexPath.row].category == "NBA"{
             
             cell.eventImage.image = UIImage(named: "nba.png")
             cell.eventNameLabel.text = eventDic[indexPath.row].name
+            let stringDate = eventDic[indexPath.row].date
+            let newDateFixed = stringDate.replacingOccurrences(of: "-", with: "/", options: .literal, range: nil)
+            let tempDate = newDateFixed.replacingOccurrences(of: "2018/", with: "", options: .literal, range: nil)
+            let eventDate = self.dateFormatter.date(from: stringDate)
+            let tomorrow = Calendar.current.date(byAdding:
+                .day, // updated this params to add hours
+                value: 1,
+                to: nowDate!)
+            // checking if the date is today or tomorrow
+            if eventDate == nowDate
+            {
+                cell.eventDate.text = "Today"
+            }else if eventDate == tomorrow{
+                cell.eventDate.text = "Tomorrow"
+            }else{
+                cell.eventDate.text = tempDate
+            }
+            
         }
         if collectionView.tag == 1 && eventDic[nbaDic.count + indexPath.row].category == "MLB"{
+            
+            // todays date formated already
+            dateFormatter.dateFormat = "yyyy-MM-dd"
+            let nowString = dateFormatter.string(from: date)
+            let nowDate = self.dateFormatter.date(from: nowString)
+            
             cell.eventImage.image = UIImage(named: "mlb.png")
             cell.eventNameLabel.text = eventDic[nbaDic.count + indexPath.row].name
+            let stringDate = eventDic[nbaDic.count + indexPath.row].date
+            let newDateFixed = stringDate.replacingOccurrences(of: "-", with: "/", options: .literal, range: nil)
+            let tempDate = newDateFixed.replacingOccurrences(of: "2018/", with: "", options: .literal, range: nil)
+            let eventDate = self.dateFormatter.date(from: stringDate)
+            let tomorrow = Calendar.current.date(byAdding:
+                .day, // updated this params to add hours
+                value: 1,
+                to: nowDate!)
+            // checking if the date is today or tomorrow
+            if eventDate == nowDate
+            {
+                cell.eventDate.text = "Today"
+            }else if eventDate == tomorrow{
+                cell.eventDate.text = "Tomorrow"
+            }else{
+                cell.eventDate.text = tempDate
+            }
         }
         if collectionView.tag == 2 && eventDic[nbaDic.count + mlbDic.count + indexPath.row].category == "NFL"{
             cell.eventImage.image = UIImage(named: "nfl.jpg")
             cell.eventNameLabel.text = eventDic[nbaDic.count + mlbDic.count + indexPath.row].name
+            let stringDate = eventDic[nbaDic.count + mlbDic.count + indexPath.row].date
+            let newDateFixed = stringDate.replacingOccurrences(of: "-", with: "/", options: .literal, range: nil)
+            let tempDate = newDateFixed.replacingOccurrences(of: "2018/", with: "", options: .literal, range: nil)
+            cell.eventDate.text = tempDate
+            
         }
         if collectionView.tag == 3 && eventDic[nbaDic.count + mlbDic.count + nflDic.count + indexPath.row].category == "NASCAR"{
             cell.eventImage.image = UIImage(named: "nascar.jpg")
             cell.eventNameLabel.text = eventDic[nbaDic.count + mlbDic.count  + nflDic.count + indexPath.row].name
+            cell.eventDate.text = ""
         }
-//        if collectionView.tag == 4 && eventDic[nbaDic.count + mlbDic.count + nflDic.count + nascarDic.count + indexPath.row].category == "CSPORTS"{
-//            cell.eventImage.image = UIImage(named: "College.jpg")
-//            cell.eventNameLabel.text = eventDic[nbaDic.count + mlbDic.count + nflDic.count + nascarDic.count + indexPath.row].name
-//        }
+        //        if collectionView.tag == 4 && eventDic[nbaDic.count + mlbDic.count + nflDic.count + nascarDic.count + indexPath.row].category == "CSPORTS"{
+        //            cell.eventImage.image = UIImage(named: "College.jpg")
+        //            cell.eventNameLabel.text = eventDic[nbaDic.count + mlbDic.count + nflDic.count + nascarDic.count + indexPath.row].name
+        //        }
         
         return cell
     }
@@ -242,16 +319,16 @@ class EventViewController: UIViewController,UITableViewDelegate, UITableViewData
             displayFriendsUiViewController(nameOfEvent: eventDic[nbaDic.count + mlbDic.count + indexPath.item].name)
             
         }
-//        // handle tap events NASCAR
+        // handle tap events NASCAR
         if collectionView.tag == 3 {
-
+            
             displayFriendsUiViewController(nameOfEvent: eventDic[nbaDic.count + mlbDic.count  + nflDic.count + indexPath.item].name)
         }
-//        // handle tap events COLLEGESPORTS
-//        if collectionView.tag == 4 {
-//
-//            displayFriendsUiViewController(nameOfEvent: eventDic[nbaDic.count + mlbDic.count + nflDic.count + nascarDic.count + indexPath.item].name)
-//        }
+        //        // handle tap events COLLEGESPORTS
+        //        if collectionView.tag == 4 {
+        //
+        //            displayFriendsUiViewController(nameOfEvent: eventDic[nbaDic.count + mlbDic.count + nflDic.count + nascarDic.count + indexPath.item].name)
+        //        }
     }
     
     // UITextField Delagates
@@ -261,7 +338,8 @@ class EventViewController: UIViewController,UITableViewDelegate, UITableViewData
         
         dispatchGroup.enter()
         dateFormatter.dateFormat = "yyyy-MM-dd"
-        print("get sports function")
+        let now = dateFormatter.string(from: date)
+        
         Alamofire.request("\(api_url)",
             method: .get,
             parameters: nil,
@@ -279,17 +357,24 @@ class EventViewController: UIViewController,UITableViewDelegate, UITableViewData
                             
                             if let apisDate = self.dateFormatter.date(from: temp["date"] as! String)
                             {
-                                
-                                if self.date <= apisDate {
+                                if let newDate = self.dateFormatter.date(from: now ){
                                     
-                                    self.nbaDic.append(temp)
+                                    if newDate <= apisDate {
+                                        
+                                        self.nbaDic.append(temp)
+                                    }
+                                    
                                 }
                             }
                         }
                     }
                     
                     if self.nbaDic.count > 0{
+                        
+                        print ("NBA: \(self.nbaDic)")
                         self.dispatchGroup.leave()
+                    }else if self.nbaDic.count < 0{
+                        print ("NBA DID NOT LOAD")
                     }
                     
                 }
@@ -300,6 +385,8 @@ class EventViewController: UIViewController,UITableViewDelegate, UITableViewData
     func getMySportsFeedUrlMLB(api_url: String){
         dispatchGroup.enter()
         dateFormatter.dateFormat = "yyyy-MM-dd"
+        let now = dateFormatter.string(from: date)
+        
         Alamofire.request("\(api_url)",
             method: .get,
             parameters: nil,
@@ -320,9 +407,13 @@ class EventViewController: UIViewController,UITableViewDelegate, UITableViewData
                             
                             if let apisDate = self.dateFormatter.date(from: temp["date"] as! String)
                             {
-                                if self.date <= apisDate {
+                                
+                                if let newDate = self.dateFormatter.date(from: now ){
                                     
-                                    self.mlbDic.append(temp)
+                                    if newDate <= apisDate {
+                                        
+                                        self.mlbDic.append(temp)
+                                    }
                                 }
                             }
                         }
@@ -330,6 +421,8 @@ class EventViewController: UIViewController,UITableViewDelegate, UITableViewData
                     }
                     if self.mlbDic.count > 0{
                         self.dispatchGroup.leave()
+                    }else if self.mlbDic.count < 0{
+                        print ("MLB DID NOT LOAD")
                     }
                 }
                 
@@ -357,6 +450,8 @@ class EventViewController: UIViewController,UITableViewDelegate, UITableViewData
                     if self.nflDic.count > 0{
                         
                         self.dispatchGroup.leave()
+                    }else if self.nflDic.count < 0{
+                        print ("NFL did not load")
                     }
                     
                 }
@@ -385,6 +480,8 @@ class EventViewController: UIViewController,UITableViewDelegate, UITableViewData
                     if self.nascarDic.count > 0{
                         
                         self.dispatchGroup.leave()
+                    }else if self.nascarDic.count < 0{
+                        print ("NASCAR DID NOT LOAD")
                     }
                 }
         }
@@ -508,84 +605,92 @@ class EventViewController: UIViewController,UITableViewDelegate, UITableViewData
         
         // activity indicator to be ended here
         
-        getMySportsFeedUrlNBA(api_url:"https://api.mysportsfeeds.com/v1.2/pull/nba/2017-2018-regular/full_game_schedule.json")
+        getMySportsFeedUrlNBA(api_url:"https://api.mysportsfeeds.com/v1.2/pull/nba/2018-playoff/full_game_schedule.json")
         getMySportsFeedUrlMLB(api_url:"https://api.mysportsfeeds.com/v1.2/pull/mlb/2018-regular/full_game_schedule.json")
         getMySportsFeedUrlNFL(api_url:"https://api.mysportsfeeds.com/v1.2/pull/nfl/2018-playoff/full_game_schedule.json")
         getMySportsFeedUrlNASCAR(api_url:"https://api.fantasydata.net/nascar/v2/json/series")
-//        getMySportsFeedUrlNCAABASKETBALL(api_url:"https://api.fantasydata.net/v3/cbb/stats/JSON/Games/2018")
-//        getMySportsFeedUrlNCAAFOOTBALL(api_url:"https://api.fantasydata.net/v3/cfb/stats/JSON/Games/2018")
+        //        getMySportsFeedUrlNCAABASKETBALL(api_url:"https://api.fantasydata.net/v3/cbb/stats/JSON/Games/2018")
+        //        getMySportsFeedUrlNCAAFOOTBALL(api_url:"https://api.fantasydata.net/v3/cfb/stats/JSON/Games/2018")
     }
     
     func storeEvents (){
         
+        dateFormatter.dateFormat = "MM/dd"
+        
         for nba in self.nbaDic{
             let tempName = "NBA | \(nba["homeTeam"]!["Name"] as! String) vs \(nba["awayTeam"]!["Name"] as! String)"
             let tempDate = nba["date"] as! String
+            let tempHomeTeamCity = nba["homeTeam"]!["City"] as! String
+            let tempAwayTeamCity = nba["awayTeam"]!["City"] as! String
             let tempCategory = "NBA"
-            let newEvent = Event(name: tempName, date: tempDate, category: tempCategory)
+            let newEvent = Event(name: tempName, date: tempDate, category: tempCategory, homeTeamCity: tempHomeTeamCity, awayTeamCity: tempAwayTeamCity)
             
             self.eventDic.append(newEvent)
         }
         for mlb in self.mlbDic{
             let tempName = "MLB | \(mlb["homeTeam"]!["Name"] as! String) vs \(mlb["awayTeam"]!["Name"] as! String)"
             let tempDate = mlb["date"] as! String
+            let tempHomeTeamCity = mlb["homeTeam"]!["City"] as! String
+            let tempAwayTeamCity = mlb["awayTeam"]!["City"] as! String
             let tempCategory = "MLB"
-            let newEvent = Event(name: tempName, date: tempDate, category: tempCategory)
+            let newEvent = Event(name: tempName, date: tempDate, category: tempCategory, homeTeamCity: tempHomeTeamCity, awayTeamCity: tempAwayTeamCity)
             self.eventDic.append(newEvent)
         }
         for nfl in self.nflDic{
             let tempName = "NFL | \(nfl["homeTeam"]!["Name"] as! String) vs \(nfl["awayTeam"]!["Name"] as! String)"
             let tempDate = nfl["date"] as! String
+            let tempHomeTeamCity = nfl["homeTeam"]!["City"] as! String
+            let tempAwayTeamCity = nfl["awayTeam"]!["City"] as! String
             let tempCategory = "NFL"
-            let newEvent = Event(name: tempName, date: tempDate, category: tempCategory)
+            let newEvent = Event(name: tempName, date: tempDate, category: tempCategory, homeTeamCity: tempHomeTeamCity, awayTeamCity: tempAwayTeamCity)
             self.eventDic.append(newEvent)
         }
         for nascar in self.nascarDic{
             let tempName = "Nascar | \(nascar["Name"] as! String)"
             let tempDate = "0000-00-00"
             let tempCategory = "NASCAR"
-            let newEvent = Event(name: tempName, date: tempDate, category: tempCategory)
+            let newEvent = Event(name: tempName, date: tempDate, category: tempCategory, homeTeamCity: "", awayTeamCity: "")
             self.eventDic.append(newEvent)
         }
-//        for ncaaBasketBall in self.ncaaBasketballDic{
-//            let tempName = "CBB | \(ncaaBasketBall["HomeTeam"] as! String) vs \(ncaaBasketBall["AwayTeam"] as! String)"
-//            let tempDate = ncaaBasketBall["Day"] as! String
-//            let tempCategory = "CBB" // CBB College BasketBall
-//            let newEvent = Event(name: tempName, date: tempDate, category: tempCategory)
-//            self.tempCBB.append(newEvent) // temp array
-//        }
-//        for ncaaFootBall in self.ncaaFootballDic{
-//            let tempName = "CFB | \(ncaaFootBall["HomeTeam"] as! String) vs \(ncaaFootBall["AwayTeam"] as! String)"
-//            let tempDate = ncaaFootBall["Day"] as! String
-//            let tempCategory = "CFB" // CBB College BasketBall
-//            let newEvent = Event(name: tempName, date: tempDate, category: tempCategory)
-//            self.tempCFB.append(newEvent) // temp array
-//        }
-//        self.getCollegeSportsInArray()
-//        for ncaaSportsinfo in self.ncaaSportsDic{
-//            let tempName = ncaaSportsinfo.name
-//            let tempDate = ncaaSportsinfo.date
-//            let tempCategory = "CSPORTS"
-//            let newEvent = Event(name: tempName, date: tempDate, category: tempCategory)
-//            self.eventDic.append(newEvent)
-//        }
+        //        for ncaaBasketBall in self.ncaaBasketballDic{
+        //            let tempName = "CBB | \(ncaaBasketBall["HomeTeam"] as! String) vs \(ncaaBasketBall["AwayTeam"] as! String)"
+        //            let tempDate = ncaaBasketBall["Day"] as! String
+        //            let tempCategory = "CBB" // CBB College BasketBall
+        //            let newEvent = Event(name: tempName, date: tempDate, category: tempCategory)
+        //            self.tempCBB.append(newEvent) // temp array
+        //        }
+        //        for ncaaFootBall in self.ncaaFootballDic{
+        //            let tempName = "CFB | \(ncaaFootBall["HomeTeam"] as! String) vs \(ncaaFootBall["AwayTeam"] as! String)"
+        //            let tempDate = ncaaFootBall["Day"] as! String
+        //            let tempCategory = "CFB" // CBB College BasketBall
+        //            let newEvent = Event(name: tempName, date: tempDate, category: tempCategory)
+        //            self.tempCFB.append(newEvent) // temp array
+        //        }
+        //        self.getCollegeSportsInArray()
+        //        for ncaaSportsinfo in self.ncaaSportsDic{
+        //            let tempName = ncaaSportsinfo.name
+        //            let tempDate = ncaaSportsinfo.date
+        //            let tempCategory = "CSPORTS"
+        //            let newEvent = Event(name: tempName, date: tempDate, category: tempCategory)
+        //            self.eventDic.append(newEvent)
+        //        }
         
         //         stores the name of the event in a string array for searching purpose
-        for stringEvent in self.eventDic{
-            
-            self.eventNameInStringForSearch.append(stringEvent.name)
-        }
+        //        for stringEvent in self.eventDic{
+        //
+        //            self.eventNameInStringForSearch.append(stringEvent.name)
+        //        }
         
     }
-    
-    func getCollegeSportsInArray()
-    {
-        for i in 0..<ncaaBasketballDic.count
-        {
-            ncaaSportsDic.insert(tempCBB[i], at: 2 * i + 0)
-            ncaaSportsDic.insert(tempCFB[i], at: 2 * i + 1)
-        }
-    }
+    //
+    //    func getCollegeSportsInArray()
+    //    {
+    //        for i in 0..<ncaaBasketballDic.count
+    //        {
+    //            ncaaSportsDic.insert(tempCBB[i], at: 2 * i + 0)
+    //            ncaaSportsDic.insert(tempCFB[i], at: 2 * i + 1)
+    //        }
+    //    }
     
     // function to create the UIView that displays the friends to invite
     func displayFriendsUiViewController(nameOfEvent: String){
@@ -597,10 +702,6 @@ class EventViewController: UIViewController,UITableViewDelegate, UITableViewData
         self.view.addSubview(popOverVc.view)
         popOverVc.didMove(toParentViewController: self)
     }
-    
-   
-    
-    
     
 }
 

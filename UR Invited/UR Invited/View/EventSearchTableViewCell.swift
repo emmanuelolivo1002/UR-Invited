@@ -11,6 +11,9 @@ import UIKit
 class EventSearchTableViewCell: UITableViewCell {
 
     @IBOutlet weak var eventNameLabel: UILabel!
+    @IBOutlet weak var eventDateForSearch: UILabel!
+
+    
     override func awakeFromNib() {
         super.awakeFromNib()
         // Initialization code
